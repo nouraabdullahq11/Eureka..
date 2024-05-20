@@ -757,19 +757,26 @@ var body: some View {
                 }
                 
                 // مفروض نوحد جملتهم
-                Text("Entered Value: \(enteredValueForSelectedWord())")
-                Text("Selected Word: \(selectedWord)")
+               // Text("Entered Value: \(enteredValueForSelectedWord())")
+                
                                .font(.largeTitle)
                                .padding()
 
                 .padding()
-                Text("Session: \(sessionName)")  // Debugging display
+                //Text("Session: \(sessionName)")  // Debugging display
                     .onAppear {
                         print("Session Name on Appear in TheNextPage: \(sessionName)")
                     }
-                Text("Generate an ideas for solving a problem ")
+                //Text("Generate an ideas for solving a problem ")
+                Text("* Generate solutions from your chosen answer:")
                     .font(.caption)
                     .foregroundColor(.gray)
+                Text((enteredValueForSelectedWord()))
+                    .font(.caption)
+                    .bold()
+                    .foregroundColor(.gray)
+                 
+                
                 TextField("Enter problem statement", text: $problemStatement)
                     .padding()
                     .textFieldStyle(RoundedBorderTextFieldStyle())
