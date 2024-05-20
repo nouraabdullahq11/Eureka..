@@ -15,13 +15,13 @@ struct try_Crazy8: View {
 @State private var text: String = ""
 @State private var savedTexts: [String] = []
 @State private var isShowingSavedTexts = false
-@State private var timeRemaining = 1 * 6 // 8 minutes in seconds
+@State private var timeRemaining = 20//1 * 6 // 8 minutes in seconds
 @State private var timerActive = false
 @State private var hasStartedTimer = false // Tracks if the timer has started
 @State private var vibrationTimer: Timer? // Timer for continuous vibration
 //
 
-let totalDuration = 1 * 6 // Total duration in seconds for progress calculation
+let totalDuration = 20 //1 * 6 // Total duration in seconds for progress calculation
 let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
 @Environment(\.managedObjectContext) private var viewContext
@@ -409,7 +409,7 @@ struct try_AnsQuestions: View {
     @State private var userInputs = ["", "", ""]
     @State private var checkedIndex: Int? = nil
     @State private var isTimerRunning = false
-    @State private var timeRemaining = 90  // 1.5 minutes in seconds
+    @State private var timeRemaining = 20 //90  // 1.5 minutes in seconds
     @State private var shuffledQuestions: [Question] = []
 
     var body: some View {
@@ -548,7 +548,7 @@ struct try_AnsQuestions: View {
                 } else {
                     // Timer finished, reset
                     isTimerRunning = false
-                    timeRemaining = 90  // Reset timer for the next question
+                    timeRemaining = 20 //90  // Reset timer for the next question
                 }
             }
         }
@@ -746,7 +746,7 @@ struct try_RandomWords: View {
     @State private var dragState = CGSize.zero
     @State private var likedWordBoxes: [String?] = Array(repeating: nil, count: 3)
     @State private var isTimerRunning = false
-    @State private var timeRemaining = 60
+    @State private var timeRemaining = 20
     @State private var navigateToNextPage = false
     @State private var shuffledWords: [Word] = []
 
@@ -890,7 +890,7 @@ struct try_RandomWords: View {
     func startTimerIfNeeded() {
         if !isTimerRunning {
             isTimerRunning = true
-            timeRemaining = 60
+            timeRemaining = 20
         }
     }
     
@@ -920,7 +920,7 @@ struct try_RandomWords2: View {
     @State private var showNextButton: Bool = false
     @State private var navigateToSummary: Bool = false
     @State private var isTimerRunning = false
-    @State private var timeRemaining = 120
+    @State private var timeRemaining = 20//120
     @State private var checkedIndex: Int? = nil  // Optional Int to keep track of which checkbox is checked
 
     @Environment(\.colorScheme) var colorScheme
@@ -987,7 +987,7 @@ struct try_RandomWords2: View {
                                     //                                    Text(likedWords[index])
                                     //                                        .font(.system(size: 18))
                                     HStack{
-                                        Text("First word:")
+                                        Text("selected word:")
                                             .font(.system(size: 15))
                                             .padding(.bottom, 10)
                                             .padding(.leading, 50)
@@ -1085,7 +1085,7 @@ struct try_RandomWords2: View {
     func startTimerIfNeeded() {
         if !isTimerRunning {
             isTimerRunning = true
-            timeRemaining = 120
+            timeRemaining = 20//120
         }
     }
 }

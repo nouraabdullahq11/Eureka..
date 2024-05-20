@@ -26,7 +26,7 @@ struct session_RandomWords: View {
     @State private var dragState = CGSize.zero
     @State private var likedWordBoxes: [String?] = Array(repeating: nil, count: 3)
     @State private var isTimerRunning = false
-    @State private var timeRemaining = 6
+    @State private var timeRemaining = 20
     @State private var navigateToNextPage = false
     @State private var shuffledWords: [Word] = []
     @Environment(\.colorScheme) var colorScheme
@@ -238,13 +238,12 @@ struct LikedWordBox1: View {
     }
 }
 
-
 struct session_RandomWords2: View {
     var likedWords: [String]
     @State private var enteredValues: [String]
     @State private var selectedWord: String?
     @State private var isTimerRunning = false
-    @State private var timeRemaining = 6
+    @State private var timeRemaining = 20
 
     var items: [DataItem]
     var sessionName: String
@@ -254,7 +253,10 @@ struct session_RandomWords2: View {
     @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     @EnvironmentObject var dataManager: DataManager
-    @State private var navigateToNextPage = false
+    @State private var navigateToCrazy8 = false
+    @State private var navigateToReverseBrainstorming = false
+    @State private var showStep1 = false
+    @State private var showStep2 = false
 
     init(likedWords: [String], items: [DataItem], sessionName: String, sessionType: String, generaterSelection: Binding<Int>) {
         self.likedWords = likedWords
@@ -289,7 +291,6 @@ struct session_RandomWords2: View {
                                     if timeRemaining > 0 {
                                         timeRemaining -= 1
                                     } else {
-                                        navigateToNextPage = true
                                         isTimerRunning = false
                                     }
                                 }
@@ -297,17 +298,37 @@ struct session_RandomWords2: View {
 
                         Text("Place these words into possible ideas or solutions:")
                             .font(.system(size: 20, weight: .semibold))
+                            .frame(maxWidth: .infinity , alignment: .leading)
+                            .lineLimit(nil) // Allow multiple lines
+                            .padding(.trailing)
+                            .fixedSize(horizontal: false, vertical: true) // Expand vertically
+                            .padding(.bottom, 30)
+                            .padding(.leading, 20)
+                        
 
                         VStack {
                             ForEach(0..<likedWords.count, id: \.self) { index in
                                 VStack(alignment: .leading) {
-                                    Text(likedWords[index])
-                                        .font(.system(size: 18))
+                                   
+                                    HStack{
+                                        Text("selected word:")
+                                            .font(.system(size: 15))
+                                            .padding(.bottom, 10)
+                                            .padding(.leading, 50)
+                                            .foregroundColor(.gray)
+                                        Text(likedWords[index])
+                                            .font(.system(size: 15))
+                                            .padding(.bottom, 10)
+                                            .padding(.leading, 5)
+                                            .foregroundColor(.gray)
+                                    }
+                                    
                                     HStack {
-                                        Image(systemName: selectedWord == likedWords[index] ? "checkmark.square.fill" : "square")
+                                        
+                                        Image(systemName: selectedWord == likedWords[index] ? "checkmark.circle.fill" : "circle")
                                             .resizable()
                                             .frame(width: 20, height: 20)
-                                            .foregroundColor(.blue)
+                                            .foregroundColor(.button)
                                             .onTapGesture {
                                                 selectedWord = likedWords[index]
                                             }
@@ -316,45 +337,40 @@ struct session_RandomWords2: View {
                                             .onChange(of: enteredValues[index]) { newValue in
                                                 startTimerIfNeeded()
                                             }
-                                    }
-                                }
+                                    }.padding(.trailing,20)
+                                        .padding(.leading,20)                                }
                                 .padding(.bottom, 10)
                             }
                         }
-                        
+
                         if selectedWord != nil {
                             if generaterSelection == 1 {
-                                NavigationLink(
-                                    destination: session_Crazy8(
-                                        likedWords: likedWords, items: items,
-                                        sessionName: sessionName, sessionType: sessionType,
-                                        userInputs: enteredValues,
-                                        displayedQuestion: dataManager.questions.first?.text ?? "", selectedWord: selectedWord ?? ""
-                                    ), isActive: $navigateToNextPage
-                                ) {
+                                Button(action: {
+                                    showStep1 = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        showStep1 = false
+                                        navigateToCrazy8 = true
+                                    }
+                                }) {
                                     Text("Go To Crazy 8")
                                         .font(.system(size: 18))
                                         .padding()
-            //                            .background(likedWords.count >= 3 ? Color.orange : Color.gray)
                                         .frame(width: 337, height: 39)
                                         .background(Color.button)
                                         .foregroundColor(.white)
                                         .clipShape(RoundedRectangle(cornerRadius: 5))
                                 }
                             } else {
-                                NavigationLink(
-                                    destination: Session_ReverseBrainstorming(
-                                        items: items,
-                                        sessionName: sessionName, sessionType: sessionType,
-                                        userInputs: enteredValues,
-                                        displayedQuestion: dataManager.questions.first?.text ?? "", selectedWord: selectedWord ?? "",
-                                        likedWords: likedWords
-                                    ), isActive: $navigateToNextPage
-                                ) {
+                                Button(action: {
+                                    showStep2 = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        showStep2 = false
+                                        navigateToReverseBrainstorming = true
+                                    }
+                                }) {
                                     Text("Go To Reverse Brainstorming")
                                         .font(.system(size: 18))
                                         .padding()
-            //                            .background(likedWords.count >= 3 ? Color.orange : Color.gray)
                                         .frame(width: 337, height: 39)
                                         .background(Color.button)
                                         .foregroundColor(.white)
@@ -365,7 +381,46 @@ struct session_RandomWords2: View {
                     }
                 }
             }
+            .navigationBarBackButtonHidden(true)
+            .background(
+                NavigationLink(
+                    destination: session_Crazy8(
+                        likedWords: likedWords, items: items,
+                        sessionName: sessionName, sessionType: sessionType,
+                        userInputs: enteredValues,
+                        displayedQuestion: dataManager.questions.first?.text ?? "", selectedWord: selectedWord ?? ""
+                    ),
+                    isActive: $navigateToCrazy8
+                ) {
+                    EmptyView()
+                }
+                .hidden()
+            )
+            .fullScreenCover(isPresented: $showStep1) {
+                Step1(navigateToSession: $navigateToCrazy8)
+            }
+
+            .fullScreenCover(isPresented: $showStep2) {
+                Step2(navigateToSession: $navigateToReverseBrainstorming)
+            }
+
+            .background(
+                NavigationLink(
+                    destination: Session_ReverseBrainstorming(
+                        items: items,
+                        sessionName: sessionName, sessionType: sessionType,
+                        userInputs: enteredValues,
+                        displayedQuestion: dataManager.questions.first?.text ?? "", selectedWord: selectedWord ?? "",
+                        likedWords: likedWords
+                    ),
+                    isActive: $navigateToReverseBrainstorming
+                ) {
+                    EmptyView()
+                }
+                .hidden()
+            )
         }.navigationBarBackButtonHidden(true)
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 
     var timerString: String {
@@ -378,13 +433,10 @@ struct session_RandomWords2: View {
     func startTimerIfNeeded() {
         if !isTimerRunning {
             isTimerRunning = true
-            timeRemaining = 6
+            timeRemaining = 20
         }
     }
 }
-
-
-
 
 
 
@@ -404,8 +456,10 @@ struct session_AnsQuestions: View {
     @State private var showNextButton: Bool = false
     @State private var navigateToSummary: Bool = false
     @State private var isTimerRunning = false
-    @State private var timeRemaining = 6
+    @State private var timeRemaining = 20
     @State private var navigateTonext: Bool = false
+    @State private var navigateToStep3 = false
+    @State private var navigateToStep4 = false // Add this state variable
     var items: [DataItem]
     var sessionName: String
     var sessionType: String
@@ -433,7 +487,9 @@ struct session_AnsQuestions: View {
     @State private var userInputs = ["", "", ""]
     @State private var checkedIndex: Int? = nil  // Optional Int to keep track of which checkbox is checked
     @State private var shuffledQuestions: [Question] = []
-
+    @State private var navigateToCrazy8 = false
+    @State private var navigateToReverseBrainstorming = false
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -452,7 +508,7 @@ struct session_AnsQuestions: View {
                             .bold()
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .lineLimit(nil) // Allow multiple lines
-                            .padding(.trailing)
+                            .padding(.leading,20)
                             .fixedSize(horizontal: false, vertical: true) // Expand vertically
 
                         Button("New Question >>") {
@@ -467,9 +523,10 @@ struct session_AnsQuestions: View {
                             ForEach(0..<3, id: \.self) { index in
                                 HStack {
                                     if !userInputs[index].isEmpty {
-                                        Image(systemName: checkedIndex == index ? "checkmark.square" : "square")
+                                        Image(systemName: checkedIndex == index ? "checkmark.circle.fill" : "circle")
                                             .resizable()
-                                            .frame(width: 24, height: 24)
+                                            .frame(width: 20, height: 20)
+                                            .foregroundColor(.button)
                                             .onTapGesture {
                                                 if checkedIndex == index {
                                                     checkedIndex = nil  // Uncheck if already checked
@@ -496,44 +553,26 @@ struct session_AnsQuestions: View {
                                 .frame(alignment: .center)
 
                             if generaterSelection == 1 {
-                                NavigationLink(
-                                    destination: session_Crazy8(
-                                        likedWords: likedWords,
-                                        items: items,
-                                        sessionName: sessionName, sessionType: sessionType,
-                                        userInputs: enteredValues,
-                                        displayedQuestion: shuffledQuestions[currentIndex].text,
-                                        selectedWord: checkedIndex != nil ? userInputs[checkedIndex!] : ""
-                                    ), isActive: $navigateTonext
-                                ) {
-                                    Text("Next to Crazy 8")
-                                        .font(.system(size: 18))
-                                        .padding()
-                                        .frame(width: 337, height: 39)
-                                        .background(Color.button)
-                                        .foregroundColor(.white)
-                                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                                Button("Next to Crazy 8") {
+                                    navigateToStep3 = true
                                 }
+                                .font(.system(size: 18))
+                                .padding()
+                                .frame(width: 337, height: 39)
+                                .background(Color.button)
+                                .foregroundColor(.white)
+                                .clipShape(RoundedRectangle(cornerRadius: 5))
                                 .disabled(!isNextStepButtonEnabled || checkedIndex == nil)
                             } else {
-                                NavigationLink(
-                                    destination: Session_ReverseBrainstorming(
-                                        items: items,
-                                        sessionName: sessionName, sessionType: sessionType,
-                                        userInputs: enteredValues,
-                                        displayedQuestion: shuffledQuestions[currentIndex].text,
-                                        selectedWord: checkedIndex != nil ? userInputs[checkedIndex!] : "",
-                                        likedWords: likedWords
-                                    ), isActive: $navigateTonext
-                                ) {
-                                    Text("Next to Reverse Brainstorming")
-                                        .font(.system(size: 18))
-                                        .padding()
-                                        .frame(width: 337, height: 39)
-                                        .background(Color.button)
-                                        .foregroundColor(.white)
-                                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                                Button("Next to Reverse Brainstorming") {
+                                    navigateToStep4 = true
                                 }
+                                .font(.system(size: 18))
+                                .padding()
+                                .frame(width: 337, height: 39)
+                                .background(Color.button)
+                                .foregroundColor(.white)
+                                .clipShape(RoundedRectangle(cornerRadius: 5))
                                 .disabled(!isNextStepButtonEnabled || checkedIndex == nil)
                             }
                         }
@@ -566,11 +605,44 @@ struct session_AnsQuestions: View {
                     // Timer finished, reset
                     navigateTonext = true
                     isTimerRunning = false
-                    timeRemaining = 6  // Reset timer for the next question
+                    timeRemaining = 20  // Reset timer for the next question
                 }
             }
         }
-        .environmentObject(DataManager())
+        .background(
+            NavigationLink(
+                destination: Step3(
+                    likedWords: likedWords,
+                    items: items,
+                    sessionName: sessionName,
+                    sessionType: sessionType,
+                    userInputs: enteredValues,
+                    displayedQuestion: currentIndex < shuffledQuestions.count ? shuffledQuestions[currentIndex].text : "", // Guard for shuffledQuestions
+                    selectedWord: (checkedIndex != nil && checkedIndex! < userInputs.count) ? userInputs[checkedIndex!] : "" // Guard for userInputs
+                ),
+                isActive: $navigateToStep3
+            ) {
+                EmptyView()
+            }
+            .hidden()
+        )
+        .background(
+            NavigationLink(
+                destination: Step4(
+                    likedWords: likedWords,
+                    items: items,
+                    sessionName: sessionName,
+                    sessionType: sessionType,
+                    userInputs: enteredValues,
+                    displayedQuestion: currentIndex < shuffledQuestions.count ? shuffledQuestions[currentIndex].text : "", // Guard for shuffledQuestions
+                    selectedWord: (checkedIndex != nil && checkedIndex! < userInputs.count) ? userInputs[checkedIndex!] : "" // Guard for userInputs
+                ),
+                isActive: $navigateToStep4
+            ) {
+                EmptyView()
+            }
+            .hidden()
+        )
     }
 
     func getNextIndex() -> Int {
@@ -590,6 +662,8 @@ struct session_AnsQuestions: View {
 }
 
 
+
+
 struct session_Crazy8: View
 {
     var likedWords: [String]
@@ -598,14 +672,14 @@ struct session_Crazy8: View
 //@State private var text: String = ""
 @State private var savedTexts: [String] = []
 @State private var isShowingSavedTexts = false
-@State private var timeRemaining = 1 * 6 // 8 minutes in seconds
+@State private var timeRemaining = 20 // 1 * 6 8 minutes in seconds
 @State private var timerActive = false
 @State private var timerNotActive = false
 @State private var hasStartedTimer = false // Tracks if the timer has started
 @State private var vibrationTimer: Timer? // Timer for continuous vibration
 //
 
-let totalDuration = 1 * 6 // Total duration in seconds for progress calculation
+let totalDuration = 20 //1 * 6 Total duration in seconds for progress calculation
 let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
 //@Environment(\.managedObjectContext) private var viewContext
@@ -1384,122 +1458,123 @@ var body: some View {
             ZStack{
                 Color.gray1
                     .ignoresSafeArea()
-                VStack{
-                    ZStack{
-                        Image("backgrund")
-                            .resizable()
-                            .frame(width: 395 , height: 150)
-                        
-                        Text("Activity Summery")
-                            .font(.title)
-                            .bold()
-                            .foregroundColor(.white)
-                            .padding(.trailing , 100)
-                        //  .padding(.bottom,600)
-                    }.offset(x:0,y: -100)
-                    
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 10)
-                            .foregroundColor(.white)
-                            .shadow(radius: 3)
-                            .frame(width: 351,height: 132)
-                        HStack{
-                            
-                            Image(systemName: "lightbulb.min")
+              
+                    VStack{
+                        ZStack {
+                            Image("backgrund")
                                 .resizable()
-                                .frame(width: 41 , height: 53)
-                                .foregroundColor(.orange1)
-                            VStack{
-                                Text(" Research time :")
-                                    .bold()
-                                    .font(.title3)
-                                Text(" By exploring, researching, and iterating, you're paving the way for success. Dive deeper into your big idea and you're on the path to something remarkable!")
-                                    .font(.caption)
-                                    .padding(.horizontal)
-                            }
-                        } .padding(.horizontal)
-                    }
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 10)
-                            .foregroundColor(.white)
-                            .shadow(radius: 3)
-                            .frame(width: 361,height: 132)
-                        HStack{
-                            Image(systemName: "doc.text")
-                                .resizable()
-                                .frame(width: 41 , height: 53)
-                                .foregroundColor(.orange1)
-                            
-                            VStack{
-                                Text("Solution :")
-                                    .font(.title)
-                                    .bold()
-                                    .padding()
-                                Text("\(problemStatement) ")
-                            
-                                //.padding()
-                            }
-//                            if problemStatement.count > 3 {
-//                                Button(action: {
-//                                    showAllTexts.toggle()
-//                                    if showAllTexts {
-//                                        additionalTexts = Array(problemStatement.dropFirst(3))
-//                                    } else {
-//                                        additionalTexts.removeAll()
-//                                    }
-//                                }) {
-//                                    Text(showAllTexts ? "See Less" : "See all answer")
-//                                        .font(.caption)
-//                                        .underline(true , color: .orange1)
-//                                        .foregroundColor(.orange1)
-//                                }  .padding()
-//                            }
-                            
-                            
-                            
-                            Spacer()
-                            
+                                .overlay(
+                                    Text("Activity Summery")
+                                        .font(.title2)
+                                        .bold()
+                                        .foregroundColor(.white)
+                                        .padding(.trailing, 120)
+                                        .padding(.top, 70)
+                                )
+                                .frame(width: 400, height: 150)
+                                .offset(x: 0 , y: -90)
                         }
-                    }
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 10)
-                            .foregroundColor(.white)
-                            .shadow(radius: 3)
-                            .frame(width: 361,height: 200)
-                        HStack{
-                            Image(systemName: "checkmark.circle")
-                                .resizable()
-                                .frame(width: 41 , height: 53)
-                                .foregroundColor(.orange1)
-                            VStack{
-                                Text("Fantastic work on sparking your big idea! Are you ready to dive even deeper and expand your creative horizons? ")
-                                    .font(.callout)
-                                    .bold()
-                                Text("Let's keep the momentum going try the other technique, it will enhance your ability to think outside the box and refine your concepts.")
-                                    .font(.caption)
-                            }
-                        }
-                    }
-                    
-                    NavigationLink(destination: HomePage()){
                         
                         ZStack{
-                            Rectangle()
-                                .frame(width: 337 , height: 39)
-                                .cornerRadius(5)
-                                .foregroundColor(.laitOrange)
-                            Text("done")
+                            RoundedRectangle(cornerRadius: 10)
                                 .foregroundColor(.white)
-                        } .padding()
+                                .shadow(radius: 3)
+                                .frame(width: 351,height: 132)
+                            HStack{
+                                
+                                Image(systemName: "lightbulb.min")
+                                    .resizable()
+                                    .frame(width: 48 , height: 53)
+                                    .foregroundColor(.orange1)
+                                    .padding(.horizontal)
+                                VStack{
+                                    Text(" Research time :")
+                                        .bold()
+                                        .font(.title3)
+                                       // .padding(.horizontal)
+                                        .padding(.trailing , 105)
+                                    Text(" By exploring, researching, and iterating, you're paving the way for success. Dive deeper into your big idea and you're on the path to something remarkable!")
+                                        .font(.caption)
+                                        .padding(.horizontal)
+                                }
+                            } .padding(.horizontal)
+                        }
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundColor(.white)
+                                .shadow(radius: 3)
+                                .frame(width: 361,height: 132)
+                                .padding()
+                            HStack{
+                                Image(systemName: "doc.text")
+                                    .resizable()
+                                    .frame(width: 41 , height: 53)
+                                    .foregroundColor(.orange1)
+                                    .padding(.horizontal)
+                                
+                                VStack{
+                                    Text("Solution :")
+                                        .font(.title3)
+                                        .bold()
+                                        .padding()
+                                    Text("\(problemStatement) ")
+                                
+                                }
+                             
+                                
+                                
+                                Spacer()
+                                
+                            }
+                            .padding(.horizontal)
+                        }
+               
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundColor(.white)
+                                .shadow(radius: 3)
+                                .frame(width: 361,height: 200)
+                                .padding()
+                            VStack{
+                                HStack{
+                                    Image(systemName: "checkmark.circle")
+                                        .resizable()
+                                        .frame(width: 53 , height: 53)
+                                        .foregroundColor(.orange1)
+                                        .padding(.horizontal)
+                                    
+                                    Text("Fantastic work on sparking your big idea! Are you ready to dive even deeper and expand your creative horizons? ")
+                                        .font(.callout)
+                                        .bold()
+                                        .padding()
+                                }
+                                VStack{
+                                    Text("Let's keep the momentum going try the other technique, it will enhance your ability to think outside the box and refine your concepts.")
+                                        .font(.caption)
+                                       // .padding(.horizontal)
+                                }
+                            }
+                        } .padding(.horizontal)
+                        
+                        NavigationLink(destination: HomePage()){
+                            
+                            ZStack{
+                                Rectangle()
+                                    .frame(width: 337 , height: 39)
+                                    .cornerRadius(5)
+                                    .foregroundColor(.laitOrange)
+                                Text("done")
+                                    .foregroundColor(.white)
+                            }
+                        }
+                        
                     }
-                   
-                }
-          
-                }
-      
+                    
+                
+            }
        )}
     }.navigationBarBackButtonHidden(true)
-    }
+}
 }
 
 struct crazy8Summary: View {

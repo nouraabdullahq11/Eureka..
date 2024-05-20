@@ -31,6 +31,8 @@
 		14830A322BFA76EA002A41AB /* Adding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14830A312BFA76EA002A41AB /* Adding.swift */; };
 		14830A342BFA7707002A41AB /* Sessions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14830A332BFA7707002A41AB /* Sessions.swift */; };
 		14830A362BFA7721002A41AB /* Trials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14830A352BFA7721002A41AB /* Trials.swift */; };
+		149494AE2BFBA82800D20649 /* OnBording.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149494AD2BFBA82800D20649 /* OnBording.swift */; };
+		149494B02BFBA84300D20649 /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149494AF2BFBA84300D20649 /* SplashScreen.swift */; };
 		1EBA611F2BFBA1120080694C /* Step1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBA611E2BFBA1120080694C /* Step1.swift */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +60,8 @@
 		14830A312BFA76EA002A41AB /* Adding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Adding.swift; sourceTree = "<group>"; };
 		14830A332BFA7707002A41AB /* Sessions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sessions.swift; sourceTree = "<group>"; };
 		14830A352BFA7721002A41AB /* Trials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trials.swift; sourceTree = "<group>"; };
+		149494AD2BFBA82800D20649 /* OnBording.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBording.swift; sourceTree = "<group>"; };
+		149494AF2BFBA84300D20649 /* SplashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreen.swift; sourceTree = "<group>"; };
 		1EBA611E2BFBA1120080694C /* Step1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step1.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -103,6 +107,8 @@
 				14830A352BFA7721002A41AB /* Trials.swift */,
 				14830A332BFA7707002A41AB /* Sessions.swift */,
 				14830A2D2BFA765F002A41AB /* SummaryListView.swift */,
+				149494AF2BFBA84300D20649 /* SplashScreen.swift */,
+				149494AD2BFBA82800D20649 /* OnBording.swift */,
 				14830A2B2BFA7631002A41AB /* DataItem.swift */,
 				14830A292BFA7616002A41AB /* DataManager.swift */,
 				14830A132BFA7524002A41AB /* GoogleService-Info.plist */,
@@ -217,10 +223,12 @@
 			files = (
 				14830A022BFA743E002A41AB /* ContentView.swift in Sources */,
 				14830A2A2BFA7616002A41AB /* DataManager.swift in Sources */,
+				149494B02BFBA84300D20649 /* SplashScreen.swift in Sources */,
 				14830A342BFA7707002A41AB /* Sessions.swift in Sources */,
 				14830A262BFA75D9002A41AB /* HomePage.swift in Sources */,
 				14830A302BFA76CE002A41AB /* Sheets.swift in Sources */,
 				14830A322BFA76EA002A41AB /* Adding.swift in Sources */,
+				149494AE2BFBA82800D20649 /* OnBording.swift in Sources */,
 				14830A002BFA743E002A41AB /* EurekaApp.swift in Sources */,
 				14830A362BFA7721002A41AB /* Trials.swift in Sources */,
 				14830A2C2BFA7631002A41AB /* DataItem.swift in Sources */,

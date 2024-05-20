@@ -68,7 +68,8 @@ var body: some View {
                         .font(.title)
                         .bold()
                         .foregroundColor(.white)
-                        .offset(x: -80, y: 20)
+                       // .offset(x: -80, y: 20).
+                        .padding(.trailing,200)
                     
                 }   .padding(.bottom,700)
                 VStack{
@@ -270,7 +271,7 @@ var body: some View {
                         print("Session Name on Save: \(sessionName)")
                         print("Session Name on Save: \(sessionType)")
                     } .font(.system(size: 18))
-                        .padding()
+                       // .padding()
 //                            .background(likedWords.count >= 3 ? Color.orange : Color.gray)
                         .frame(width: 337, height: 39)
                         .background(Color.button)
