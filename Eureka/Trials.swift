@@ -255,7 +255,7 @@ NavigationStack{
                         .foregroundColor(.white)
                         .padding(.trailing , 100)
                     //  .padding(.bottom,600)
-                }.offset(x:0,y: -100)
+                }.offset(x:0,y: -80)
                 
                 ZStack{
                     RoundedRectangle(cornerRadius: 10)
@@ -438,6 +438,7 @@ struct try_AnsQuestions: View {
                     if !shuffledQuestions.isEmpty {
                         Text(shuffledQuestions[currentIndex].text)
                             //.bold()
+                    .multilineTextAlignment(.center)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .lineLimit(nil) // Allow multiple lines
                             .padding(.trailing)
@@ -606,7 +607,7 @@ NavigationStack{
                         .foregroundColor(.white)
                         .padding(.trailing , 100)
                     //  .padding(.bottom,600)
-                }.offset(x:0,y: -100)
+                }.offset(x:0,y: -70)
                 
                 ZStack{
                     RoundedRectangle(cornerRadius: 10)
@@ -619,12 +620,14 @@ NavigationStack{
                             .resizable()
                             .frame(width: 41 , height: 53)
                             .foregroundColor(.orange1)
+                            .padding()
                         VStack{
                             
                                
                             Text(" the Question you chose to answer : \(displayedQuestion) ")
                                 .font(.caption)
                                 .padding(.horizontal)
+                                .padding()
                         }
                     } .padding(.horizontal)
                 }
@@ -639,11 +642,12 @@ NavigationStack{
                             .frame(width: 41 , height: 53)
                             .foregroundColor(.orange1)
                             .padding(.horizontal)
+                            .padding(.leading , 20)
                         
                         VStack{
                             Text("The answer you resonates with the most :")
                             
-                                .font(.callout)
+                                .font(.caption)
                                 .bold()
                                 .padding()
                             Text("\(checkedInput)")
@@ -1146,13 +1150,13 @@ NavigationStack{
         Image("backgrund")
             .resizable()
             .frame(width: 400, height: 150)
-            .padding(.bottom, 850)
+            .padding(.bottom, 750)
         
         VStack {
             Text("Activity Summery")
                 .font(.system(size: 29, weight: .semibold))
                 .frame(width: 250)
-                .padding(.bottom,780)
+                .padding(.bottom,730)
                 .padding(.trailing, 120)
                 .foregroundColor(colorScheme == .dark ? .black : .white)
         }
@@ -1181,7 +1185,7 @@ NavigationStack{
                                     }}
                             } .padding(.horizontal)
                         )
-                   
+                        .padding()
                     RoundedRectangle(cornerRadius: 10)
                         .foregroundColor(.white)
                         .shadow(radius: 3)

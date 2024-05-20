@@ -1703,28 +1703,33 @@ struct crazy8Summary: View {
     }
 
     private var finalMessageView: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 10)
-                .foregroundColor(.white)
-                .shadow(radius: 3)
-                .frame(width: 361, height: 200)
-                .overlay(
-                    HStack {
-                        Image(systemName: "checkmark.circle")
-                            .resizable()
-                            .frame(width: 41, height: 53)
-                            .foregroundColor(.orange1)
-                        VStack {
-                            Text("Fantastic work on sparking your big idea! Are you ready to dive even deeper and expand your creative horizons?")
-                                .font(.callout)
-                                .bold()
-                            Text("Let's keep the momentum going try the other technique, it will enhance your ability to think outside the box and refine your concepts.")
-                                .font(.caption)
-                        }
-                    }
-                    .padding(.horizontal)
-                )
-        }
+        ZStack{
+                               RoundedRectangle(cornerRadius: 10)
+                                   .foregroundColor(.white)
+                                   .shadow(radius: 3)
+                                   .frame(width: 361,height: 200)
+                                   .padding()
+                               VStack{
+                                   HStack{
+                                       Image(systemName: "checkmark.circle")
+                                           .resizable()
+                                           .frame(width: 53 , height: 53)
+                                           .foregroundColor(.orange1)
+                                           .padding(.horizontal)
+                                       
+                                       Text("Fantastic work on sparking your big idea! Are you ready to dive even deeper and expand your creative horizons? ")
+                                           .font(.callout)
+                                           .bold()
+                                           .padding()
+                                   }
+                                   VStack{
+                                       Text("Let's keep the momentum going try the other technique, it will enhance your ability to think outside the box and refine your concepts.")
+                                           .font(.caption)
+                                          // .padding(.horizontal)
+                                   }
+                               }
+                           } .padding(.horizontal)
+
     }
 
     private var doneButton: some View {
