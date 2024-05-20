@@ -31,6 +31,7 @@
 		14830A322BFA76EA002A41AB /* Adding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14830A312BFA76EA002A41AB /* Adding.swift */; };
 		14830A342BFA7707002A41AB /* Sessions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14830A332BFA7707002A41AB /* Sessions.swift */; };
 		14830A362BFA7721002A41AB /* Trials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14830A352BFA7721002A41AB /* Trials.swift */; };
+		1EBA611F2BFBA1120080694C /* Step1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBA611E2BFBA1120080694C /* Step1.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +58,7 @@
 		14830A312BFA76EA002A41AB /* Adding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Adding.swift; sourceTree = "<group>"; };
 		14830A332BFA7707002A41AB /* Sessions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sessions.swift; sourceTree = "<group>"; };
 		14830A352BFA7721002A41AB /* Trials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trials.swift; sourceTree = "<group>"; };
+		1EBA611E2BFBA1120080694C /* Step1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step1.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				148309FF2BFA743E002A41AB /* EurekaApp.swift */,
+				1EBA611E2BFBA1120080694C /* Step1.swift */,
 				14830A012BFA743E002A41AB /* ContentView.swift */,
 				14830A252BFA75D9002A41AB /* HomePage.swift */,
 				14830A272BFA75F6002A41AB /* StartSession.swift */,
@@ -223,6 +226,7 @@
 				14830A2C2BFA7631002A41AB /* DataItem.swift in Sources */,
 				14830A282BFA75F6002A41AB /* StartSession.swift in Sources */,
 				14830A2E2BFA765F002A41AB /* SummaryListView.swift in Sources */,
+				1EBA611F2BFBA1120080694C /* Step1.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
