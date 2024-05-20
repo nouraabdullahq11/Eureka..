@@ -506,6 +506,7 @@ struct session_AnsQuestions: View {
                     if !shuffledQuestions.isEmpty {
                         Text(shuffledQuestions[currentIndex].text)
                             .bold()
+                            .multilineTextAlignment(.center)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .lineLimit(nil) // Allow multiple lines
                             .padding(.leading,20)
