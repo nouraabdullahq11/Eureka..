@@ -6,12 +6,26 @@
 //
 
 import SwiftUI
-
+import SwiftData
+import Firebase
+import Lottie
 @main
+
 struct EurekaApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
-    }
+@StateObject var dataManager = DataManager()
+
+init() {
+    FirebaseApp.configure()
 }
+var body: some Scene {
+    WindowGroup {
+        NavigationStack{
+            
+            HomePage()
+        }
+        
+    }
+.modelContainer(for: DataItem.self)
+.environmentObject(dataManager)    }
+}
+
