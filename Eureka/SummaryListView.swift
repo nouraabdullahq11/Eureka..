@@ -16,21 +16,28 @@ struct DetailsView: View {
     var body: some View {
         NavigationStack {
             ZStack{
-            ScrollView {
+           // ScrollView {
                 ZStack {
                     Color.gray1
-                    VStack(spacing: 10) {
-                        ZStack {
-                            Image("backgrund")
-                                .resizable()
-                                .frame(width: 395, height: 150)
-                            
-                            Text("Activity Summary")
-                                .font(.title)
-                                .bold()
-                                .foregroundColor(.white)
-                                .padding(.trailing, 100)
-                        }.padding()
+                    .ignoresSafeArea(.all)
+
+                        
+                    ZStack {
+                        Image("backgrund")
+                            .resizable()
+                            .frame(width: 395, height: 150)
+                            .padding(.bottom,60)
+
+                        Text("Activity Summary")
+                            .font(.title)
+                            .bold()
+                            .foregroundColor(.white)
+                            .padding(.trailing, 100)
+                           // .padding(.bottom,60)
+
+                    }.padding(.bottom,700)
+                    VStack{
+                    
                         
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
@@ -87,7 +94,7 @@ struct DetailsView: View {
                                                             .padding(.top,20)
                                                     }
                                                     //.padding([.top, .trailing], 10)
-                                                }
+                                                }.padding(.horizontal)
                                                 ScrollView {
                                                     VStack(alignment: .leading) {
                                                         // Display only three statements initially or all if showAllStatements is true
@@ -123,7 +130,7 @@ struct DetailsView: View {
                                     HStack {
                                         Image(systemName: "checkmark.circle")
                                             .resizable()
-                                            .frame(width: 41, height: 53)
+                                            .frame(width: 41, height: 41)
                                             .foregroundColor(.orange1)
                                         VStack {
                                             Text("Fantastic work on sparking your big idea! Are you ready to dive even deeper and expand your creative horizons? ")
@@ -132,7 +139,7 @@ struct DetailsView: View {
                                             Text("Let's keep the momentum going try the other technique, it will enhance your ability to think outside the box and refine your concepts.")
                                                 .font(.caption)
                                         }
-                                    }
+                                    }.padding(.horizontal)
                                 )
                         }.navigationBarBackButtonHidden(true)
                         
@@ -149,8 +156,7 @@ struct DetailsView: View {
                     }
                     
                     
-                }.ignoresSafeArea(.all)
-            }.navigationBarBackButtonHidden(true)
+                }           // }.navigationBarBackButtonHidden(true)
         }
         }.navigationBarBackButtonHidden(true)
     }
