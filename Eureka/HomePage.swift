@@ -22,11 +22,14 @@ struct HomePage: View {
     @Environment(\.modelContext) private var context
     @Query private var items: [DataItem] // Query to fetch all items
     @State private var navigateToSummary: Bool = false // Track if navigation to SummaryListView is triggered
-
+    @Environment(\.colorScheme) var colorScheme
+    
     var body: some View {
         NavigationView {
             ZStack {
-               // ScrollView {
+                Color.gray1
+                    .ignoresSafeArea()
+                
                     VStack {
                         ZStack {
                             NavigationLink(destination: StartSession(likedWords: [], promtSelection: 0, generaterSelection: 0)) {
@@ -65,14 +68,14 @@ struct HomePage: View {
                                 Button(action: {
                                     isSheetPresented.toggle()
                                 }) {
-                                    Image(.BUTTONIMAGE)
+                                    Image(colorScheme == .dark ? "darkModeImage" : "BUTTONIMAGE")
                                         .resizable()
                                         .frame(width: 160, height: 100)
                                         .overlay(
                                             Text("Random Words")
                                                 .font(.caption)
                                                 .bold()
-                                                .foregroundColor(.black)
+                                                .foregroundColor(colorScheme == .dark ? .white : .black)
                                         )
                                 }
                                 .sheet(isPresented: $isSheetPresented) {
@@ -89,14 +92,14 @@ struct HomePage: View {
                                 Button(action: {
                                     isSheetPresented2.toggle()
                                 }) {
-                                    Image(.buttonimage2)
+                                    Image(colorScheme == .dark ? "darkModeImage2" : "buttonimage2")
                                         .resizable()
                                         .frame(width: 160, height: 100)
                                         .overlay(
                                             Text("Answer The Question")
                                                 .font(.caption)
                                                 .bold()
-                                                .foregroundColor(.black)
+                                                .foregroundColor(colorScheme == .dark ? .white : .black)
                                         )
                                 }
                                 .sheet(isPresented: $isSheetPresented2) {
@@ -114,14 +117,14 @@ struct HomePage: View {
                                 Button(action: {
                                     isSheetPresented3.toggle()
                                 }) {
-                                    Image(.buttonimage3)
+                                    Image(colorScheme == .dark ? "darkModeImage3" : "buttonimage3")
                                         .resizable()
                                         .frame(width: 160, height: 100)
                                         .overlay(
                                             Text("Revers Brainstorming")
                                                 .font(.caption)
                                                 .bold()
-                                                .foregroundColor(.black)
+                                                .foregroundColor(colorScheme == .dark ? .white : .black)
                                         )
                                 }
                                 .sheet(isPresented: $isSheetPresented3) {
@@ -138,14 +141,14 @@ struct HomePage: View {
                                 Button(action: {
                                     isSheetPresented4.toggle()
                                 }) {
-                                    Image(.buttonimage4)
+                                    Image(colorScheme == .dark ? "darkModeImage4" : "buttonimage4")
                                         .resizable()
                                         .frame(width: 160, height: 100)
                                         .overlay(
                                             Text("crazy 8")
                                                 .font(.caption)
                                                 .bold()
-                                                .foregroundColor(.black)
+                                                .foregroundColor(colorScheme == .dark ? .white : .black)
                                         )
                                 }
                                 .sheet(isPresented: $isSheetPresented4) {
@@ -162,59 +165,75 @@ struct HomePage: View {
                         }
                         .padding()
 
-                        Text("Your sessions")
-                            .fontWeight(.bold)
-                            .padding(.trailing, 220)
-                            .padding(.top, 10)
-
-                        VStack {
-                            NavigationLink(destination: SummaryListView(items: items), isActive: $navigateToSummary) {
-                                EmptyView()
-                            }
-                            .hidden()
-
-                            Button("see more") {
-                                navigateToSummary = true // Trigger navigation to SummaryListView
-                            }
-                            .foregroundColor(.orange)
-                            .padding(.leading, 250)
-                            .padding(.bottom,20)
-                            if let lastItem = items.last { // Fetching the last item from the items array
-                                NavigationLink(destination: DetailsView(item: lastItem)) {
-                                    ZStack {
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .frame(width: 350, height: 81)
-                                            .foregroundColor(.white)
-                                            .shadow(radius: 3)
-                                            .overlay(
-                                        HStack {
-                                            Image(systemName: "lightbulb.max.fill")
-                                                .resizable()
-                                                .frame(width: 50, height: 50)
+                        HStack {
+                                        Text("Your sessions")
+                                            .fontWeight(.bold)
+                                            .padding(.trailing, 140)
+                                            .padding(.top, 10)
+                                        
+                                        NavigationLink(destination: SummaryListView(items: items), isActive: $navigateToSummary) {
+                                            EmptyView()
+                                        }
+                                        .hidden()
+                                        
+                                        Button(action: {
+                                            navigateToSummary = true // Trigger navigation to SummaryListView
+                                        }) {
+                                            Text("see more")
                                                 .foregroundColor(.orange)
-                                                .padding(.trailing, 30)
-                                            VStack{
+                                                .underline()
+                                                .padding(.top, 10)
+                                        }
+                                    }
+                                    
+                        VStack(alignment: .trailing) {
+           if let lastItem = items.last { // Fetching the last item from the items array
+                       NavigationLink(destination: DetailsView(item: lastItem)) {
+                              
+                            Image(colorScheme == .dark ? "BoxSession" : "BoxSession1")
+                               .resizable()
+                                            .frame(width: 390, height: 105)
+                                            .shadow(radius: 2)
+                                        
+                                            .overlay(
+                                        ZStack {
+                                            HStack{
+                                                Image("lightbulb")
+                                                    .resizable()
+                                                    .frame(width: 17, height: 18)
+                                                    .foregroundColor(.orange)
+                                               // .padding(.trailing, 10)
+                                                
                                                 Text(lastItem.name)
                                                     .fontWeight(.bold)
+                                                    .lineLimit(1) 
 
-                                                    //.bold()
-                                                // .bold()
-                                                    .foregroundColor(.orange)
-                                                    .padding(.trailing, 100)
-                                                Text(lastItem.type)
-                                                    .font(.caption)
-                                                    .bold()
-                                                // .bold()
-                                                    .foregroundColor(.orange)
-                                                   .padding(.trailing, 90)
-                                            }
-                                            Image(systemName: "arrow.right")
-                                                .resizable()
-                                                .frame(width: 30, height: 30)
-                                                .foregroundColor(.orange)
+                                                    .overlay(
+                                        LinearGradient(
+                                            gradient: Gradient(colors: [.red, .orange]),
+                                            startPoint: .top,
+                                            endPoint: .bottom
+                                        )
+                                        .mask(Text(lastItem.name)
+                                                .fontWeight(.bold)     )
+                                                    
+                                                    )
+                                               
+                                            }.frame(width: 320, height: 55, alignment: .topLeading)
+
+                                                HStack {
+                                                    Text(lastItem.type)
+                                                 .font(.system(size: 15, weight: .regular))
+                                                 .foregroundColor(colorScheme == .dark ? .white : .black)
+                                                .lineLimit(1)
+                                               
+                                              
+                                                    
+                                                }.frame(width: 270, height: 40, alignment: .leadingLastTextBaseline)
+                         
                                         }
                                         )
-                                    }
+                                  //  }
                                 }
                             }
                         }
@@ -223,17 +242,18 @@ struct HomePage: View {
                     .padding(.bottom, 100)
                 
 
+               
                 Image("image2")
                     .resizable()
-                    .frame(width: 393, height: 200)
+                    .frame(width: 393, height: 69)
                     .scaledToFit()
                     .scaleEffect(y: 1.2)
-                    .padding(.bottom, 710)
+                    .padding(.bottom, 810)
 
                 Image("image1")
                     .resizable()
-                    .frame(width: 393, height: 100)
-                    .padding(.top, 740)
+                    .frame(width: 393, height: 69)
+                    .padding(.top, 760)
             }.ignoresSafeArea(.all)
         }
         .navigationBarBackButtonHidden(true)

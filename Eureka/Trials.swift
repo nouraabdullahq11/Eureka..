@@ -1011,10 +1011,10 @@ struct try_RandomWords2: View {
                                             .onTapGesture {
                                                 selectedWord = likedWords[index]
                                             }
-                                        TextField("Enter a value", text: $enteredValues[index])
-                                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                                            .onChange(of: enteredValues[index]) { newValue in
-                                                startTimerIfNeeded()
+                            TextField("Enter a value", text: $enteredValues[index])
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .onChange(of: enteredValues[index]) { newValue in
+                                    startTimerIfNeeded()
                                             }
                                     }.padding(.trailing,20)
                                         .padding(.leading,20)
