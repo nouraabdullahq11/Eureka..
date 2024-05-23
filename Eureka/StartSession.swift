@@ -19,6 +19,9 @@ struct StartSession: View {
                // .padding(.bottom) // Push text to the top
         }
     }
+    
+@Environment(\.colorScheme) var colorScheme
+    
 //@State private var isSessionStarted: Bool = false // Track if session started
     var likedWords: [String]
 @State private var TextInbut = ""
@@ -67,11 +70,11 @@ var body: some View {
                     Text("Start Session")
                         .font(.title)
                         .bold()
-                        .foregroundColor(.white)
-                       // .offset(x: -80, y: 20).
-                        .padding(.trailing,200)
+                        .foregroundColor(colorScheme == .dark ? .gray1 : .white)
+                      
+                        .padding(.trailing,180)
                     
-                }   .padding(.bottom,700)
+                }   .padding(.bottom,650)
                 VStack{
                     Text("Enter session name")
                         .font(.callout)
@@ -80,27 +83,20 @@ var body: some View {
                     ZStack(alignment: .topLeading) {
                     TextField("", text: $sessionName)
                             .frame(maxWidth: .infinity)
-                                .frame(width: 332 , height: 42)
-                                .background(Color.white)
+                            .frame(width: 332 , height: 42)
+                        .background(colorScheme == .dark ? Color.gray1 : Color.white)
+                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                                 .overlay(
                                                 
                         RoundedRectangle(cornerRadius: 5)
                         .stroke(Color.gray2, lineWidth: 1)
                                        )
                     .textFieldStyle(TopLeadingTextFieldStyle())
-                                .padding()
+//                                .padding()
                                 .onSubmit {
                                 print(TextInbut)
                                             }
-                    
-//                    TextField("Enter session name", text: $sessionName)
-//                        .textFieldStyle(.roundedBorder)
-//                        .frame(width: 332)
-//                        .cornerRadius(10)
-//                        .font(.system(size: 27))
-//                        .padding(.bottom , 40)
-//                        .onSubmit {
-//                            print(TextInbut)
+                                .padding()
                         }
                     Text("Enter session type")
                         .font(.callout)
@@ -109,7 +105,8 @@ var body: some View {
                         TextField("", text: $sessionType)
                             .frame(maxWidth: .infinity)
                             .frame(width: 332 , height: 42)
-                            .background(Color.white)
+                            .background(colorScheme == .dark ? Color.gray1 : Color.white)
+                            .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                             .overlay(
                                 
                                 RoundedRectangle(cornerRadius: 5)
@@ -162,12 +159,16 @@ var body: some View {
                             
              
                             RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.gray2, lineWidth: 1)
                                 .frame(width: 160,height: 51)
-                                .foregroundColor(selectedButtonIndex == 0 ? Color.orange2 : Color.white).overlay(
+                                .background(
+                               selectedButtonIndex == 0 ? Color.orange2 : (colorScheme == .dark ? Color.gray1 : Color.white)
+                           )
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .overlay(
                                     Text(" Random words")
                                         .font(.caption)
-                                        .foregroundStyle(Color.black
-                                                        )
+                                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                                 )
                             
                             
@@ -183,13 +184,16 @@ var body: some View {
                         }, label: {
                             
                             RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.gray2, lineWidth: 1)
                                 .frame(width: 160,height: 51)
-                                .foregroundColor(selectedButtonIndex == 1 ? Color.orange2 : Color.white)
+                                .background(
+                               selectedButtonIndex == 1 ? Color.orange2 : (colorScheme == .dark ? Color.gray1 : Color.white)
+                           )
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
                                 .overlay(
                                     Text(" answer the question")
                                         .font(.caption)
-                                        .foregroundStyle(Color.black
-                                                        ))
+                                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black))
                         })
                     }
                     
@@ -219,13 +223,16 @@ var body: some View {
                             
                             
                             RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.gray2, lineWidth: 1)
                                 .frame(width: 160,height: 51)
-                                .foregroundColor(selectedButtonIndex1 == 0 ? Color.orange2 : Color.white)
+                                .background(
+                               selectedButtonIndex1 == 0 ? Color.orange2 : (colorScheme == .dark ? Color.gray1 : Color.white)
+                           )
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
                                 .overlay(
                                     Text("Crazy 8")
                                         .font(.caption)
-                                        .foregroundStyle(Color.black
-                                                        ))
+                                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black))
                         })
                         
                         
@@ -240,12 +247,16 @@ var body: some View {
                             
                             
                             RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.gray2, lineWidth: 1)
                                 .frame(width: 160,height: 51)
-                                .foregroundColor(selectedButtonIndex1 == 1 ? Color.orange2 : Color.white)
+                                .background(
+                               selectedButtonIndex1 == 1 ? Color.orange2 : (colorScheme == .dark ? Color.gray1 : Color.white)
+                           )
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
                                 .overlay(
                                     Text("reverse brainstorming")
                                         .font(.caption)
-                                        .foregroundStyle(Color.black)
+                                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                                     
                                 )
                         })
@@ -265,7 +276,7 @@ var body: some View {
                               }
                     }
                       
-                    Button("Save") {
+                    Button("Start") {
                         startSession()
                         // Check the session name right after it's supposed to be set
                         print("Session Name on Save: \(sessionName)")
@@ -316,7 +327,6 @@ isSessionStarted = true
 
 
 
-//
-//#Preview {
-//    StartSession()
-//}
+#Preview {
+    StartSession(likedWords: ["Example Word 1", "Example Word 2"], promtSelection: 0, generaterSelection: 0)
+}

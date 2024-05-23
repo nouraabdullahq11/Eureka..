@@ -12,7 +12,7 @@ struct SplashScreen: View {
     @State private var isActive = false
     @State private var size = 0.8
     @State private var opacity = 0.5
-
+    @Environment(\.colorScheme) var colorScheme
     var body: some View {
         VStack {
             if isActive {
@@ -23,8 +23,10 @@ struct SplashScreen: View {
                 }
             } else {
                 ZStack {
+                    Color.gray1
+                        .ignoresSafeArea()
                     VStack {
-                        Image("Icon")
+                        Image(colorScheme == .dark ? "Icon1" : "Icon")
                             .resizable()
                             .frame(width: 119, height: 180)
 

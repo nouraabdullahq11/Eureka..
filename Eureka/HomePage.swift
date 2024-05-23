@@ -145,7 +145,7 @@ struct HomePage: View {
                                         .resizable()
                                         .frame(width: 160, height: 100)
                                         .overlay(
-                                            Text("crazy 8")
+                                            Text("Crazy 8")
                                                 .font(.caption)
                                                 .bold()
                                                 .foregroundColor(colorScheme == .dark ? .white : .black)

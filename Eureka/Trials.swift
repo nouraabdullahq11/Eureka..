@@ -23,7 +23,7 @@ struct try_Crazy8: View {
 
 let totalDuration = 20 //1 * 6 // Total duration in seconds for progress calculation
 let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-
+@Environment(\.colorScheme) var colorScheme
 @Environment(\.managedObjectContext) private var viewContext
 var body: some View {
 NavigationView {
@@ -43,9 +43,9 @@ NavigationView {
                 Text("Crazy 8")
                     .font(.title)
                     .bold()
-                    .foregroundColor(.white)
-                    .padding(.trailing , 220)
-                    .padding(.top ,70)
+                    .foregroundColor(colorScheme == .dark ? .gray1 : .white)
+                    .padding(.trailing , 240)
+                    .padding(.top ,80)
                 )  .frame(width: 395 , height: 150)
                 
             }//.offset(x:0,y: -365)
@@ -181,13 +181,21 @@ NavigationView {
                         }
                     }
                 }
-                .padding()
+                .padding(.bottom , 100)
                 Text("Generate an ideas for solving a problem ")
                     .font(.caption)
                     .foregroundColor(.gray)
-                TextField("input text ", text: $text)
-                    .padding()
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                TextField(" Soloution Statment ", text: $text)
+                    .frame(maxWidth: .infinity)
+                    .frame(width: 332 , height: 40)
+                .background(colorScheme == .dark ? Color.gray1 : Color.white)
+                .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                .clipShape(RoundedRectangle(cornerRadius: 6))
+                        .overlay(
+                                        
+                RoundedRectangle(cornerRadius: 6)
+                .stroke(Color.gray2, lineWidth: 1)
+                               )
                     .onSubmit {
                         // Trigger haptic feedback when user presses Enter
                         HapticsManager.shared.triggerHapticFeedback(style: .heavy)
@@ -202,7 +210,7 @@ NavigationView {
                             hasStartedTimer = true // Ensure timer starts only once
                         }
                     }
-                
+                  
                 NavigationLink(destination: SavedTextsView(texts: savedTexts), isActive: $isShowingSavedTexts) {
                     EmptyView()
                 }
@@ -411,7 +419,8 @@ struct try_AnsQuestions: View {
     @State private var isTimerRunning = false
     @State private var timeRemaining = 20 //90  // 1.5 minutes in seconds
     @State private var shuffledQuestions: [Question] = []
-
+    @Environment(\.colorScheme) var colorScheme
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -426,22 +435,25 @@ struct try_AnsQuestions: View {
                 Text("Answer the Question")
                     .font(.title)
                     .bold()
-                    .foregroundColor(.white)
+                    .foregroundColor(colorScheme == .dark ? .gray1 : .white)
                     .padding(.trailing , 100)
                     .padding(.bottom , 710)
               
                 VStack {
+                    
+                    
                     Text(formattedTime(timeRemaining))
                         .font(.system(size: 60, weight: .bold))
-                        .padding(.bottom, 20)
+                        .padding(.bottom, 10)
                     
                     if !shuffledQuestions.isEmpty {
+                  
                         Text(shuffledQuestions[currentIndex].text)
                             //.bold()
-                    .multilineTextAlignment(.center)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .multilineTextAlignment(.center)
+                            .frame(maxWidth: .infinity, alignment: .centerLastTextBaseline)
                             .lineLimit(nil) // Allow multiple lines
-                            .padding(.trailing)
+                            .padding()
                             .fixedSize(horizontal: false, vertical: true) // Expand vertically
                         
                         Button("New Question >>") {
@@ -456,12 +468,12 @@ struct try_AnsQuestions: View {
                         VStack {
                             ForEach(0..<3, id: \.self) { index in
                                 HStack {
-                                    if !userInputs[index].isEmpty {
-                                        Image(systemName: checkedIndex == index ? "checkmark.circle" : "circle")
+                                  //  if !userInputs[index].isEmpty {
+                                        Image(systemName: checkedIndex == index ? "checkmark.circle.fill" : "circle")
                                             .resizable()
                                             .foregroundColor(.button)
                                             .frame(width: 22, height: 22)
-                                            .padding(.trailing , 20)
+                                            .padding(.trailing , 15)
                                             .onTapGesture {
                                                 if checkedIndex == index {
                                                     checkedIndex = nil  // Uncheck if already checked
@@ -469,21 +481,22 @@ struct try_AnsQuestions: View {
                                                     checkedIndex = index  // Check new index
                                                 }
                                             }
-                                    }
+                                   // }
                                     
-                                    TextField("Type something...", text: $userInputs[index], onEditingChanged: { editing in
+                                    TextField(" Type something...", text: $userInputs[index], onEditingChanged: { editing in
                                         if editing && !isTimerRunning {
                                             startTimer()
                                         }
                                     })
-                                    .foregroundColor(.black)
-                                    .accentColor(.black)
-                                    .frame(maxWidth: .infinity)
-                                    .frame(height: 45)
-                                    .background(Color.white)
+                                  
+                                .frame(maxWidth: .infinity)
+                                .frame(width: 332 , height: 40)
+                                .background(colorScheme == .dark ? Color.gray1 : Color.white)
+                                .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                                .clipShape(RoundedRectangle(cornerRadius: 6))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 5)
-                                            .stroke(Color.white, lineWidth: 2)
+                                            .stroke(Color.gray2, lineWidth: 2)
                                     )
                                 }
                                 .padding(.leading , 20)
@@ -772,9 +785,9 @@ struct try_RandomWords: View {
                 VStack {
                     Text("Random Word")
                         .font(.system(size: 29, weight: .semibold))
-                        .padding(.bottom, 680)
+                        .padding(.bottom, 665)
                         .padding(.trailing, 170)
-                        .foregroundColor(colorScheme == .dark ? .black : .white)
+                        .foregroundColor(colorScheme == .dark ? .gray1 : .white)
                 }
                 
                 VStack {
@@ -819,7 +832,7 @@ struct try_RandomWords: View {
                             }
                             RoundedRectangle(cornerRadius: 10)
                                 .foregroundColor(Color.white1)
-                                .shadow(color: colorScheme == .dark ? Color.gray.opacity(0.1) : Color.gray.opacity(0.5), radius: 10, x: 0, y: 2)
+                                .shadow(color: colorScheme == .dark ? Color.gray2.opacity(0.8) : Color.gray.opacity(0.5), radius: 10, x: 0, y: 2)
                                 .frame(width: 300, height: 280)
                                 .rotationEffect(.degrees(7))
                         }
@@ -959,9 +972,9 @@ struct try_RandomWords2: View {
                     VStack {
                         Text("Random Word")
                             .font(.system(size: 29, weight: .semibold))
-                            .padding(.top, 95)
+                            .padding(.top, 100)
                             .padding(.trailing, 170)
-                            .foregroundColor(colorScheme == .dark ? .black : .white)
+                            .foregroundColor(colorScheme == .dark ? .gray1 : .white)
                         
                         Text(timerString)
                             .font(.system(size: 60, weight: .bold))
@@ -1111,7 +1124,7 @@ struct CardView1: View {
             .frame(width: 300, height: 280)
             .background(Color.white1)
             .cornerRadius(10)
-            .shadow(color: colorScheme == .dark ? Color.white.opacity(0.02) : Color.gray.opacity(0.5), radius: 5, x: 0, y: 2)
+            .shadow(color: colorScheme == .dark ? Color.gray2.opacity(0.02) : Color.white.opacity(0.5), radius: 0, x: 0, y: 2)
             .foregroundColor(colorScheme == .dark ? .white : .black)
     }
 }

@@ -216,7 +216,9 @@ var body: some View {
     }
 }
 }
-
+#Preview {
+SheetQuestion(isSheetPresented2: .constant(true), destinationViewIsActive2: .constant(false))
+}
 
 // // // // // Brain Storming // // // //
 
@@ -289,5 +291,5 @@ var body: some View {
 // // // // // Previews // // // //
 
 #Preview {
-SheetBrainstorming(isSheetPresented3: .constant(true), destinationViewIsActive3: .constant(false))
+    SheetRandomWords(isSheetPresented: .constant(true), destinationViewIsActive: .constant(false))
 }
