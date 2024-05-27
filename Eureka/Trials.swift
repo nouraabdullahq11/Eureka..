@@ -25,203 +25,210 @@ let totalDuration = 20 //1 * 6 // Total duration in seconds for progress calcula
 let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 @Environment(\.colorScheme) var colorScheme
 @Environment(\.managedObjectContext) private var viewContext
-var body: some View {
-NavigationView {
-NavigationView {
-    NavigationStack {
-        ZStack{
-            Color.gray1
-                .ignoresSafeArea()
+    var body: some View {
+        //NavigationView {
+        //NavigationView {
+        GeometryReader { geometry in
+        NavigationStack {
             
             ZStack{
-                Image("backgrund")
-                    .resizable()
-                  
-                    .overlay(
-
+                Color.gray1
+                    .ignoresSafeArea()
                 
-                Text("Crazy 8")
-                    .font(.title)
-                    .bold()
-                    .foregroundColor(colorScheme == .dark ? .gray1 : .white)
-                    .padding(.trailing , 240)
-                    .padding(.top ,80)
-                )  .frame(width: 395 , height: 150)
-                
-            }//.offset(x:0,y: -365)
-            .padding(.bottom , 850)
-
-            
-            VStack {
                 ZStack{
-                    Circle()
-                        .stroke(Color.orange ,style: StrokeStyle(lineWidth: 10,lineCap: .butt , dash: [5]))
-                        .frame(width: 270,height: 270)
-                    ZStack {
+                    Image("backgrund")
+                        .resizable()
+                   // .scaledToFill()
+                        .frame(width: geometry.size.width, height: geometry.size.height * 0.25) // Adjusted height
+                           // .clipped()
+            
+                        .overlay(
+                            
+                            
+                            Text("Crazy 8")
+                                .font(.title)
+                                .bold()
+                                .foregroundColor(colorScheme == .dark ? .gray1 : .white)
+                                .padding(.trailing , 240)
+                                .padding(.top ,100)
+                        ) // .frame(width: 395 , height: 150)
+                    
+                }//.offset(x:0,y: -365)
+                .padding(.bottom , 850)
+                
+                
+                VStack {
+                    ZStack{
                         Circle()
-                            .stroke(lineWidth: 10)
-                            .opacity(0.3)
-                            .foregroundColor(Color.orange1)
-                        
-                        Circle()
-                        
-                            .trim(from: 0.0, to: CGFloat(1.0 - Double(timeRemaining) / Double(totalDuration)))
-                        
-                            .stroke(style: StrokeStyle(lineWidth: 20, lineCap: .round, lineJoin: .round))
-                            .foregroundColor(Color.orange)
-                            .rotationEffect(Angle(degrees: -90))
-                            .animation(.linear(duration: 1), value: timeRemaining)
-                        Text("minutes")
-                            .foregroundColor(.gray)
-                            .padding(.top,70)
-                        Text("\(timeRemaining / 60):\(String(format: "%02d", timeRemaining % 60))")
-                            .font(.largeTitle)
-                            .bold()
-                        
-                        LottieView(animation: .named("Animation5"))
-                            .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
-                            .resizable()
-                            .frame(width: 140)
-                     
-                            .offset(x:140 , y: 120)
-                        
-                        LottieView(animation: .named("Animation10"))
-                            .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
-                            .resizable()
-                      
-                            .frame(width: 150)
-                            .opacity(0.5)
-                                                      
-                            .offset(x:100 , y: -150)
-                        
-                        LottieView(animation: .named("Animation2"))
-                            .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
-                            .resizable()
-                            .frame(width: 100)
-                     
-                            .offset(x:10 , y: -190)
-                        
-                        LottieView(animation: .named("Animation6"))
-                            .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
-                            .resizable()
-                            .frame(width: 150)
-                     
-                            .offset(x:-100 , y: -160)
-                        
-                        
-                        LottieView(animation: .named("Animation11"))
-                            .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
-                            .resizable()
-                .frame(width: 290 )
-                       
-                                                      
-                            .offset(x:-150 , y: 50)
-                        
-                        LottieView(animation: .named("Animation13"))
-                            .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
-                            .resizable()
-                .frame(width: 290 )
-               .opacity(0.3)
-                                                      
-                            .offset(x:-150 , y: -50)
-                        
-                        
-                        LottieView(animation: .named("Animation6"))
-                            .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
-                            .resizable()
-                      
-                            .frame(width: 90)
-                       
-                                                      
-                            .offset(x:-150 , y: 150)
-                        
-                        
-                        LottieView(animation: .named("Animation6"))
-                            .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
-                            .resizable()
-                      
-                            .frame(width: 90)
-                       
-                                                      
-                            .offset(x:150 , y: 20)
-                        
-                        
-                        LottieView(animation: .named("Animation15"))
-                            .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
-                            .resizable()
-                      
-                            .frame(width: 90)
-                       
-                                                      
-                            .offset(x:-160 , y: 90)
-                        LottieView(animation: .named("Animation15"))
-                            .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
-                            .resizable()
-                      
-                            .frame(width: 90)
-                       
-                            .opacity(0.5)
-                            .offset(x:160 , y: -30)
-                       
-                        
-                        
-                    }
-                    .frame(width: 200, height: 200)
-                    .onReceive(timer) { _ in
-                        if timerActive {
-                            if timeRemaining > 0 {
-                                timeRemaining -= 1
-                                if timeRemaining == 10 {
-                                    startVibrationTimer()
+                            .stroke(Color.orange ,style: StrokeStyle(lineWidth: 10,lineCap: .butt , dash: [5]))
+                            .frame(width: 270,height: 270)
+                        ZStack {
+                            Circle()
+                                .stroke(lineWidth: 10)
+                                .opacity(0.3)
+                                .foregroundColor(Color.orange1)
+                            
+                            Circle()
+                            
+                                .trim(from: 0.0, to: CGFloat(1.0 - Double(timeRemaining) / Double(totalDuration)))
+                            
+                                .stroke(style: StrokeStyle(lineWidth: 20, lineCap: .round, lineJoin: .round))
+                                .foregroundColor(Color.orange)
+                                .rotationEffect(Angle(degrees: -90))
+                                .animation(.linear(duration: 1), value: timeRemaining)
+                            Text("minutes")
+                                .foregroundColor(.gray)
+                                .padding(.top,70)
+                            Text("\(timeRemaining / 60):\(String(format: "%02d", timeRemaining % 60))")
+                                .font(.largeTitle)
+                                .bold()
+                            
+                            LottieView(animation: .named("Animation5"))
+                                .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
+                                .resizable()
+                                .frame(width: 140)
+                            
+                                .offset(x:140 , y: 120)
+                            
+                            LottieView(animation: .named("Animation10"))
+                                .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
+                                .resizable()
+                            
+                                .frame(width: 150)
+                                .opacity(0.5)
+                            
+                                .offset(x:100 , y: -150)
+                            
+                            LottieView(animation: .named("Animation2"))
+                                .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
+                                .resizable()
+                                .frame(width: 100)
+                            
+                                .offset(x:10 , y: -190)
+                            
+                            LottieView(animation: .named("Animation6"))
+                                .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
+                                .resizable()
+                                .frame(width: 150)
+                            
+                                .offset(x:-100 , y: -160)
+                            
+                            
+                            LottieView(animation: .named("Animation11"))
+                                .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
+                                .resizable()
+                                .frame(width: 290 )
+                            
+                            
+                                .offset(x:-150 , y: 50)
+                            
+                            LottieView(animation: .named("Animation13"))
+                                .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
+                                .resizable()
+                                .frame(width: 290 )
+                                .opacity(0.3)
+                            
+                                .offset(x:-150 , y: -50)
+                            
+                            
+                            LottieView(animation: .named("Animation6"))
+                                .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
+                                .resizable()
+                            
+                                .frame(width: 90)
+                            
+                            
+                                .offset(x:-150 , y: 150)
+                            
+                            
+                            LottieView(animation: .named("Animation6"))
+                                .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
+                                .resizable()
+                            
+                                .frame(width: 90)
+                            
+                            
+                                .offset(x:150 , y: 20)
+                            
+                            
+                            LottieView(animation: .named("Animation15"))
+                                .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
+                                .resizable()
+                            
+                                .frame(width: 90)
+                            
+                            
+                                .offset(x:-160 , y: 90)
+                            LottieView(animation: .named("Animation15"))
+                                .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
+                                .resizable()
+                            
+                                .frame(width: 90)
+                            
+                                .opacity(0.5)
+                                .offset(x:160 , y: -30)
+                            
+                            
+                            
+                        }
+                        .frame(width: 200, height: 200)
+                        .onReceive(timer) { _ in
+                            if timerActive {
+                                if timeRemaining > 0 {
+                                    timeRemaining -= 1
+                                    if timeRemaining == 10 {
+                                        startVibrationTimer()
+                                    }
+                                } else {
+                                    stopTimers()
+                                    moveToNextPage() // Automatically move to the next page
                                 }
-                            } else {
-                                stopTimers()
-                                moveToNextPage() // Automatically move to the next page
                             }
                         }
                     }
-                }
-                .padding(.bottom , 100)
-                Text("Generate an ideas for solving a problem ")
-                    .font(.caption)
-                    .foregroundColor(.gray)
-                TextField(" Soloution Statment ", text: $text)
-                    .frame(maxWidth: .infinity)
-                    .frame(width: 332 , height: 40)
-                .background(colorScheme == .dark ? Color.gray1 : Color.white)
-                .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
-                .clipShape(RoundedRectangle(cornerRadius: 6))
+                    .padding(.bottom , 100)
+                    Text("Generate an ideas for solving a problem ")
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                    TextField(" Soloution Statment ", text: $text)
+                        .frame(maxWidth: .infinity)
+                        .frame(width: 332 , height: 40)
+                        .background(colorScheme == .dark ? Color.gray1 : Color.white)
+                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                        .clipShape(RoundedRectangle(cornerRadius: 6))
                         .overlay(
-                                        
-                RoundedRectangle(cornerRadius: 6)
-                .stroke(Color.gray2, lineWidth: 1)
-                               )
-                    .onSubmit {
-                        // Trigger haptic feedback when user presses Enter
-                        HapticsManager.shared.triggerHapticFeedback(style: .heavy)
-                        
-                        // Save the text and clear the text field
-                        savedTexts.append(text)
-                        text = ""
-                        
-                        // Start the timer only once when the first text is submitted
-                        if !hasStartedTimer {
-                            timerActive = true
-                            hasStartedTimer = true // Ensure timer starts only once
+                            
+                            RoundedRectangle(cornerRadius: 6)
+                                .stroke(Color.gray2, lineWidth: 1)
+                        )
+                        .onSubmit {
+                            // Trigger haptic feedback when user presses Enter
+                            HapticsManager.shared.triggerHapticFeedback(style: .heavy)
+                            
+                            // Save the text and clear the text field
+                            savedTexts.append(text)
+                            text = ""
+                            
+                            // Start the timer only once when the first text is submitted
+                            if !hasStartedTimer {
+                                timerActive = true
+                                hasStartedTimer = true // Ensure timer starts only once
+                            }
                         }
+                    
+                    NavigationLink(destination: SavedTextsView(texts: savedTexts), isActive: $isShowingSavedTexts) {
+                        EmptyView()
                     }
-                  
-                NavigationLink(destination: SavedTextsView(texts: savedTexts), isActive: $isShowingSavedTexts) {
-                    EmptyView()
+                    .hidden()
+                    // Hide the navigation bar (including the back button) in the current view controller
+                    
+                    
                 }
-                .hidden()
-                // Hide the navigation bar (including the back button) in the current view controller
-                
-                
-            }
             }
         }
-    }}.navigationBarBackButtonHidden(true)
+    }
+   // }}
+.navigationBarBackButtonHidden(true)
 }
 private func startVibrationTimer() {
 vibrationTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
@@ -240,155 +247,168 @@ private func moveToNextPage() {
 isShowingSavedTexts = true
 }
 }
+
+
 struct SavedTextsView: View {
 var texts: [String]
 @State private var showAllTexts = false
 @State private var additionalTexts: [String] = []
-
-var body: some View {
-NavigationStack{
-    ScrollView{(
-        ZStack{
-            Color.gray1
-                .ignoresSafeArea()
-            VStack{
+    @Environment(\.colorScheme) var colorScheme
+    var body: some View {
+        GeometryReader { geometry in
+        NavigationStack{
+           
                 ZStack{
-                    Image("backgrund")
-                        .resizable()
-                        .frame(width: 395 , height: 150)
-                    
-                    Text("Activity Summery")
-                        .font(.title)
-                        .bold()
-                        .foregroundColor(.white)
-                        .padding(.trailing , 100)
-                    //  .padding(.bottom,600)
-                }.offset(x:0,y: -80)
-                
-                ZStack{
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundColor(.white)
-                        .shadow(radius: 3)
-                        .frame(width: 351,height: 132)
-                    HStack{
-                        
-                        Image(systemName: "lightbulb.min")
-                            .resizable()
-                            .frame(width: 41 , height: 53)
-                            .foregroundColor(.orange1)
-                            .padding()
-                        VStack{
-                            Text(" Research time :")
-                                .bold()
-                                .font(.title3)
-                            Text(" By exploring, researching, and iterating, you're paving the way for success. Dive deeper into your big idea and you're on the path to something remarkable!")
-                                .font(.caption)
-                                .padding(.horizontal)
-                        }
-                    } .padding(.horizontal)
-                }
-                ZStack{
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundColor(.white)
-                        .shadow(radius: 3)
-                        .frame(width: 361,height: 132)
-                    HStack{
-                        Image(systemName: "doc.text")
-                            .resizable()
-                            .frame(width: 41 , height: 53)
-                            .foregroundColor(.orange1)
-                            .padding(.horizontal)
-                            .padding()
-                        
-                        VStack{
-                            Text("Answers :")
-                                .font(.title3)
-                                .bold()
-                                .padding()
+                    Color.gray1
+                        .ignoresSafeArea()
+                    VStack{
+                        ZStack{
+                            Image("backgrund")
                             
-                            VStack {
-                                ForEach(0..<min(texts.count, 3)) { index in
-                                    Text(texts[index])
-                            .foregroundColor(.orange1)
+                                        .resizable()
+                                        .padding(.bottom, geometry.size.height * 0.3)
+                                    .scaledToFill()
+                                        .frame(width: geometry.size.width, height: geometry.size.height * 0.15) // Adjusted height
+                                            //.clipped()
+                                       
+                            
+                                        Text("Activity Summery")
+                                        .font(.title)
+                                        .bold()
+                                        .foregroundColor(colorScheme == .dark ? .gray1 : .white)
+                                                               .padding(.trailing, 100) // Adjust the padding to move text to the left
+                                                              // .padding(.top, geometry.safeAreaInsets.top + 0.01)
+                                                              .padding(.bottom,50)
+                        }//.offset(x:0,y: -80)
+                        
+                        ScrollView{
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundColor(.white)
+                                .shadow(radius: 3)
+                                .frame(width: 351,height: 132)
+                            HStack{
+                                
+                                Image(systemName: "lightbulb.min")
+                                    .resizable()
+                                    .frame(width: 41 , height: 53)
+                                    .foregroundColor(.orange1)
+                                    .padding()
+                                VStack{
+                                    Text(" Research time :")
+                                        .bold()
+                                        .font(.title3)
+                                    Text(" By exploring, researching, and iterating, you're paving the way for success. Dive deeper into your big idea and you're on the path to something remarkable!")
+                                        .font(.caption)
+                                        .padding(.horizontal)
+                                }
+                            } .padding(.horizontal)
+                        }
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundColor(.white)
+                                .shadow(radius: 3)
+                                .frame(width: 361,height: 132)
+                                .padding()
+                            HStack{
+                                Image(systemName: "doc.text")
+                                    .resizable()
+                                    .frame(width: 41 , height: 53)
+                                    .foregroundColor(.orange1)
+                                    .padding(.horizontal)
+                                    .padding()
+                                
+                                VStack{
+                                    Text("Answers :")
+                                        .font(.title3)
+                                        .bold()
+                                        .padding()
+                                    
+                                    VStack {
+                                        ForEach(0..<min(texts.count, 3)) { index in
+                                            Text(texts[index])
+                                                .foregroundColor(.orange1)
+                                        }
+                                        
+                                        if showAllTexts {
+                                            ForEach(additionalTexts.indices, id: \.self) { index in
+                                                Text(additionalTexts[index])
+                                                    .foregroundColor(.orange1)
+                                            }
+                                        }
+                                    }
+                                    .padding()
+                                }
+                                if texts.count > 3 {
+                                    Button(action: {
+                                        showAllTexts.toggle()
+                                        if showAllTexts {
+                                            additionalTexts = Array(texts.dropFirst(3))
+                                        } else {
+                                            additionalTexts.removeAll()
+                                        }
+                                    }) {
+                                        Text(showAllTexts ? "See Less" : "See all answer")
+                                            .font(.caption)
+                                            .underline(true , color: .orange1)
+                                            .foregroundColor(.orange1)
+                                    }  .padding()
                                 }
                                 
-                                if showAllTexts {
-                                    ForEach(additionalTexts.indices, id: \.self) { index in
-                                        Text(additionalTexts[index])
-                            .foregroundColor(.orange1)
-                                    }
+                                
+                                
+                                Spacer()
+                                
+                            }
+                        }
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundColor(.white)
+                                .shadow(radius: 3)
+                                .frame(width: 361,height: 200)
+                                .padding()
+                            VStack{
+                                HStack{
+                                    Image(systemName: "checkmark.circle")
+                                        .resizable()
+                                        .frame(width: 53 , height: 53)
+                                        .foregroundColor(.orange1)
+                                        .padding(.horizontal)
+                                    
+                                    Text("Fantastic work on sparking your big idea! Are you ready to dive even deeper and expand your creative horizons? ")
+                                        .font(.callout)
+                                        .bold()
+                                        .padding()
+                                }
+                                VStack{
+                                    Text("Let's keep the momentum going try the other technique, it will enhance your ability to think outside the box and refine your concepts.")
+                                        .font(.caption)
+                                        .padding(.horizontal)
+//                                        .padding(.bottom, geometry.size.height * 0)
                                 }
                             }
-                            .padding()
-                        }
-                        if texts.count > 3 {
-                            Button(action: {
-                                showAllTexts.toggle()
-                                if showAllTexts {
-                                    additionalTexts = Array(texts.dropFirst(3))
-                                } else {
-                                    additionalTexts.removeAll()
-                                }
-                            }) {
-                                Text(showAllTexts ? "See Less" : "See all answer")
-                                    .font(.caption)
-                                    .underline(true , color: .orange1)
-                                    .foregroundColor(.orange1)
-                            }  .padding()
-                        }
+                        } .padding(.horizontal)
+                            .navigationBarBackButtonHidden(true)
                         
-                        
-                        
-                        Spacer()
-                        
-                    }
-                }
-                ZStack{
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundColor(.white)
-                        .shadow(radius: 3)
-                        .frame(width: 361,height: 200)
-                        .padding()
-                    VStack{
-                        HStack{
-                            Image(systemName: "checkmark.circle")
-                                .resizable()
-                                .frame(width: 53 , height: 53)
-                                .foregroundColor(.orange1)
-                                .padding(.horizontal)
+                        NavigationLink(destination: HomePage()){
                             
-                            Text("Fantastic work on sparking your big idea! Are you ready to dive even deeper and expand your creative horizons? ")
-                                .font(.callout)
-                                .bold()
-                                .padding()
+                            ZStack{
+                                Rectangle()
+                                    .frame(width: 337 , height: 39)
+                                    .cornerRadius(5)
+                                    .foregroundColor(.laitOrange)
+                                Text("done")
+                                    .foregroundColor(.white)
+                            } .padding()
                         }
-                        VStack{
-                            Text("Let's keep the momentum going try the other technique, it will enhance your ability to think outside the box and refine your concepts.")
-                                .font(.caption)
-                               // .padding(.horizontal)
-                        }
+                        
                     }
-                } .padding(.horizontal)
-                .navigationBarBackButtonHidden(true)
-                
-                NavigationLink(destination: HomePage()){
                     
-                    ZStack{
-                        Rectangle()
-                            .frame(width: 337 , height: 39)
-                            .cornerRadius(5)
-                            .foregroundColor(.laitOrange)
-                        Text("done")
-                            .foregroundColor(.white)
-                    } .padding()
                 }
-               
-            }
-      
-            }
-  
-   )}.navigationBarBackButtonHidden(true)
-}.navigationBarBackButtonHidden(true)
+                
+            }.navigationBarBackButtonHidden(true)
+        }.navigationBarBackButtonHidden(true)
+    }
 }
 }
 class HapticsManager {
@@ -422,6 +442,7 @@ struct try_AnsQuestions: View {
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
+        GeometryReader { geometry in
         NavigationView {
             ZStack {
                 Color.gray1
@@ -429,16 +450,22 @@ struct try_AnsQuestions: View {
                 
                 Image("backgrund")
                     .resizable()
-                    .frame(width: 400 , height: 170)
-                    .padding(.bottom, 820)
+               // .scaledToFill()
+                    .frame(width: geometry.size.width, height: geometry.size.height * 0.20) // Adjusted height
+                       // .clipped()
+//                    .resizable()
+//                    .frame(width: 400 , height: 170)
+                  //  .padding(.bottom, )
+                    .padding(.bottom, geometry.size.height * 1)
                 
                 Text("Answer the Question")
                     .font(.title)
                     .bold()
                     .foregroundColor(colorScheme == .dark ? .gray1 : .white)
                     .padding(.trailing , 100)
-                    .padding(.bottom , 710)
-              
+                    .padding(.bottom, geometry.size.height * 0.90)
+                
+                
                 VStack {
                     
                     
@@ -447,9 +474,9 @@ struct try_AnsQuestions: View {
                         .padding(.bottom, 10)
                     
                     if !shuffledQuestions.isEmpty {
-                  
+                        
                         Text(shuffledQuestions[currentIndex].text)
-                            //.bold()
+                        //.bold()
                             .multilineTextAlignment(.center)
                             .frame(maxWidth: .infinity, alignment: .centerLastTextBaseline)
                             .lineLimit(nil) // Allow multiple lines
@@ -468,32 +495,32 @@ struct try_AnsQuestions: View {
                         VStack {
                             ForEach(0..<3, id: \.self) { index in
                                 HStack {
-                                  //  if !userInputs[index].isEmpty {
-                                        Image(systemName: checkedIndex == index ? "checkmark.circle.fill" : "circle")
-                                            .resizable()
-                                            .foregroundColor(.button)
-                                            .frame(width: 22, height: 22)
-                                            .padding(.trailing , 15)
-                                            .onTapGesture {
-                                                if checkedIndex == index {
-                                                    checkedIndex = nil  // Uncheck if already checked
-                                                } else {
-                                                    checkedIndex = index  // Check new index
-                                                }
+                                    //  if !userInputs[index].isEmpty {
+                                    Image(systemName: checkedIndex == index ? "checkmark.circle.fill" : "circle")
+                                        .resizable()
+                                        .foregroundColor(.button)
+                                        .frame(width: 22, height: 22)
+                                        .padding(.trailing , 15)
+                                        .onTapGesture {
+                                            if checkedIndex == index {
+                                                checkedIndex = nil  // Uncheck if already checked
+                                            } else {
+                                                checkedIndex = index  // Check new index
                                             }
-                                   // }
+                                        }
+                                    // }
                                     
                                     TextField(" Type something...", text: $userInputs[index], onEditingChanged: { editing in
                                         if editing && !isTimerRunning {
                                             startTimer()
                                         }
                                     })
-                                  
-                                .frame(maxWidth: .infinity)
-                                .frame(width: 332 , height: 40)
-                                .background(colorScheme == .dark ? Color.gray1 : Color.white)
-                                .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
-                                .clipShape(RoundedRectangle(cornerRadius: 6))
+                                    
+                                    .frame(maxWidth: .infinity)
+                                    .frame(width: 332 , height: 40)
+                                    .background(colorScheme == .dark ? Color.gray1 : Color.white)
+                                    .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                                    .clipShape(RoundedRectangle(cornerRadius: 6))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 5)
                                             .stroke(Color.gray2, lineWidth: 2)
@@ -539,14 +566,14 @@ struct try_AnsQuestions: View {
                             .padding()
                     }
                 }
-                .navigationBarItems(trailing: Button(action: {
-                    showPopup.toggle()
-                }, label: {
-                    Image(systemName: "plus")
-                }))
-                .sheet(isPresented: $showPopup) {
-                    // NewQuestionView()
-                }
+//                .navigationBarItems(trailing: Button(action: {
+//                    showPopup.toggle()
+//                }, label: {
+//                    Image(systemName: "plus")
+//                }))
+//                .sheet(isPresented: $showPopup) {
+//                    // NewQuestionView()
+//                }
             }
         }
         .navigationBarBackButtonHidden(true)
@@ -567,6 +594,7 @@ struct try_AnsQuestions: View {
             }
         }
         .environmentObject(DataManager())
+    }
     }
 
     // Computed property to determine if the Next button should be enabled
@@ -602,151 +630,161 @@ var texts: [String]
 var userInputs: [String]
 var checkedInput: String
 var displayedQuestion: String
-var body: some View {
-NavigationStack{
-    ScrollView{(
-        ZStack{
-            Color.gray1
-                .ignoresSafeArea()
-            VStack{
-                ZStack{
-                    Image("backgrund")
-                        .resizable()
-                        .frame(width: 395 , height: 150)
-                    
-                    Text("Activity Summery")
-                        .font(.title)
-                        .bold()
-                        .foregroundColor(.white)
-                        .padding(.trailing , 100)
-                    //  .padding(.bottom,600)
-                }.offset(x:0,y: -70)
-                
-                ZStack{
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundColor(.white)
-                        .shadow(radius: 3)
-                        .frame(width: 351,height: 132)
-                    HStack{
+    @Environment(\.colorScheme) var colorScheme
+    var body: some View {
+        GeometryReader { geometry in
+        NavigationStack{
+            
+            ZStack{
+                Color.gray1
+                    .ignoresSafeArea()
+                VStack{
+                    ZStack{
+                        Image("backgrund")
                         
-                        Image(systemName: "lightbulb.min")
                             .resizable()
-                            .frame(width: 41 , height: 53)
-                            .foregroundColor(.orange1)
-                            .padding()
-                        VStack{
-                            
-                               
-                            Text(" the Question you chose to answer : \(displayedQuestion) ")
-                                .font(.caption)
-                                .padding(.horizontal)
-                                .padding()
+                            .padding(.bottom, geometry.size.height * 0.3)
+                            .scaledToFill()
+                            .frame(width: geometry.size.width, height: geometry.size.height * 0.15) // Adjusted height
+                        //.clipped()
+                        
+                        
+                        Text("Activity Summery")
+                            .font(.title)
+                            .bold()
+                            .foregroundColor(colorScheme == .dark ? .gray1 : .white)
+                            .padding(.trailing, 100) // Adjust the padding to move text to the left
+                        // .padding(.top, geometry.safeAreaInsets.top + 0.01)
+                            .padding(.bottom,50)
+                    }//.offset(x:0,y: -80)
+                    ScrollView{
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundColor(.white)
+                                .shadow(radius: 3)
+                                .frame(width: 351,height: 132)
+                            HStack{
+                                
+                                Image(systemName: "lightbulb.min")
+                                    .resizable()
+                                    .frame(width: 41 , height: 53)
+                                    .foregroundColor(.orange1)
+                                    .padding()
+                                VStack{
+                                    
+                                    
+                                    Text(" the Question you chose to answer : \(displayedQuestion) ")
+                                        .font(.caption)
+                                        .padding(.horizontal)
+                                        .padding()
+                                }
+                            } .padding(.horizontal)
                         }
-                    } .padding(.horizontal)
-                }
-                ZStack{
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundColor(.white)
-                        .shadow(radius: 3)
-                        .frame(width: 361,height: 132)
-                    HStack{
-                        Image(systemName: "doc.text")
-                            .resizable()
-                            .frame(width: 41 , height: 53)
-                            .foregroundColor(.orange1)
-                            .padding(.horizontal)
-                            .padding(.leading , 20)
-                        
-                        VStack{
-                            Text("The answer you resonates with the most :")
-                            
-                                .font(.caption)
-                                .bold()
-                                .padding()
-                            Text("\(checkedInput)")
-                            VStack {
-                                ForEach(0..<min(texts.count, 3)) { index in
-                                    Text(texts[index])
-                            .foregroundColor(.orange1)
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundColor(.white)
+                                .shadow(radius: 3)
+                                .frame(width: 361,height: 132)
+                            HStack{
+                                Image(systemName: "doc.text")
+                                    .resizable()
+                                    .frame(width: 41 , height: 53)
+                                    .foregroundColor(.orange1)
+                                    .padding(.horizontal)
+                                    .padding(.leading , 20)
+                                
+                                VStack{
+                                    Text("The answer you resonates with the most :")
+                                    
+                                        .font(.caption)
+                                        .bold()
+                                        .padding()
+                                    Text("\(checkedInput)")
+                                    VStack {
+                                        ForEach(0..<min(texts.count, 3)) { index in
+                                            Text(texts[index])
+                                                .foregroundColor(.orange1)
+                                        }
+                                        
+                                        if showAllTexts {
+                                            ForEach(additionalTexts.indices, id: \.self) { index in
+                                                Text(additionalTexts[index])
+                                                    .foregroundColor(.orange1)
+                                            }
+                                        }
+                                    }
+                                    .padding()
+                                }
+                                if texts.count > 3 {
+                                    Button(action: {
+                                        showAllTexts.toggle()
+                                        if showAllTexts {
+                                            additionalTexts = Array(texts.dropFirst(3))
+                                        } else {
+                                            additionalTexts.removeAll()
+                                        }
+                                    }) {
+                                        Text(showAllTexts ? "See Less" : "See all answer")
+                                            .font(.caption)
+                                            .underline(true , color: .orange1)
+                                            .foregroundColor(.orange1)
+                                    }  .padding()
                                 }
                                 
-                                if showAllTexts {
-                                    ForEach(additionalTexts.indices, id: \.self) { index in
-                                        Text(additionalTexts[index])
-                            .foregroundColor(.orange1)
-                                    }
+                                
+                                
+                                Spacer()
+                                
+                            }
+                        }
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundColor(.white)
+                                .shadow(radius: 3)
+                                .frame(width: 361,height: 200)
+                                .padding()
+                            VStack{
+                                HStack{
+                                    Image(systemName: "checkmark.circle")
+                                        .resizable()
+                                        .frame(width: 53 , height: 53)
+                                        .foregroundColor(.orange1)
+                                        .padding(.horizontal)
+                                    
+                                    Text("Fantastic work on sparking your big idea! Are you ready to dive even deeper and expand your creative horizons? ")
+                                        .font(.callout)
+                                        .bold()
+                                        .padding()
+                                }
+                                VStack{
+                                    Text("Let's keep the momentum going try the other technique, it will enhance your ability to think outside the box and refine your concepts.")
+                                        .font(.caption)
+                                        .padding(.horizontal)
+                                    // .padding(.horizontal)
                                 }
                             }
-                            .padding()
+                        } .padding(.horizontal)
+                        
+                        
+                        NavigationLink(destination: HomePage()){
+                            
+                            ZStack{
+                                Rectangle()
+                                    .frame(width: 337 , height: 39)
+                                    .cornerRadius(5)
+                                    .foregroundColor(.laitOrange)
+                                Text("done")
+                                    .foregroundColor(.white)
+                            } .padding()
                         }
-                        if texts.count > 3 {
-                            Button(action: {
-                                showAllTexts.toggle()
-                                if showAllTexts {
-                                    additionalTexts = Array(texts.dropFirst(3))
-                                } else {
-                                    additionalTexts.removeAll()
-                                }
-                            }) {
-                                Text(showAllTexts ? "See Less" : "See all answer")
-                                    .font(.caption)
-                                    .underline(true , color: .orange1)
-                                    .foregroundColor(.orange1)
-                            }  .padding()
-                        }
-                        
-                        
-                        
-                        Spacer()
                         
                     }
-                }
-                ZStack{
-                                       RoundedRectangle(cornerRadius: 10)
-                                           .foregroundColor(.white)
-                                           .shadow(radius: 3)
-                                           .frame(width: 361,height: 200)
-                                           .padding()
-                                       VStack{
-                                           HStack{
-                                               Image(systemName: "checkmark.circle")
-                                                   .resizable()
-                                                   .frame(width: 53 , height: 53)
-                                                   .foregroundColor(.orange1)
-                                                   .padding(.horizontal)
-                                               
-                                               Text("Fantastic work on sparking your big idea! Are you ready to dive even deeper and expand your creative horizons? ")
-                                                   .font(.callout)
-                                                   .bold()
-                                                   .padding()
-                                           }
-                                           VStack{
-                                               Text("Let's keep the momentum going try the other technique, it will enhance your ability to think outside the box and refine your concepts.")
-                                                   .font(.caption)
-                                                  // .padding(.horizontal)
-                                           }
-                                       }
-                                   } .padding(.horizontal)
-
-                
-                NavigationLink(destination: HomePage()){
                     
-                    ZStack{
-                        Rectangle()
-                            .frame(width: 337 , height: 39)
-                            .cornerRadius(5)
-                            .foregroundColor(.laitOrange)
-                        Text("done")
-                            .foregroundColor(.white)
-                    } .padding()
                 }
-               
+                
             }
-      
-            }
-  
-   )}
-}.navigationBarBackButtonHidden(true)
+        }.navigationBarBackButtonHidden(true)
+    }
 }
 }
 
@@ -772,23 +810,35 @@ struct try_RandomWords: View {
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
+        GeometryReader { geometry in
         NavigationView {
             ZStack {
                 Color.gray1
                     .ignoresSafeArea()
                 
-                Image("backgrund")
-                    .resizable()
-                    .frame(width: 400, height: 150)
-                    .padding(.bottom, 750)
-                
-                VStack {
-                    Text("Random Word")
-                        .font(.system(size: 29, weight: .semibold))
-                        .padding(.bottom, 665)
-                        .padding(.trailing, 170)
+                ZStack{
+                    Image("backgrund")
+                    
+                        .resizable()
+                        .padding(.bottom, geometry.size.height * 0.50)
+                        .scaledToFill()
+                        .frame(width: geometry.size.width, height: geometry.size.height * 0.15) // Adjusted height
+                    //.clipped()
+                     .padding(.bottom
+                              , geometry.safeAreaInsets.top + 325.5)
+                    
+                    Text("Random Words")
+                        .font(.title)
+                        .bold()
                         .foregroundColor(colorScheme == .dark ? .gray1 : .white)
-                }
+                        .padding(.trailing
+                                 , geometry.safeAreaInsets.top + 55)
+
+                      //  .padding(.trailing, 110) // Adjust the padding to move text to the left
+                    // .padding(.top, geometry.safeAreaInsets.top + 0.01)
+                        .padding(.bottom
+                                 , geometry.safeAreaInsets.top + 650)
+                }//.offset(x:0,y: -80)
                 
                 VStack {
                     Text(timerString)
@@ -897,6 +947,7 @@ struct try_RandomWords: View {
         }
         .navigationBarBackButtonHidden(true)
     }
+    }
     
     var timerString: String {
         let minutes = timeRemaining / 60
@@ -957,28 +1008,43 @@ struct try_RandomWords2: View {
     }
 
     var body: some View {
-        NavigationView {
+        GeometryReader { geometry in
+        NavigationStack {
             ZStack {
                 Color.gray1
                     .ignoresSafeArea()
+                
+                ZStack {
+                    Image("backgrund")
+                    
+                        .resizable()
+                        .padding(.bottom, geometry.size.height * 0.48)
+                        .scaledToFill()
+                        .frame(width: geometry.size.width, height: geometry.size.height * 0.15) // Adjusted height
+                    //.clipped()
+                     .padding(.bottom
+                              , geometry.safeAreaInsets.top + 325.5)
+                    
+                    Text("Random Words")
+                        .font(.title)
+                        .bold()
+                        .foregroundColor(colorScheme == .dark ? .gray1 : .white)
+                        .padding(.trailing
+                                 , geometry.safeAreaInsets.top + 100)
 
-                Image("backgrund")
-                    .resizable()
-                    .frame(width: 400, height: 150)
-                    .padding(.bottom, 750)
-
-                Spacer()
+                      //  .padding(.trailing, 110) // Adjust the padding to move text to the left
+                    // .padding(.top, geometry.safeAreaInsets.top + 0.01)
+                        .padding(.bottom
+                                 , geometry.safeAreaInsets.top + 650)
+                }
+             
                 ScrollView {
                     VStack {
-                        Text("Random Word")
-                            .font(.system(size: 29, weight: .semibold))
-                            .padding(.top, 100)
-                            .padding(.trailing, 170)
-                            .foregroundColor(colorScheme == .dark ? .gray1 : .white)
-                        
+                      
+                        Spacer()
                         Text(timerString)
                             .font(.system(size: 60, weight: .bold))
-                            .padding(.top, 25)
+                            .padding(.top, geometry.size.height * 0.15)
                             .padding(.bottom, 20)
                             .onReceive(timer) { _ in
                                 if isTimerRunning {
@@ -1024,10 +1090,10 @@ struct try_RandomWords2: View {
                                             .onTapGesture {
                                                 selectedWord = likedWords[index]
                                             }
-                            TextField("Enter a value", text: $enteredValues[index])
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .onChange(of: enteredValues[index]) { newValue in
-                                    startTimerIfNeeded()
+                                        TextField("Enter a value", text: $enteredValues[index])
+                                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                                            .onChange(of: enteredValues[index]) { newValue in
+                                                startTimerIfNeeded()
                                             }
                                     }.padding(.trailing,20)
                                         .padding(.leading,20)
@@ -1049,7 +1115,7 @@ struct try_RandomWords2: View {
                             Text("Next Step")
                                 .font(.system(size: 18))
                                 .padding()
-    //                            .background(likedWords.count >= 3 ? Color.orange : Color.gray)
+                            //                            .background(likedWords.count >= 3 ? Color.orange : Color.gray)
                                 .frame(width: 337, height: 39)
                                 .background(Color.button)
                                 .foregroundColor(.white)
@@ -1069,7 +1135,7 @@ struct try_RandomWords2: View {
                                 ),
                                 isActive: $navigateToSummary
                             ) {
-                               EmptyView()
+                                EmptyView()
                             }
                         }}
                 }
@@ -1086,6 +1152,8 @@ struct try_RandomWords2: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        
+    }
     }
 
     var timerString: String {
@@ -1153,155 +1221,168 @@ var selectedWord: String?
 var enteredValue: String
     @Environment(\.colorScheme) var colorScheme
 
-var body: some View {
-NavigationStack{
-    ZStack{
-        
-        Color.gray1
-            .ignoresSafeArea()
-
-        Image("backgrund")
-            .resizable()
-            .frame(width: 400, height: 150)
-            .padding(.bottom, 750)
-        
-        VStack {
-            Text("Activity Summery")
-                .font(.system(size: 29, weight: .semibold))
-                .frame(width: 250)
-                .padding(.bottom,730)
-                .padding(.trailing, 120)
-                .foregroundColor(colorScheme == .dark ? .black : .white)
-        }
-        
-        ScrollView{(
-            
-            VStack{
+    var body: some View {
+        GeometryReader { geometry in
+        NavigationStack{
+            ZStack{
                 
-                VStack{
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundColor(.white)
-                        .shadow(radius: 3)
-                        .frame(width: 351,height: 132).overlay(
-                            HStack{
-                                
-                                Image(systemName: "lightbulb.min")
-                                    .resizable()
-                                    .frame(width: 41 , height: 53)
-                                    .foregroundColor(.orange1)
-                                VStack{
-                                    
-                                    if let selectedWord = selectedWord {
-                                        Text(" Through your experience, you have come to big idea: \(selectedWord) ")
-                                            .font(.system(size: 12, weight: .regular))
-                                            .padding(.horizontal)
-                                    }}
-                            } .padding(.horizontal)
-                        )
-                        .padding()
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundColor(.white)
-                        .shadow(radius: 3)
-                        .frame(width: 361,height: 132)
-                        .overlay(
-                            HStack{
-                                Image(systemName: "doc.text")
-                                    .resizable()
-                                    .frame(width: 41 , height: 53)
-                                    .foregroundColor(.orange1)
-                                
-                                VStack{
-                                    Text("Your statement: ")
-                                        .font(.system(size: 12, weight: .regular))
-//                                    Text("\(enteredValue)")
-//                                        .frame(width: 300 )
-                                    VStack {
-                                        ForEach(0..<min(texts.count, 3)) { index in
-                                            Text(texts[index])
-                                                .foregroundColor(.orange1)
+                Color.gray1
+                    .ignoresSafeArea()
+                
+                ZStack{
+                    Image("backgrund")
+                    
+                        .resizable()
+                        .padding(.bottom, geometry.size.height * 0.48)
+                        .scaledToFill()
+                        .frame(width: geometry.size.width, height: geometry.size.height * 0.15) // Adjusted height
+                    //.clipped()
+                     .padding(.bottom
+                              , geometry.safeAreaInsets.top + 325.5)
+                    
+                    Text("Activity Summery")
+                        .font(.title)
+                        .bold()
+                        .foregroundColor(colorScheme == .dark ? .gray1 : .white)
+                        .padding(.trailing
+                                 , geometry.safeAreaInsets.top + 100)
+
+                      //  .padding(.trailing, 110) // Adjust the padding to move text to the left
+                    // .padding(.top, geometry.safeAreaInsets.top + 0.01)
+                        .padding(.bottom
+                                 , geometry.safeAreaInsets.top + 650)
+                }//.offset(x:0,y: -80)
+                
+                ScrollView{
+                    
+                    VStack{
+                        
+                        VStack{
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundColor(.white)
+                                .shadow(radius: 3)
+                                .frame(width: 351,height: 132).overlay(
+                                    HStack{
+                                        
+                                        Image(systemName: "lightbulb.min")
+                                            .resizable()
+                                            .frame(width: 41 , height: 53)
+                                            .foregroundColor(.orange1)
+                                        VStack{
+                                            
+                                            if let selectedWord = selectedWord {
+                                                Text(" Through your experience, you have come to big idea: \(selectedWord) ")
+                                                    .font(.system(size: 12, weight: .regular))
+                                                    .padding(.horizontal)
+                                            }}
+                                    } .padding(.horizontal)
+                                )
+                                .padding()
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundColor(.white)
+                                .shadow(radius: 3)
+                                .frame(width: 361,height: 132)
+                                .overlay(
+                                    HStack{
+                                        Image(systemName: "doc.text")
+                                            .resizable()
+                                            .frame(width: 41 , height: 53)
+                                            .foregroundColor(.orange1)
+                                        
+                                        VStack{
+                                            Text("Your statement: ")
+                                                .font(.system(size: 12, weight: .regular))
+                                            //                                    Text("\(enteredValue)")
+                                            //                                        .frame(width: 300 )
+                                            VStack {
+                                                ForEach(0..<min(texts.count, 3)) { index in
+                                                    Text(texts[index])
+                                                        .foregroundColor(.orange1)
+                                                }
+                                                
+                                                if showAllTexts {
+                                                    ForEach(additionalTexts.indices, id: \.self) { index in
+                                                        Text(additionalTexts[index])
+                                                            .foregroundColor(.orange1)
+                                                    }
+                                                }
+                                            }
+                                            //                                    .padding()
+                                        }.padding()
+                                        if texts.count > 3 {
+                                            Button(action: {
+                                                showAllTexts.toggle()
+                                                if showAllTexts {
+                                                    additionalTexts = Array(texts.dropFirst(3))
+                                                } else {
+                                                    additionalTexts.removeAll()
+                                                }
+                                            }) {
+                                                Text(showAllTexts ? "See Less" : "See all answer")
+                                                    .font(.caption)
+                                                    .underline(true , color: .orange1)
+                                                    .foregroundColor(.orange1)
+                                            }  .padding()
                                         }
                                         
-                                        if showAllTexts {
-                                            ForEach(additionalTexts.indices, id: \.self) { index in
-                                                Text(additionalTexts[index])
-                                                    .foregroundColor(.orange1)
-                                            }
-                                        }
-                                    }
-//                                    .padding()
-                                }.padding()
-                                if texts.count > 3 {
-                                    Button(action: {
-                                        showAllTexts.toggle()
-                                        if showAllTexts {
-                                            additionalTexts = Array(texts.dropFirst(3))
-                                        } else {
-                                            additionalTexts.removeAll()
-                                        }
-                                    }) {
-                                        Text(showAllTexts ? "See Less" : "See all answer")
-                                            .font(.caption)
-                                            .underline(true , color: .orange1)
+                                        
+                                        
+                                        Spacer()
+                                        
+                                    }.padding(.horizontal)
+                                )
+                            
+                            ZStack{
+                                RoundedRectangle(cornerRadius: 10)
+                                    .foregroundColor(.white)
+                                    .shadow(radius: 3)
+                                    .frame(width: 361,height: 200)
+                                    .padding()
+                                VStack{
+                                    HStack{
+                                        Image(systemName: "checkmark.circle")
+                                            .resizable()
+                                            .frame(width: 53 , height: 53)
                                             .foregroundColor(.orange1)
-                                    }  .padding()
+                                            .padding(.horizontal)
+                                        
+                                        Text("Fantastic work on sparking your big idea! Are you ready to dive even deeper and expand your creative horizons? ")
+                                            .font(.callout)
+                                            .bold()
+                                            .padding()
+                                    }
+                                    VStack{
+                                        Text("Let's keep the momentum going try the other technique, it will enhance your ability to think outside the box and refine your concepts.")
+                                            .font(.caption)
+                                            .padding(.horizontal)
+                                        // .padding(.horizontal)
+                                    }
                                 }
-                                
-                                
-                                
-                                Spacer()
-                                
-                            }.padding(.horizontal)
-                        )
-                    
-                    ZStack{
-                                           RoundedRectangle(cornerRadius: 10)
-                                               .foregroundColor(.white)
-                                               .shadow(radius: 3)
-                                               .frame(width: 361,height: 200)
-                                               .padding()
-                                           VStack{
-                                               HStack{
-                                                   Image(systemName: "checkmark.circle")
-                                                       .resizable()
-                                                       .frame(width: 53 , height: 53)
-                                                       .foregroundColor(.orange1)
-                                                       .padding(.horizontal)
-                                                   
-                                                   Text("Fantastic work on sparking your big idea! Are you ready to dive even deeper and expand your creative horizons? ")
-                                                       .font(.callout)
-                                                       .bold()
-                                                       .padding()
-                                        }
-                                               VStack{
-Text("Let's keep the momentum going try the other technique, it will enhance your ability to think outside the box and refine your concepts.")
-                            .font(.caption)
-                                                      // .padding(.horizontal)
-                                               }
-                                           }
-                                       } .padding(.horizontal)
-                                       
-
-                    
-                }
-               
-                    NavigationLink(destination: HomePage()){
+                            } .padding(.horizontal)
+                            
+                            
+                            
+                        }
                         
-                        ZStack{
-                        Rectangle()
-                            .frame(width: 337 , height: 39)
-                            .cornerRadius(5)
-                            .foregroundColor(.laitOrange)
-                        Text("done")
-                            .foregroundColor(.white)
-                        
-                    }
-                }
-            }.padding(.top , 200)
-            
-            // }
-            
-        )}}
-}.navigationBarBackButtonHidden(true)
+                        NavigationLink(destination: HomePage()){
+                            
+                            ZStack{
+                                Rectangle()
+                                    .frame(width: 337 , height: 39)
+                                    .cornerRadius(5)
+                                    .foregroundColor(.laitOrange)
+                                Text("done")
+                                    .foregroundColor(.white)
+                                
+                            }
+                        }
+                    }  .padding(.top, geometry.size.height * 0.15)
+                    
+                    // }
+                    
+                }}
+        }.navigationBarBackButtonHidden(true)
+    }
 }
 }
 struct try_ReverseBrainstorming: View {
@@ -1318,30 +1399,39 @@ struct try_ReverseBrainstorming: View {
     @State public var answer1: String = ""
     @State public var Answer2: String = ""
     @State public var Answer3: String = ""
-
+    @Environment(\.colorScheme) var colorScheme
     var body: some View {
+        GeometryReader { geometry in
         NavigationStack {
             ZStack {
-                Color.gray1.ignoresSafeArea()
+                Color.gray1
+                    .ignoresSafeArea()
                 VStack {
-                    ZStack {
+                    ZStack{
                         Image("backgrund")
                             .resizable()
+                       // .scaledToFill()
+                            .frame(width: geometry.size.width, height: geometry.size.height * 0.25) // Adjusted height
+                               // .clipped()
+                
                             .overlay(
-                                Text("Revers Brainstorming")
-                                    .font(.title2)
-                                    .bold()
-                                    .foregroundColor(.white)
-                                    .padding(.trailing, 120)
-                                    .padding(.top, 70)
-                            )
-                            .frame(width: 400, height: 150)
-                    }
-
+                                
+                                
+                                Text("ReverseBrainstorming")
+                                    .font(.title)
+                                    //.bold()
+                                    .foregroundColor(colorScheme == .dark ? .gray1 : .white)
+                                    .padding(.trailing
+                                             , geometry.safeAreaInsets.top + 55)
+                                    .padding(.top ,100)
+                                    
+                            ) // .frame(width: 395 , height: 150)
+                        
+                    }//.offset(x:0,y: -365)
                     VStack {
                         Text("Enter your problem statements:")
                             .padding(.trailing, 100)
-
+                        
                         ZStack(alignment: .topLeading) {
                             TextField("EX: Improving the COVID-19 Vaccination Process ", text: $statement)
                                 .font(.caption)
@@ -1355,10 +1445,10 @@ struct try_ReverseBrainstorming: View {
                                 .textFieldStyle(TopLeadingTextFieldStyle())
                                 .padding()
                         }
-
+                        
                         Text("How can you make it worse?")
                             .padding(.trailing, 100)
-
+                        
                         ZStack {
                             Rectangle()
                                 .frame(width: 343, height: 82)
@@ -1379,7 +1469,7 @@ struct try_ReverseBrainstorming: View {
                         }
                     }
                     .padding(.top, 40)
-
+                    
                     ZStack {
                         Rectangle()
                             .frame(width: 343, height: 82)
@@ -1398,7 +1488,7 @@ struct try_ReverseBrainstorming: View {
                                 .padding()
                         }
                     }
-
+                    
                     ZStack {
                         Rectangle()
                             .frame(width: 343, height: 82)
@@ -1417,7 +1507,7 @@ struct try_ReverseBrainstorming: View {
                                 .padding()
                         }
                     }
-
+                    
                     NavigationLink(destination: ReversAnswers(statement: statement, answer1: $answer1, answer2: $Answer2, answer3: $Answer3)) {
                         ZStack {
                             Rectangle()
@@ -1435,6 +1525,7 @@ struct try_ReverseBrainstorming: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+    }
     }
 
     private func isNextButtonEnabled() -> Bool {
@@ -1461,104 +1552,115 @@ struct ReversAnswers: View {
     @Binding var answer2: String
     @Binding var answer3: String
     
+    @Environment(\.colorScheme) var colorScheme
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Color.gray1.ignoresSafeArea()
-                VStack {
-                    ZStack {
-                        Image("backgrund")
-                            .resizable()
-                            .overlay(
-                                Text("Revers Brainstorming")
-                                    .font(.title2)
-                                    .bold()
-                                    .foregroundColor(.white)
-                                    .padding(.trailing, 120)
-                                    .padding(.top, 70)
-                            )
-                            .frame(width: 400, height: 150)
-                    }
+        GeometryReader { geometry in
+            NavigationStack {
+                ZStack {
+                    Color.gray1.ignoresSafeArea()
+                    VStack {
+                        ZStack{
+                            Image("backgrund")
+                                .resizable()
+                           // .scaledToFill()
+                                .frame(width: geometry.size.width, height: geometry.size.height * 0.25) // Adjusted height
+                                   // .clipped()
                     
-                    Text("Revers your answers:")
-                        .padding(.trailing, 175)
-                        .padding()
-                    
-                    Text("First Answer: \(answer1)")
-                        .foregroundColor(.gray)
-                        .bold()
-                        .padding(.trailing, 175)
-                        .padding()
-                    
-                    ZStack(alignment: .topLeading) {
-                        TextField("Scaling up vaccine manufacturing ", text: $Answer4)
-                            .font(.caption)
-                            .frame(width: 331, height: 58)
-                            .background(Color.white)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 5)
-                                    .stroke(Color.white, lineWidth: 2)
-                            )
-                            .textFieldStyle(TopLeadingTextFieldStyle())
+                                .overlay(
+                                    
+                                    
+                                    Text("ReverseBrainstorming")
+                                        .font(.title)
+                                        //.bold()
+                                        .foregroundColor(colorScheme == .dark ? .gray1 : .white)
+                                        .padding(.trailing
+                                                 , geometry.safeAreaInsets.top + 55)
+                                        .padding(.top ,100)
+                                        
+                                ) // .frame(width: 395 , height: 150)
+                            
+                        }//.offset(x:0,y: -365)
+                        
+                        Text("Revers your answers:")
+                            .padding(.trailing, 175)
                             .padding()
-                    }
-                    
-                    Text("Second Answer: \(answer2)")
-                        .foregroundColor(.gray)
-                        .bold()
-                        .padding(.trailing, 175)
-                        .padding()
-                    
-                    ZStack(alignment: .topLeading) {
-                        TextField("Speeding up vaccination for adults above the age of 65", text: $Answer5)
-                            .font(.caption)
-                            .frame(width: 331, height: 58)
-                            .background(Color.white)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 5)
-                                    .stroke(Color.white, lineWidth: 2)
-                            )
-                            .textFieldStyle(TopLeadingTextFieldStyle())
+                        
+                        Text("First Answer: \(answer1)")
+                            .foregroundColor(.gray)
+                            .bold()
+                            .padding(.trailing, 175)
                             .padding()
-                    }
-                    .padding()
-                    
-                    Text("Third Answer: \(answer3)")
-                        .foregroundColor(.gray)
-                        .bold()
-                        .padding(.trailing, 175)
-                        .padding()
-                    
-                    ZStack(alignment: .topLeading) {
-                        TextField("Prioritize vaccination in areas with rising cases", text: $Answer6)
-                            .font(.caption)
-                            .frame(width: 331, height: 58)
-                            .background(Color.white)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 5)
-                                    .stroke(Color.white, lineWidth: 2)
-                            )
-                            .textFieldStyle(TopLeadingTextFieldStyle())
-                            .padding()
-                    }
-                    
-                    NavigationLink(destination: ReversAnswers2(answer4: $Answer4, answer5: $Answer5, answer6: $Answer6)) {
-                        ZStack {
-                            Rectangle()
-                                .frame(width: 337, height: 39)
-                                .cornerRadius(5)
-                                .foregroundColor(isNextButtonEnabled() ? .laitOrange : .gray)
-                            Text("Next")
-                                .foregroundColor(.white)
+                        
+                        ZStack(alignment: .topLeading) {
+                            TextField("Scaling up vaccine manufacturing ", text: $Answer4)
+                                .font(.caption)
+                                .frame(width: 331, height: 58)
+                                .background(Color.white)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .stroke(Color.white, lineWidth: 2)
+                                )
+                                .textFieldStyle(TopLeadingTextFieldStyle())
+                                .padding()
                         }
-                        .padding(.top, 50)
+                        
+                        Text("Second Answer: \(answer2)")
+                            .foregroundColor(.gray)
+                            .bold()
+                            .padding(.trailing, 175)
+                            .padding()
+                        
+                        ZStack(alignment: .topLeading) {
+                            TextField("Speeding up vaccination for adults above the age of 65", text: $Answer5)
+                                .font(.caption)
+                                .frame(width: 331, height: 58)
+                                .background(Color.white)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .stroke(Color.white, lineWidth: 2)
+                                )
+                                .textFieldStyle(TopLeadingTextFieldStyle())
+                                .padding()
+                        }
+                        .padding()
+                        
+                        Text("Third Answer: \(answer3)")
+                            .foregroundColor(.gray)
+                            .bold()
+                            .padding(.trailing, 175)
+                            .padding()
+                        
+                        ZStack(alignment: .topLeading) {
+                            TextField("Prioritize vaccination in areas with rising cases", text: $Answer6)
+                                .font(.caption)
+                                .frame(width: 331, height: 58)
+                                .background(Color.white)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .stroke(Color.white, lineWidth: 2)
+                                )
+                                .textFieldStyle(TopLeadingTextFieldStyle())
+                                .padding()
+                        }
+                        
+                        NavigationLink(destination: ReversAnswers2(answer4: $Answer4, answer5: $Answer5, answer6: $Answer6)) {
+                            ZStack {
+                                Rectangle()
+                                    .frame(width: 337, height: 39)
+                                    .cornerRadius(5)
+                                    .foregroundColor(isNextButtonEnabled() ? .laitOrange : .gray)
+                                Text("Next")
+                                    .foregroundColor(.white)
+                            }
+                            .padding(.top, 50)
+                        }
+                        .disabled(!isNextButtonEnabled())
                     }
-                    .disabled(!isNextButtonEnabled())
+                    .padding(.bottom, 110)
                 }
-                .padding(.bottom, 110)
             }
+            .navigationBarBackButtonHidden(true)
         }
-        .navigationBarBackButtonHidden(true)
     }
     
     private func isNextButtonEnabled() -> Bool {
@@ -1582,84 +1684,95 @@ struct ReversAnswers2: View {
     @Binding var answer5: String
     @Binding var answer6: String
     
+    
+    @Environment(\.colorScheme) var colorScheme
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Color.gray1.ignoresSafeArea()
-                VStack {
-                    ZStack {
-                        Image("backgrund")
-                            .resizable()
-                            .overlay(
-                                Text("Revers Brainstorming")
-                                    .font(.title2)
-                                    .bold()
-                                    .foregroundColor(.white)
-                                    .padding(.trailing, 120)
-                                    .padding(.top, 70)
-                            )
-                            .frame(width: 400, height: 150)
-                    }
-                    .padding(.bottom, 50)
-                    
-                    ZStack(alignment: .topLeading) {
-                        Text("The Reversed Answers: \(answer4) \(answer5) \(answer6)")
-                            .padding(.trailing, 90)
-                            .padding(.bottom, 100)
-                            .multilineTextAlignment(.leading)
-                            .frame(width: 336, height: 156)
-                            .background(Color.white)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 5)
-                                    .stroke(Color.white, lineWidth: 2)
-                            )
-                    }
-                    .padding(.bottom, 150)
-                    
+        GeometryReader { geometry in
+            NavigationStack {
+                ZStack {
+                    Color.gray1.ignoresSafeArea()
                     VStack {
-                        Text("How can we combine all the answers into a solution?")
-                            .font(.callout)  // You can change the font size if needed
-                            .multilineTextAlignment(.leading)
-                            .padding(.horizontal)
-                            .fixedSize(horizontal: false, vertical: true)  // Ensure the text wraps and is not clipped
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)  // Ensure the VStack takes up available width
-                    .padding()
-                  //  .padding()
-                   // .padding(.horizontal)
-                    
-                    ZStack(alignment: .topLeading) {
-                        TextField("we can now analyze them to determine which ones to prioritize first", text: $statement2)
-                            .font(.caption)
-                            .font(.system(size: 3))
-                            .frame(width: 331, height: 58)
-                            .background(Color.white)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 5)
-                                    .stroke(Color.white, lineWidth: 2)
-                            )
-                            .textFieldStyle(TopLeadingTextFieldStyle())
-                            .padding()
-                    }
-                    .padding()
-                    
-                    NavigationLink(destination: ReverseBSum(texts: [""],statement2:statement2 )) {
-                        ZStack {
-                            Rectangle()
-                                .frame(width: 337, height: 39)
-                                .cornerRadius(5)
-                                .foregroundColor(isNextButtonEnabled() ? .laitOrange : .gray)
-                            Text("Next")
-                                .foregroundColor(.white)
+                        ZStack{
+                            Image("backgrund")
+                                .resizable()
+                            // .scaledToFill()
+                                .frame(width: geometry.size.width, height: geometry.size.height * 0.25) // Adjusted height
+                            // .clipped()
+                            
+                                .overlay(
+                                    
+                                    
+                                    Text("ReverseBrainstorming")
+                                        .font(.title)
+                                    //.bold()
+                                        .foregroundColor(colorScheme == .dark ? .gray1 : .white)
+                                        .padding(.trailing
+                                                 , geometry.safeAreaInsets.top + 55)
+                                        .padding(.top ,100)
+                                    
+                                ) // .frame(width: 395 , height: 150)
+                            
+                        }//.offset(x:0,y: -365)
+                        
+                        ZStack(alignment: .topLeading) {
+                            Text("The Reversed Answers: \(answer4) \(answer5) \(answer6)")
+                                .padding(.trailing, 90)
+                                .padding(.bottom, 100)
+                                .multilineTextAlignment(.leading)
+                                .frame(width: 336, height: 156)
+                                .background(Color.white)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .stroke(Color.white, lineWidth: 2)
+                                )
                         }
+                        .padding(.bottom, 150)
+                        
+                        VStack {
+                            Text("How can we combine all the answers into a solution?")
+                                .font(.callout)  // You can change the font size if needed
+                                .multilineTextAlignment(.leading)
+                                .padding(.horizontal)
+                                .fixedSize(horizontal: false, vertical: true)  // Ensure the text wraps and is not clipped
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)  // Ensure the VStack takes up available width
+                        .padding()
+                        //  .padding()
+                        // .padding(.horizontal)
+                        
+                        ZStack(alignment: .topLeading) {
+                            TextField("we can now analyze them to determine which ones to prioritize first", text: $statement2)
+                                .font(.caption)
+                                .font(.system(size: 3))
+                                .frame(width: 331, height: 58)
+                                .background(Color.white)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .stroke(Color.white, lineWidth: 2)
+                                )
+                                .textFieldStyle(TopLeadingTextFieldStyle())
+                                .padding()
+                        }
+                        .padding()
+                        
+                        NavigationLink(destination: ReverseBSum(texts: [""],statement2:statement2 )) {
+                            ZStack {
+                                Rectangle()
+                                    .frame(width: 337, height: 39)
+                                    .cornerRadius(5)
+                                    .foregroundColor(isNextButtonEnabled() ? .laitOrange : .gray)
+                                Text("Next")
+                                    .foregroundColor(.white)
+                            }
+                        }
+                        .disabled(!isNextButtonEnabled())
+                        .padding(.top, 50)
                     }
-                    .disabled(!isNextButtonEnabled())
-                    .padding(.top, 50)
+                    .padding(.bottom, 110)
                 }
-                .padding(.bottom, 110)
             }
+            .navigationBarBackButtonHidden(true)
         }
-        .navigationBarBackButtonHidden(true)
     }
     
     private func isNextButtonEnabled() -> Bool {
@@ -1672,29 +1785,35 @@ var texts: [String]
 @State private var showAllTexts = false
 @State private var additionalTexts: [String] = []
  var statement2 = ""
-var body: some View {
-    NavigationStack{
-        ScrollView{(
+    
+    @Environment(\.colorScheme) var colorScheme
+    var body: some View {
+        GeometryReader { geometry in
+        NavigationStack{
+            
             ZStack{
                 Color.gray1
                     .ignoresSafeArea()
-              
-                    VStack{
-                        ZStack {
-                            Image("backgrund")
-                                .resizable()
-                                .overlay(
-                                    Text("Activity Summery")
-                                        .font(.title2)
-                                        .bold()
-                                        .foregroundColor(.white)
-                                        .padding(.trailing, 120)
-                                        .padding(.top, 70)
-                                )
-                                .frame(width: 400, height: 150)
-                                .offset(x: 0 , y: -90)
-                        }
+                VStack{
+                    ZStack{
+                        Image("backgrund")
                         
+                            .resizable()
+                            .padding(.bottom, geometry.size.height * 0.3)
+                            .scaledToFill()
+                            .frame(width: geometry.size.width, height: geometry.size.height * 0.15) // Adjusted height
+                        //.clipped()
+                        
+                        
+                        Text("Activity Summery")
+                            .font(.title)
+                            .bold()
+                            .foregroundColor(colorScheme == .dark ? .gray1 : .white)
+                            .padding(.trailing, 100) // Adjust the padding to move text to the left
+                        // .padding(.top, geometry.safeAreaInsets.top + 0.01)
+                            .padding(.bottom,50)
+                    }//.offset(x:0,y: -80)
+                    ScrollView{
                         ZStack{
                             RoundedRectangle(cornerRadius: 10)
                                 .foregroundColor(.white)
@@ -1704,19 +1823,10 @@ var body: some View {
                                 
                                 Image(systemName: "lightbulb.min")
                                     .resizable()
-                                    .frame(width: 48 , height: 53)
+                                    .frame(width: 41 , height: 53)
                                     .foregroundColor(.orange1)
-                                    .padding(.horizontal)
-                                VStack{
-                                    Text(" Research time :")
-                                        .bold()
-                                        .font(.title3)
-                                       // .padding(.horizontal)
-                                        .padding(.trailing , 105)
-                                    Text(" By exploring, researching, and iterating, you're paving the way for success. Dive deeper into your big idea and you're on the path to something remarkable!")
-                                        .font(.caption)
-                                        .padding(.horizontal)
-                                }
+                                    .padding()
+                              
                             } .padding(.horizontal)
                         }
                         ZStack{
@@ -1724,20 +1834,21 @@ var body: some View {
                                 .foregroundColor(.white)
                                 .shadow(radius: 3)
                                 .frame(width: 361,height: 132)
-                                .padding()
                             HStack{
                                 Image(systemName: "doc.text")
                                     .resizable()
                                     .frame(width: 41 , height: 53)
                                     .foregroundColor(.orange1)
                                     .padding(.horizontal)
+                                    .padding(.leading , 20)
                                 
                                 VStack{
-                                    Text("Solution :")
-                                        .font(.title3)
+                                    Text("your solotion")
+                                    
+                                        .font(.caption)
                                         .bold()
                                         .padding()
-                                    Text("\(statement2) ")
+                                    Text("\(statement2)")
                                     VStack {
                                         ForEach(0..<min(texts.count, 3)) { index in
                                             Text(texts[index])
@@ -1766,7 +1877,7 @@ var body: some View {
                                             .font(.caption)
                                             .underline(true , color: .orange1)
                                             .foregroundColor(.orange1)
-                                    } // .padding()
+                                    }  .padding()
                                 }
                                 
                                 
@@ -1774,9 +1885,7 @@ var body: some View {
                                 Spacer()
                                 
                             }
-                            .padding(.horizontal)
                         }
-               
                         ZStack{
                             RoundedRectangle(cornerRadius: 10)
                                 .foregroundColor(.white)
@@ -1799,10 +1908,12 @@ var body: some View {
                                 VStack{
                                     Text("Let's keep the momentum going try the other technique, it will enhance your ability to think outside the box and refine your concepts.")
                                         .font(.caption)
-                                       // .padding(.horizontal)
+                                        .padding(.horizontal)
+                                    // .padding(.horizontal)
                                 }
                             }
                         } .padding(.horizontal)
+                        
                         
                         NavigationLink(destination: HomePage()){
                             
@@ -1813,15 +1924,16 @@ var body: some View {
                                     .foregroundColor(.laitOrange)
                                 Text("done")
                                     .foregroundColor(.white)
-                            }
+                            } .padding()
                         }
                         
                     }
                     
+                }
                 
             }
-       )}
-    }.navigationBarBackButtonHidden(true)
+        }.navigationBarBackButtonHidden(true)
+    }
 }
 }
 
@@ -1839,66 +1951,14 @@ try_AnsQuestions().environmentObject(DataManager())
 }
 }
 
-struct try_RandomWords_Previews: PreviewProvider {
+struct try_ReverseBrainstorming_Previews: PreviewProvider {
     static var previews: some View {
-        try_RandomWords().environmentObject(DataManager())
+        try_ReverseBrainstorming().environmentObject(DataManager())
     }
 }
 
-struct try_Crazy8_Previews: PreviewProvider {
+struct ReverseBSum_Previews: PreviewProvider {
 static var previews: some View {
-try_Crazy8().environmentObject(DataManager())
+    ReverseBSum(texts: [])
 }
 }
-
-
-//
-//struct SummaryView1: View {
-//@EnvironmentObject var dataManager: DataManager
-//var userInputs: [String]
-//var checkedInput: String
-//var displayedQuestion: String
-//
-//var body: some View {
-//VStack(spacing: 20) {
-//    Text("Checked Input: \(checkedInput)")
-//        .padding()
-//    Text("Displayed Question: \(displayedQuestion)")
-//        .padding()
-//    Button("Save Summary") {
-//        let summary = SummaryQ(userInput: checkedInput, displayedQuestion: displayedQuestion)
-//        dataManager.saveSummaryQ(summary: summary)
-//    }
-//    .padding()
-//}
-//.navigationTitle("Summary")
-//.navigationBarTitleDisplayMode(.inline)
-//}
-//}
-//
-//
-//struct UrSummary: View {
-//var selectedWord: String?
-//var enteredValue: String
-//
-//var body: some View {
-//VStack {
-//    Text("Summary view")
-//        .font(.system(size: 24, weight: .bold))
-//        .padding(.bottom, 20)
-//    
-//    if let selectedWord = selectedWord {
-//        Text("Selected Word: \(selectedWord)")
-//            .font(.system(size: 18))
-//            .padding(.bottom, 10)
-//    }
-//    
-//    Text("Entered Value: \(enteredValue)")
-//        .font(.system(size: 18))
-//        .padding(.bottom, 10)
-//    
-//    Spacer()
-//}
-//.padding()
-//}
-//}

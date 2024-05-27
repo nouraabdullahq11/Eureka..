@@ -1,13 +1,6 @@
-//
-//  HomePage.swift
-//  Eureka
-//
-//  Created by Noura Alqahtani on 19/05/2024.
-//
-
-
 import SwiftUI
 import SwiftData
+
 struct HomePage: View {
     @State private var isSheetPresented = false
     @State private var isSheetPresented2 = false
@@ -26,17 +19,18 @@ struct HomePage: View {
     
     var body: some View {
         NavigationView {
-            ZStack {
-                Color.gray1
-                    .ignoresSafeArea()
-                
+            GeometryReader { geometry in
+                ZStack {
+                    Color.gray1
+                        .ignoresSafeArea()
+                    
                     VStack {
                         ZStack {
                             NavigationLink(destination: StartSession(likedWords: [], promtSelection: 0, generaterSelection: 0)) {
                                 VStack {
                                     Image(.backgrund)
                                         .resizable()
-                                        .frame(width: 325, height: 144)
+                                        .frame(width: geometry.size.width * 0.85, height: geometry.size.height * 0.18)
                                         .cornerRadius(10)
                                         .overlay(
                                             Text("Unlock Your Imagination And Embrace Creativity through sequential techniques!")
@@ -56,12 +50,12 @@ struct HomePage: View {
                                 }
                             }
                         }
-                        .padding(.top, 40)
+                        .padding(.top, geometry.size.height * 0.05)
 
                         Text("Try Technique")
                             .fontWeight(.bold)
-                            .padding(.trailing, 220)
-                            .padding(.top, 30)
+                            .padding(.trailing, geometry.size.width * 0.4)
+                            .padding(.top, geometry.size.height * 0.02)
 
                         VStack(alignment: .leading) {
                             HStack {
@@ -70,7 +64,7 @@ struct HomePage: View {
                                 }) {
                                     Image(colorScheme == .dark ? "darkModeImage" : "BUTTONIMAGE")
                                         .resizable()
-                                        .frame(width: 160, height: 100)
+                                        .frame(width: geometry.size.width * 0.4, height: geometry.size.height * 0.12)
                                         .overlay(
                                             Text("Random Words")
                                                 .font(.caption)
@@ -94,7 +88,7 @@ struct HomePage: View {
                                 }) {
                                     Image(colorScheme == .dark ? "darkModeImage2" : "buttonimage2")
                                         .resizable()
-                                        .frame(width: 160, height: 100)
+                                        .frame(width: geometry.size.width * 0.4, height: geometry.size.height * 0.12)
                                         .overlay(
                                             Text("Answer The Question")
                                                 .font(.caption)
@@ -119,7 +113,7 @@ struct HomePage: View {
                                 }) {
                                     Image(colorScheme == .dark ? "darkModeImage3" : "buttonimage3")
                                         .resizable()
-                                        .frame(width: 160, height: 100)
+                                        .frame(width: geometry.size.width * 0.4, height: geometry.size.height * 0.12)
                                         .overlay(
                                             Text("Revers Brainstorming")
                                                 .font(.caption)
@@ -143,7 +137,7 @@ struct HomePage: View {
                                 }) {
                                     Image(colorScheme == .dark ? "darkModeImage4" : "buttonimage4")
                                         .resizable()
-                                        .frame(width: 160, height: 100)
+                                        .frame(width: geometry.size.width * 0.4, height: geometry.size.height * 0.12)
                                         .overlay(
                                             Text("Crazy 8")
                                                 .font(.caption)
@@ -166,102 +160,92 @@ struct HomePage: View {
                         .padding()
 
                         HStack {
-                                        Text("Your sessions")
-                                            .fontWeight(.bold)
-                                            .padding(.trailing, 140)
-                                            .padding(.top, 10)
-                                        
-                                        NavigationLink(destination: SummaryListView(items: items), isActive: $navigateToSummary) {
-                                            EmptyView()
-                                        }
-                                        .hidden()
-                                        
-                                        Button(action: {
-                                            navigateToSummary = true // Trigger navigation to SummaryListView
-                                        }) {
-                                            Text("see more")
-                                                .foregroundColor(.orange)
-                                                .underline()
-                                                .padding(.top, 10)
-                                        }
-                                    }
-                                    
+                            Text("Your sessions")
+                                .fontWeight(.bold)
+                                .padding(.trailing, geometry.size.width * 0.35)
+                                .padding(.top, 10)
+                            
+                            NavigationLink(destination: SummaryListView(items: items), isActive: $navigateToSummary) {
+                                EmptyView()
+                            }
+                            .hidden()
+                            
+                            Button(action: {
+                                navigateToSummary = true // Trigger navigation to SummaryListView
+                            }) {
+                                Text("see more")
+                                    .foregroundColor(.orange)
+                                    .underline()
+                                    .padding(.top, 10)
+                            }
+                        }
+                        
                         VStack(alignment: .trailing) {
-           if let lastItem = items.last { // Fetching the last item from the items array
-                       NavigationLink(destination: DetailsView(item: lastItem)) {
-                              
-                            Image(colorScheme == .dark ? "BoxSession" : "BoxSession1")
-                               .resizable()
-                                            .frame(width: 390, height: 105)
-                                            .shadow(radius: 2)
-                                        
-                                            .overlay(
-                                        ZStack {
-                                            HStack{
-                                                Image("lightbulb")
-                                                    .resizable()
-                                                    .frame(width: 17, height: 18)
-                                                    .foregroundColor(.orange)
-                                               // .padding(.trailing, 10)
-                                                
-                                                Text(lastItem.name)
-                                                    .fontWeight(.bold)
-                                                    .lineLimit(1) 
-
-                                                    .overlay(
-                                        LinearGradient(
-                                            gradient: Gradient(colors: [.red, .orange]),
-                                            startPoint: .top,
-                                            endPoint: .bottom
-                                        )
-                                        .mask(Text(lastItem.name)
-                                                .fontWeight(.bold)     )
+                            if let lastItem = items.last { // Fetching the last item from the items array
+                                NavigationLink(destination: DetailsView(item: lastItem)) {
+                                    Image(colorScheme == .dark ? "BoxSession" : "BoxSession1")
+                                        .resizable()
+                                        .frame(width: geometry.size.width * 0.95, height: geometry.size.height * 0.12)
+                                        .shadow(radius: 2)
+                                        .overlay(
+                                            ZStack {
+                                                HStack {
+                                                    Image("lightbulb")
+                                                        .resizable()
+                                                        .frame(width: 17, height: 18)
+                                                        .foregroundColor(.orange)
                                                     
-                                                    )
-                                               
-                                            }.frame(width: 320, height: 55, alignment: .topLeading)
-
+                                                    Text(lastItem.name)
+                                                        .fontWeight(.bold)
+                                                        .lineLimit(1)
+                                                        .overlay(
+                                                            LinearGradient(
+                                                                gradient: Gradient(colors: [.red, .orange]),
+                                                                startPoint: .top,
+                                                                endPoint: .bottom
+                                                            )
+                                                            .mask(Text(lastItem.name)
+                                                                .fontWeight(.bold)
+                                                            )
+                                                        )
+                                                }
+                                                .frame(width: geometry.size.width * 0.8, height: 55, alignment: .topLeading)
+                                                
                                                 HStack {
                                                     Text(lastItem.type)
-                                                 .font(.system(size: 15, weight: .regular))
-                                                 .foregroundColor(colorScheme == .dark ? .white : .black)
-                                                .lineLimit(1)
-                                               
-                                              
-                                                    
-                                                }.frame(width: 270, height: 40, alignment: .leadingLastTextBaseline)
-                         
-                                        }
+                                                        .font(.system(size: 15, weight: .regular))
+                                                        .foregroundColor(colorScheme == .dark ? .white : .black)
+                                                        .lineLimit(1)
+                                                }
+                                                .frame(width: geometry.size.width * 0.75, height: 40, alignment: .leadingLastTextBaseline)
+                                            }
                                         )
-                                  //  }
                                 }
                             }
                         }
                         .padding(.top, 10)
                     }
-                    .padding(.bottom, 100)
-                
+                    .padding(.bottom, geometry.size.height * 0.1)
+                    
+                    Image("image2")
+                        .resizable()
+                        .frame(width: geometry.size.width, height: geometry.size.height * 0.22)
+                        .scaledToFit()
+                        .scaleEffect(y: 1.2)
+                        .padding(.bottom, geometry.size.height * 0.9)
 
-               
-                Image("image2")
-                    .resizable()
-                    .frame(width: 393, height: 69)
-                    .scaledToFit()
-                    .scaleEffect(y: 1.2)
-                    .padding(.bottom, 810)
-
-                Image("image1")
-                    .resizable()
-                    .frame(width: 393, height: 69)
-                    .padding(.top, 760)
-            }.ignoresSafeArea(.all)
+                    Image("image1")
+                        .resizable()
+                        .frame(width: geometry.size.width, height: geometry.size.height * 0.15)
+                        .padding(.top, geometry.size.height * 0.98)
+                }
+                .ignoresSafeArea(.all)
+            }
         }
         .navigationBarBackButtonHidden(true)
     }
 }
 
-
 #Preview {
-HomePage()
+    HomePage()
 }
-

@@ -27,93 +27,95 @@ struct OnBording: View {
     }
 
     var body: some View {
-        NavigationView {
-            ZStack {
-                Image("backgrund")
-                    .resizable()
-                    .frame(width: 395, height: 411)
-                    .padding(.bottom, 500)
+        GeometryReader { geometry in
+            NavigationView {
+                ZStack {
+                    Image("backgrund")
+                        .resizable()
+                        .frame(width: geometry.size.width, height: geometry.size.height * 0.5)
+                        .position(x: geometry.size.width / 2, y: geometry.size.height * 0.1)
 
-                LottieView(animation: .named("AnimationOnbording"))
-                    .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
-                    .resizable()
-                    .frame(width: 240)
-                    .padding(.bottom, 500)
+                    LottieView(animation: .named("AnimationOnbording"))
+                        .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
+                        .resizable()
+                        .frame(width: geometry.size.width * 0.6)
+                        .position(x: geometry.size.width / 2, y: geometry.size.height * 0.15)
 
-                VStack(spacing: 20) {
-                    HStack {
-                        Spacer()
+                    VStack(spacing: 20) {
+                        HStack {
+                            Spacer()
+                            Button(action: {
+                                completeOnboarding()
+                            }) {
+                                Text("Skip")
+                                    .foregroundColor(.black)
+                            }
+                            .padding(.trailing, 30)
+                        }
+                        .padding(.top, geometry.size.height * 0.05)
+
+                     //   Spacer()
+
+                        TabView(selection: $currentStep) {
+                            ForEach(0..<onbordingSteps.count, id: \.self) { it in
+                                VStack {
+                                    Text(onbordingSteps[it].title)
+                                        .bold()
+                                        .padding(.top, geometry.size.height * 0.2)
+
+                                    Text(onbordingSteps[it].description)
+                                        .font(.callout)
+                                        .foregroundColor(.gray)
+                                        .multilineTextAlignment(.leading)
+                                        .padding(.horizontal)
+                                        .padding(.top)
+                                }
+                                .tag(it)
+                            }
+                        }
+                        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+
+                        HStack {
+                            ForEach(0..<onbordingSteps.count, id: \.self) { it in
+                                if it == currentStep {
+                                    Rectangle()
+                                        .frame(width: 20, height: 10)
+                                        .cornerRadius(10)
+                                        .foregroundColor(.orange1)
+                                } else {
+                                    Circle()
+                                        .frame(width: 10, height: 10)
+                                        .foregroundColor(.gray)
+                                }
+                            }
+                        }
+
+                        NavigationLink(destination: HomePage(), isActive: $isOnboardingDone) {
+                            EmptyView()
+                        }
+                        .hidden()
+
                         Button(action: {
-                            completeOnboarding()
-                        }) {
-                            Text("Skip")
-                                .foregroundColor(.black)
-                        }
-                        .padding(.trailing, 30)
-                    }
-                    .padding(.top, 90)
-
-                    Spacer()
-
-                    TabView(selection: $currentStep) {
-                        ForEach(0..<onbordingSteps.count, id: \.self) { it in
-                            VStack {
-                                Text(onbordingSteps[it].title)
-                                    .bold()
-                                    .padding(.top, 250)
-
-                                Text(onbordingSteps[it].description)
-                                    .font(.callout)
-                                    .foregroundColor(.gray)
-                                    .multilineTextAlignment(.leading)
-                                    .padding(.horizontal)
-                                    .padding(.top)
-                            }
-                            .tag(it)
-                        }
-                    }
-                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-
-                    HStack {
-                        ForEach(0..<onbordingSteps.count, id: \.self) { it in
-                            if it == currentStep {
-                                Rectangle()
-                                    .frame(width: 20, height: 10)
-                                    .cornerRadius(10)
-                                    .foregroundColor(.orange1)
+                            if self.currentStep < onbordingSteps.count - 1 {
+                                self.currentStep += 1
                             } else {
-                                Circle()
-                                    .frame(width: 10, height: 10)
-                                    .foregroundColor(.gray)
+                                completeOnboarding()
                             }
+                        }) {
+                            Text(currentStep < onbordingSteps.count - 1 ? "Next" : "Start Now")
+                                .frame(width: geometry.size.width * 0.85, height: 39)
+                                .background(Color.laitOrange)
+                                .cornerRadius(5)
+                                .foregroundColor(.white)
                         }
+                        .padding(.bottom, geometry.size.height * 0.1)
+                        .buttonStyle(PlainButtonStyle())
                     }
-
-                    NavigationLink(destination: HomePage(), isActive: $isOnboardingDone) {
-                        EmptyView()
-                    }
-                    .hidden()
-
-                    Button(action: {
-                        if self.currentStep < onbordingSteps.count - 1 {
-                            self.currentStep += 1
-                        } else {
-                            completeOnboarding()
-                        }
-                    }) {
-                        Text(currentStep < onbordingSteps.count - 1 ? "Next" : "Start Now")
-                            .frame(width: 337, height: 39)
-                            .background(Color.laitOrange)
-                            .cornerRadius(5)
-                            .foregroundColor(.white)
-                    }
-                    .padding(.bottom, 130)
-                    .buttonStyle(PlainButtonStyle())
                 }
+                .navigationBarHidden(true)
             }
-            .navigationBarHidden(true)
+            .navigationViewStyle(StackNavigationViewStyle())
         }
-        .navigationViewStyle(StackNavigationViewStyle())
     }
 
     private func completeOnboarding() {
@@ -125,4 +127,3 @@ struct OnBording: View {
 #Preview {
     OnBording()
 }
- 
