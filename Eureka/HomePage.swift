@@ -54,7 +54,7 @@ struct HomePage: View {
 
                         Text("Try Technique")
                             .fontWeight(.bold)
-                            .padding(.trailing, geometry.size.width * 0.4)
+                            .padding(.trailing, geometry.size.width * 0.54)
                             .padding(.top, geometry.size.height * 0.02)
 
                         VStack(alignment: .leading) {

@@ -284,7 +284,7 @@ var texts: [String]
                         ScrollView{
                         ZStack{
                             RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(.white)
+                                .foregroundColor(colorScheme == .dark ? .black : .white)
                                 .shadow(radius: 3)
                                 .frame(width: 351,height: 132)
                             HStack{
@@ -306,7 +306,7 @@ var texts: [String]
                         }
                         ZStack{
                             RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(.white)
+                                .foregroundColor(colorScheme == .dark ? .black : .white)
                                 .shadow(radius: 3)
                                 .frame(width: 361,height: 132)
                                 .padding()
@@ -363,7 +363,7 @@ var texts: [String]
                         }
                         ZStack{
                             RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(.white)
+                                .foregroundColor(colorScheme == .dark ? .black : .white)
                                 .shadow(radius: 3)
                                 .frame(width: 361,height: 200)
                                 .padding()
@@ -660,7 +660,7 @@ var displayedQuestion: String
                     ScrollView{
                         ZStack{
                             RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(.white)
+                                .foregroundColor(colorScheme == .dark ? .black : .white)
                                 .shadow(radius: 3)
                                 .frame(width: 351,height: 132)
                             HStack{
@@ -682,7 +682,7 @@ var displayedQuestion: String
                         }
                         ZStack{
                             RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(.white)
+                                .foregroundColor(colorScheme == .dark ? .black : .white)
                                 .shadow(radius: 3)
                                 .frame(width: 361,height: 132)
                             HStack{
@@ -739,7 +739,7 @@ var displayedQuestion: String
                         }
                         ZStack{
                             RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(.white)
+                                .foregroundColor(colorScheme == .dark ? .black : .white)
                                 .shadow(radius: 3)
                                 .frame(width: 361,height: 200)
                                 .padding()
@@ -1259,7 +1259,7 @@ var enteredValue: String
                         
                         VStack{
                             RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(.white)
+                                .foregroundColor(colorScheme == .dark ? .black : .white)
                                 .shadow(radius: 3)
                                 .frame(width: 351,height: 132).overlay(
                                     HStack{
@@ -1279,7 +1279,7 @@ var enteredValue: String
                                 )
                                 .padding()
                             RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(.white)
+                                .foregroundColor(colorScheme == .dark ? .black : .white)
                                 .shadow(radius: 3)
                                 .frame(width: 361,height: 132)
                                 .overlay(
@@ -1334,7 +1334,7 @@ var enteredValue: String
                             
                             ZStack{
                                 RoundedRectangle(cornerRadius: 10)
-                                    .foregroundColor(.white)
+                                    .foregroundColor(colorScheme == .dark ? .black : .white)
                                     .shadow(radius: 3)
                                     .frame(width: 361,height: 200)
                                     .padding()
@@ -1413,17 +1413,19 @@ struct try_ReverseBrainstorming: View {
                        // .scaledToFill()
                             .frame(width: geometry.size.width, height: geometry.size.height * 0.25) // Adjusted height
                                // .clipped()
+                            .padding(.bottom
+                                     , geometry.safeAreaInsets.bottom + 15)
                 
                             .overlay(
                                 
                                 
-                                Text("ReverseBrainstorming")
+                                Text("Reverse Brainstorming")
                                     .font(.title)
-                                    //.bold()
+                                   
+                                    .fontWeight(.bold)
                                     .foregroundColor(colorScheme == .dark ? .gray1 : .white)
-                                    .padding(.trailing
-                                             , geometry.safeAreaInsets.top + 55)
-                                    .padding(.top ,100)
+                                    .padding(.trailing, geometry.size.width * 0.2)
+                                    .padding(.top, geometry.size.height * 0.05)
                                     
                             ) // .frame(width: 395 , height: 150)
                         
@@ -1435,12 +1437,12 @@ struct try_ReverseBrainstorming: View {
                         ZStack(alignment: .topLeading) {
                             TextField("EX: Improving the COVID-19 Vaccination Process ", text: $statement)
                                 .font(.caption)
-                                .frame(maxWidth: .infinity)
+                                .frame(width: 375)
                                 .frame(height: 100)
-                                .background(Color.white)
+                                .background(colorScheme == .dark ? .black : .white)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 5)
-                                        .stroke(Color.white, lineWidth: 2)
+                                        .stroke(colorScheme == .dark ? .gray1 : .white, lineWidth: 2)
                                 )
                                 .textFieldStyle(TopLeadingTextFieldStyle())
                                 .padding()
@@ -1453,36 +1455,36 @@ struct try_ReverseBrainstorming: View {
                             Rectangle()
                                 .frame(width: 343, height: 82)
                                 .cornerRadius(10)
-                                .foregroundColor(.orange2)
+                                .foregroundColor(colorScheme == .dark ? .orange3 : .orange2)
                             ZStack(alignment: .topLeading) {
                                 TextField("Not Scaling up vaccine manufacturing ", text: $answer1)
                                     .font(.caption)
                                     .frame(width: 322, height: 63)
-                                    .background(Color.white)
+                                    .background(colorScheme == .dark ? .black : .white)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 5)
-                                            .stroke(Color.white, lineWidth: 2)
+                                            .stroke(colorScheme == .dark ? .black : .white, lineWidth: 2)
                                     )
                                     .textFieldStyle(TopLeadingTextFieldStyle())
                                     .padding()
                             }
                         }
                     }
-                    .padding(.top, 40)
+                    .padding(.top, 15)
                     
                     ZStack {
                         Rectangle()
                             .frame(width: 343, height: 82)
                             .cornerRadius(10)
-                            .foregroundColor(.orange3)
+                            .foregroundColor(colorScheme == .dark ? .orange4 : .orange3)
                         ZStack(alignment: .topLeading) {
                             TextField("Delaying vaccination for adults above the age of 65", text: $Answer2)
                                 .font(.caption)
                                 .frame(width: 322, height: 63)
-                                .background(Color.white)
+                                .background(colorScheme == .dark ? .black : .white)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 5)
-                                        .stroke(Color.white, lineWidth: 2)
+                                        .stroke(colorScheme == .dark ? .black : .white, lineWidth: 2)
                                 )
                                 .textFieldStyle(TopLeadingTextFieldStyle())
                                 .padding()
@@ -1493,15 +1495,15 @@ struct try_ReverseBrainstorming: View {
                         Rectangle()
                             .frame(width: 343, height: 82)
                             .cornerRadius(10)
-                            .foregroundColor(.orange4)
+                            .foregroundColor(colorScheme == .dark ? .orange2 : .orange4)
                         ZStack(alignment: .topLeading) {
                             TextField("To not prioritize vaccination in areas with rising cases", text: $Answer3)
                                 .font(.caption)
                                 .frame(width: 322, height: 63)
-                                .background(Color.white)
+                                .background(colorScheme == .dark ? .black : .white)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 5)
-                                        .stroke(Color.white, lineWidth: 2)
+                                        .stroke(colorScheme == .dark ? .black : .white, lineWidth: 2)
                                 )
                                 .textFieldStyle(TopLeadingTextFieldStyle())
                                 .padding()
@@ -1521,7 +1523,8 @@ struct try_ReverseBrainstorming: View {
                     }
                     .disabled(!isNextButtonEnabled())
                 }
-                .padding(.bottom, 110)
+                .padding(.bottom
+                         , geometry.safeAreaInsets.bottom + 120)
             }
         }
         .navigationBarBackButtonHidden(true)
@@ -1533,6 +1536,20 @@ struct try_ReverseBrainstorming: View {
     }
 }
     
+
+
+
+struct ReverseBrainstormingView_Previews: PreviewProvider {
+    static var previews: some View {
+        ReversAnswers(
+            statement: "Sample Statement",
+            answer1: .constant("Answer 1"),
+            answer2: .constant("Answer 2"),
+            answer3: .constant("Answer 3")
+        )
+    }
+}
+
 struct ReversAnswers: View {
     
     struct TopLeadingTextFieldStyle: TextFieldStyle {
@@ -1557,33 +1574,34 @@ struct ReversAnswers: View {
         GeometryReader { geometry in
             NavigationStack {
                 ZStack {
-                    Color.gray1.ignoresSafeArea()
+                    Color.gray1
+                        .ignoresSafeArea()
+
                     VStack {
-                        ZStack{
-                            Image("backgrund")
-                                .resizable()
-                           // .scaledToFill()
-                                .frame(width: geometry.size.width, height: geometry.size.height * 0.25) // Adjusted height
-                                   // .clipped()
-                    
-                                .overlay(
-                                    
-                                    
-                                    Text("ReverseBrainstorming")
-                                        .font(.title)
-                                        //.bold()
-                                        .foregroundColor(colorScheme == .dark ? .gray1 : .white)
-                                        .padding(.trailing
-                                                 , geometry.safeAreaInsets.top + 55)
-                                        .padding(.top ,100)
-                                        
-                                ) // .frame(width: 395 , height: 150)
-                            
-                        }//.offset(x:0,y: -365)
-                        
+                                          ZStack/*(alignment: .top)*/ {
+                                              Image("backgrund")
+                                                  .resizable()
+                                                  //.scaledToFill()
+                                                  .frame(width: geometry.size.width, height: geometry.size.height * 0.25)
+//                                                  .padding(.bottom, geometry.safeAreaInsets.bottom + )
+
+                                                  .clipped()
+                                                  .overlay(
+
+                                              Text("Reverse Brainstorming")
+                                                  .font(.title)
+                                                  .fontWeight(.bold)
+                                                  .foregroundColor(colorScheme == .dark ? .gray1 : .white)
+                                                  .padding(.bottom, geometry.safeAreaInsets.bottom + 10)
+                                                  .padding(.trailing, geometry.safeAreaInsets.top + 50)
+                                                  )
+                                          }
+                                          
+
+                        VStack{
                         Text("Revers your answers:")
                             .padding(.trailing, 175)
-                            .padding()
+                        //.padding()
                         
                         Text("First Answer: \(answer1)")
                             .foregroundColor(.gray)
@@ -1595,10 +1613,10 @@ struct ReversAnswers: View {
                             TextField("Scaling up vaccine manufacturing ", text: $Answer4)
                                 .font(.caption)
                                 .frame(width: 331, height: 58)
-                                .background(Color.white)
+                                .background(colorScheme == .dark ? .black : .white)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 5)
-                                        .stroke(Color.white, lineWidth: 2)
+                                        .stroke(colorScheme == .dark ? .black : .white, lineWidth: 2)
                                 )
                                 .textFieldStyle(TopLeadingTextFieldStyle())
                                 .padding()
@@ -1614,15 +1632,15 @@ struct ReversAnswers: View {
                             TextField("Speeding up vaccination for adults above the age of 65", text: $Answer5)
                                 .font(.caption)
                                 .frame(width: 331, height: 58)
-                                .background(Color.white)
+                                .background(colorScheme == .dark ? .black : .white)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 5)
-                                        .stroke(Color.white, lineWidth: 2)
+                                        .stroke(colorScheme == .dark ? .black : .white, lineWidth: 2)
                                 )
                                 .textFieldStyle(TopLeadingTextFieldStyle())
                                 .padding()
                         }
-                        .padding()
+                        //.padding()
                         
                         Text("Third Answer: \(answer3)")
                             .foregroundColor(.gray)
@@ -1634,14 +1652,15 @@ struct ReversAnswers: View {
                             TextField("Prioritize vaccination in areas with rising cases", text: $Answer6)
                                 .font(.caption)
                                 .frame(width: 331, height: 58)
-                                .background(Color.white)
+                                .background(colorScheme == .dark ? .black : .white)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 5)
-                                        .stroke(Color.white, lineWidth: 2)
+                                        .stroke(colorScheme == .dark ? .black : .white, lineWidth: 2)
                                 )
                                 .textFieldStyle(TopLeadingTextFieldStyle())
                                 .padding()
                         }
+               }  .padding(.top, geometry.safeAreaInsets.top + 30)
                         
                         NavigationLink(destination: ReversAnswers2(answer4: $Answer4, answer5: $Answer5, answer6: $Answer6)) {
                             ZStack {
@@ -1652,12 +1671,17 @@ struct ReversAnswers: View {
                                 Text("Next")
                                     .foregroundColor(.white)
                             }
-                            .padding(.top, 50)
+                          //  .padding(.top, 50)
                         }
                         .disabled(!isNextButtonEnabled())
-                    }
-                    .padding(.bottom, 110)
-                }
+                  }
+                    .padding(.bottom
+                             , geometry.safeAreaInsets.bottom + 500)
+////
+                    
+                } 
+//                .padding(.top
+//                           , geometry.safeAreaInsets.top + -110 )
             }
             .navigationBarBackButtonHidden(true)
         }
@@ -1667,7 +1691,8 @@ struct ReversAnswers: View {
         return !Answer4.isEmpty && !Answer5.isEmpty && !Answer6.isEmpty
     }
 }
-    
+  
+
     
 struct ReversAnswers2: View {
     struct TopLeadingTextFieldStyle: TextFieldStyle {
@@ -1696,64 +1721,68 @@ struct ReversAnswers2: View {
                             Image("backgrund")
                                 .resizable()
                             // .scaledToFill()
-                                .frame(width: geometry.size.width, height: geometry.size.height * 0.25) // Adjusted height
+                                .frame(width: geometry.size.width, height: geometry.size.height * 0.28) // Adjusted height
                             // .clipped()
                             
                                 .overlay(
                                     
                                     
-                                    Text("ReverseBrainstorming")
+                                    Text("Reverse Brainstorming")
                                         .font(.title)
                                     //.bold()
                                         .foregroundColor(colorScheme == .dark ? .gray1 : .white)
                                         .padding(.trailing
-                                                 , geometry.safeAreaInsets.top + 55)
-                                        .padding(.top ,100)
+                                                 , geometry.safeAreaInsets.top + 30)
+                                        .padding(.top, geometry.safeAreaInsets.top + 100)
                                     
-                                ) // .frame(width: 395 , height: 150)
+                                ) .padding(.bottom, geometry.safeAreaInsets.bottom + 60)
                             
                         }//.offset(x:0,y: -365)
                         
                         ZStack(alignment: .topLeading) {
-                            Text("The Reversed Answers: \(answer4) \(answer5) \(answer6)")
+                            Text("\nThe Reversed Answers:\n\n\(answer4)\n\(answer5)\n\(answer6)")
                                 .padding(.trailing, 90)
                                 .padding(.bottom, 100)
                                 .multilineTextAlignment(.leading)
-                                .frame(width: 336, height: 156)
-                                .background(Color.white)
+                                .frame(width: 336)
+                                .background(colorScheme == .dark ? .black : .white)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 5)
-                                        .stroke(Color.white, lineWidth: 2)
+                                        .stroke(colorScheme == .dark ? .black : .white, lineWidth: 2)
                                 )
+                                .fixedSize(horizontal: false, vertical: true)
                         }
-                        .padding(.bottom, 150)
+                        .padding(.bottom, 30)
                         
                         VStack {
                             Text("How can we combine all the answers into a solution?")
-                                .font(.callout)  // You can change the font size if needed
-                                .multilineTextAlignment(.leading)
-                                .padding(.horizontal)
-                                .fixedSize(horizontal: false, vertical: true)  // Ensure the text wraps and is not clipped
+                              
+                            .font(.system(size: 17, weight: .medium))
+                            .fixedSize(horizontal: false, vertical: true)
+                                .padding(.leading , 40)
+                               
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)  // Ensure the VStack takes up available width
-                        .padding()
+//                        .padding()
                         //  .padding()
                         // .padding(.horizontal)
                         
                         ZStack(alignment: .topLeading) {
                             TextField("we can now analyze them to determine which ones to prioritize first", text: $statement2)
-                                .font(.caption)
-                                .font(.system(size: 3))
-                                .frame(width: 331, height: 58)
-                                .background(Color.white)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .font(.system(size: 13))
+                                .frame(width: 336)
+                                .background(colorScheme == .dark ? .black : .white)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 5)
-                                        .stroke(Color.white, lineWidth: 2)
+                                        .stroke(colorScheme == .dark ? .black : .white, lineWidth: 2)
                                 )
                                 .textFieldStyle(TopLeadingTextFieldStyle())
-                                .padding()
-                        }
-                        .padding()
+                                .frame(width: geometry.size.width, height: min(geometry.size.height, 100)) // Set a maximum height
+                              //  .padding()
+                              
+                        }.lineLimit(nil)
+                      //  .padding()
                         
                         NavigationLink(destination: ReverseBSum(texts: [""],statement2:statement2 )) {
                             ZStack {
@@ -1768,8 +1797,8 @@ struct ReversAnswers2: View {
                         .disabled(!isNextButtonEnabled())
                         .padding(.top, 50)
                     }
-                    .padding(.bottom, 110)
-                }
+                    .padding(.bottom
+                             , geometry.safeAreaInsets.bottom + 120)                }
             }
             .navigationBarBackButtonHidden(true)
         }
@@ -1777,6 +1806,16 @@ struct ReversAnswers2: View {
     
     private func isNextButtonEnabled() -> Bool {
         return !statement2.isEmpty
+    }
+}
+
+struct ReversAnswers2_Previews: PreviewProvider {
+    static var previews: some View {
+        ReversAnswers2(
+            answer4: .constant("Sample Answer 4"),
+            answer5: .constant("Sample Answer 5"),
+            answer6: .constant("Sample Answer 6")
+        )
     }
 }
 
@@ -1816,22 +1855,30 @@ var texts: [String]
                     ScrollView{
                         ZStack{
                             RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(.white)
+                                .foregroundColor(colorScheme == .dark ? .black : .white)
                                 .shadow(radius: 3)
-                                .frame(width: 351,height: 132)
+                                .frame(width: 361,height: 132)
                             HStack{
                                 
                                 Image(systemName: "lightbulb.min")
                                     .resizable()
                                     .frame(width: 41 , height: 53)
                                     .foregroundColor(.orange1)
-                                    .padding()
+                                    .padding(.horizontal)
+                                    .padding(.trailing , 290).overlay(
+                                
+                                Text("Research time :\n\nBy exploring, researching, and iterating, you're paving the way for success. Dive deeper into your big idea and you're on the path to something remarkable!")
+                                    .font(.caption)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .padding(.leading, 80)
+                                    )
+                                    
                               
-                            } .padding(.horizontal)
+                            }
                         }
                         ZStack{
                             RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(.white)
+                                .foregroundColor(colorScheme == .dark ? .black : .white)
                                 .shadow(radius: 3)
                                 .frame(width: 361,height: 132)
                             HStack{
@@ -1840,7 +1887,7 @@ var texts: [String]
                                     .frame(width: 41 , height: 53)
                                     .foregroundColor(.orange1)
                                     .padding(.horizontal)
-                                    .padding(.leading , 20)
+                                    .padding(.leading , 30)
                                 
                                 VStack{
                                     Text("your solotion")
@@ -1849,6 +1896,7 @@ var texts: [String]
                                         .bold()
                                         .padding()
                                     Text("\(statement2)")
+                                        .foregroundColor(.orange1)
                                     VStack {
                                         ForEach(0..<min(texts.count, 3)) { index in
                                             Text(texts[index])
@@ -1888,7 +1936,7 @@ var texts: [String]
                         }
                         ZStack{
                             RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(.white)
+                                .foregroundColor(colorScheme == .dark ? .black : .white)
                                 .shadow(radius: 3)
                                 .frame(width: 361,height: 200)
                                 .padding()
@@ -1898,7 +1946,7 @@ var texts: [String]
                                         .resizable()
                                         .frame(width: 53 , height: 53)
                                         .foregroundColor(.orange1)
-                                        .padding(.horizontal)
+                                        .padding(.horizontal , 30)
                                     
                                     Text("Fantastic work on sparking your big idea! Are you ready to dive even deeper and expand your creative horizons? ")
                                         .font(.callout)
@@ -1930,7 +1978,8 @@ var texts: [String]
                     }
                     
                 }
-                
+                .padding(.bottom
+                         , geometry.safeAreaInsets.bottom + 120)
             }
         }.navigationBarBackButtonHidden(true)
     }
