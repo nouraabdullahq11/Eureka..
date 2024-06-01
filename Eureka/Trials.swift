@@ -411,6 +411,17 @@ var texts: [String]
     }
 }
 }
+
+
+struct SavedTextsView_Previews: PreviewProvider {
+    static var previews: some View {
+        SavedTextsView(texts: ["Answer 1", "Answer 2", "Answer 3", "Answer 4", "Answer 5"])
+    }
+}
+
+
+
+
 class HapticsManager {
 static let shared = HapticsManager()
 
@@ -1890,7 +1901,7 @@ var texts: [String]
                                     .padding(.leading , 30)
                                 
                                 VStack{
-                                    Text("your solotion")
+                                    Text("Your Solotion:")
                                     
                                         .font(.caption)
                                         .bold()

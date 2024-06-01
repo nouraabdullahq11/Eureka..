@@ -58,7 +58,7 @@ struct session_RandomWords: View {
                         .font(.system(size: 29, weight: .semibold))
                         .padding(.bottom,680)
                         .padding(.trailing, 170)
-                        .foregroundColor(colorScheme == .dark ? .black : .white)
+                        .foregroundColor(colorScheme == .dark ? .gray1 : .white)
                 }
                 
                 VStack {
@@ -113,7 +113,7 @@ struct session_RandomWords: View {
                             }
                             RoundedRectangle(cornerRadius: 10)
                                 .foregroundColor(Color.white1)
-                                .shadow(color: colorScheme == .dark ? Color.gray.opacity(0.1) : Color.gray.opacity(0.5), radius: 10, x: 0, y: 2)
+                                .shadow(color: colorScheme == .dark ? Color.gray2.opacity(0.8) : Color.gray.opacity(0.5), radius: 10, x: 0, y: 2)
                                 .frame(width: 300, height: 280)
                                 .rotationEffect(.degrees(7))
                         }
@@ -217,7 +217,7 @@ struct CardView: View {
             .frame(width: 300, height: 280)
             .background(Color.white1)
             .cornerRadius(10)
-            .shadow(color: colorScheme == .dark ? Color.white.opacity(0.02) : Color.gray.opacity(0.5), radius: 5, x: 0, y: 2)
+            .shadow(color: colorScheme == .dark ? Color.gray2.opacity(0.02) : Color.white.opacity(0.5), radius: 0, x: 0, y: 2)
             .foregroundColor(colorScheme == .dark ? .white : .black)
     }
 }
@@ -225,15 +225,15 @@ struct CardView: View {
 
 struct LikedWordBox1: View {
     var word: String
-
+    @Environment(\.colorScheme) var colorScheme
     var body: some View {
         RoundedRectangle(cornerRadius: 10)
-            .stroke(Color.orange, lineWidth: 2)
+            .stroke(colorScheme == .dark ? .gray : .white, lineWidth: 1)
             .frame(width: 100, height: 50)
-            .foregroundColor(.white)
+            .background(Color.white1)
             .overlay(
                 Text(word)
-                    .foregroundColor(.black)
+                    .foregroundColor(colorScheme == .dark ? .white : .black)
             )
     }
 }
@@ -257,7 +257,8 @@ struct session_RandomWords2: View {
     @State private var navigateToReverseBrainstorming = false
     @State private var showStep1 = false
     @State private var showStep2 = false
-
+    @Environment(\.colorScheme) var colorScheme
+    
     init(likedWords: [String], items: [DataItem], sessionName: String, sessionType: String, generaterSelection: Binding<Int>) {
         self.likedWords = likedWords
         self.items = items
@@ -268,159 +269,172 @@ struct session_RandomWords2: View {
     }
 
     var body: some View {
-        NavigationView {
-            ZStack {
-                Image("background")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .edgesIgnoringSafeArea(.all)
-                    .ignoresSafeArea(.all)
-                Spacer()
-                ScrollView {
-                    VStack {
-                        Text("Random Word")
-                            .font(.system(size: 33, weight: .semibold))
-                            .padding(.top, 60)
-                            .padding(.trailing, 130)
-
-                        Text(timerString)
-                            .font(.system(size: 60, weight: .bold))
-                            .padding(.top, 20)
-                            .onReceive(timer) { _ in
-                                if isTimerRunning {
-                                    if timeRemaining > 0 {
-                                        timeRemaining -= 1
-                                    } else {
-                                        isTimerRunning = false
-                                    }
-                                }
-                            }
-
-                        Text("Place these words into possible ideas or solutions:")
-                            .font(.system(size: 20, weight: .semibold))
-                            .frame(maxWidth: .infinity , alignment: .leading)
-                            .lineLimit(nil) // Allow multiple lines
-                            .padding(.trailing)
-                            .fixedSize(horizontal: false, vertical: true) // Expand vertically
-                            .padding(.bottom, 30)
-                            .padding(.leading, 20)
+        GeometryReader { geometry in
+            NavigationView {
+                ZStack {
+                    Color.gray1
+                        .ignoresSafeArea()
+                    ZStack {
+                        Image("backgrund")
+                            .resizable()
+                            .padding(.bottom, geometry.size.height * 0.48)
+                            .scaledToFill()
+                            .frame(width: geometry.size.width, height: geometry.size.height * 0.15)
+                            .padding(.bottom
+                                     , geometry.safeAreaInsets.top + 325.5)
+                        // Spacer()
+                        //
                         
-
-                        VStack {
-                            ForEach(0..<likedWords.count, id: \.self) { index in
-                                VStack(alignment: .leading) {
-                                   
-                                    HStack{
-                                        Text("selected word:")
-                                            .font(.system(size: 15))
-                                            .padding(.bottom, 10)
-                                            .padding(.leading, 50)
-                                            .foregroundColor(.gray)
-                                        Text(likedWords[index])
-                                            .font(.system(size: 15))
-                                            .padding(.bottom, 10)
-                                            .padding(.leading, 5)
-                                            .foregroundColor(.gray)
+                        Text("Random Word")
+                            .font(.title)
+                            .bold()
+                            .foregroundColor(colorScheme == .dark ? .gray1 : .white)
+                            .padding(.trailing
+                                     , geometry.safeAreaInsets.top + 100)
+                            .padding(.bottom
+                                     , geometry.safeAreaInsets.top + 650)}
+                    
+                        ScrollView {             VStack {
+                            Text(timerString)
+                                .font(.system(size: 60, weight: .bold))
+                                .padding(.top, geometry.size.height * 0.15)
+                                .padding(.bottom, 20)
+                                .onReceive(timer) { _ in
+                                    if isTimerRunning {
+                                        if timeRemaining > 0 {
+                                            timeRemaining -= 1
+                                        } else {
+                                            isTimerRunning = false
+                                        }
                                     }
-                                    
-                                    HStack {
+                                }
+                            
+                            Text("Place these words into possible ideas or solutions:")
+                                .font(.system(size: 20, weight: .semibold))
+                                .frame(maxWidth: .infinity , alignment: .leading)
+                                .lineLimit(nil) // Allow multiple lines
+                                .padding(.trailing)
+                                .fixedSize(horizontal: false, vertical: true) // Expand vertically
+                                .padding(.bottom, 30)
+                                .padding(.leading, 20)
+                            
+                            
+                            VStack {
+                                ForEach(0..<likedWords.count, id: \.self) { index in
+                                    VStack(alignment: .leading) {
                                         
-                                        Image(systemName: selectedWord == likedWords[index] ? "checkmark.circle.fill" : "circle")
-                                            .resizable()
-                                            .frame(width: 20, height: 20)
-                                            .foregroundColor(.button)
-                                            .onTapGesture {
-                                                selectedWord = likedWords[index]
-                                            }
-                                        TextField("Enter a value", text: $enteredValues[index])
-                                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                                            .onChange(of: enteredValues[index]) { newValue in
-                                                startTimerIfNeeded()
-                                            }
-                                    }.padding(.trailing,20)
+                                        HStack{
+                                            Text("selected word:")
+                                                .font(.system(size: 15))
+                                                .padding(.bottom, 10)
+                                                .padding(.leading, 50)
+                                                .foregroundColor(.gray)
+                                            Text(likedWords[index])
+                                                .font(.system(size: 15))
+                                                .padding(.bottom, 10)
+                                                .padding(.leading, 5)
+                                                .foregroundColor(.gray)
+                                        }
+                                        
+                                        HStack {
+                                            
+                                            Image(systemName: selectedWord == likedWords[index] ? "checkmark.circle.fill" : "circle")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .foregroundColor(.button)
+                                                .onTapGesture {
+                                                    selectedWord = likedWords[index]
+                                                }
+                                            TextField("Enter a value", text: $enteredValues[index])
+                                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                                .onChange(of: enteredValues[index]) { newValue in
+                                                    startTimerIfNeeded()
+                                                }
+                                        }.padding(.trailing,20)
                                         .padding(.leading,20)                                }
-                                .padding(.bottom, 10)
-                            }
-                        }
-
-                        if selectedWord != nil {
-                            if generaterSelection == 1 {
-                                Button(action: {
-                                    showStep1 = true
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                        showStep1 = false
-                                        navigateToCrazy8 = true
-                                    }
-                                }) {
-                                    Text("Go To Crazy 8")
-                                        .font(.system(size: 18))
-                                        .padding()
-                                        .frame(width: 337, height: 39)
-                                        .background(Color.button)
-                                        .foregroundColor(.white)
-                                        .clipShape(RoundedRectangle(cornerRadius: 5))
-                                }
-                            } else {
-                                Button(action: {
-                                    showStep2 = true
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                        showStep2 = false
-                                        navigateToReverseBrainstorming = true
-                                    }
-                                }) {
-                                    Text("Go To Reverse Brainstorming")
-                                        .font(.system(size: 18))
-                                        .padding()
-                                        .frame(width: 337, height: 39)
-                                        .background(Color.button)
-                                        .foregroundColor(.white)
-                                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                                    .padding(.bottom, 10)
                                 }
                             }
+                            
+                            if selectedWord != nil {
+                                if generaterSelection == 1 {
+                                    Button(action: {
+                                        showStep1 = true
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                            showStep1 = false
+                                            navigateToCrazy8 = true
+                                        }
+                                    }) {
+                                        Text("Go To Crazy 8")
+                                            .font(.system(size: 18))
+                                            .padding()
+                                            .frame(width: 337, height: 39)
+                                            .background(Color.button)
+                                            .foregroundColor(.white)
+                                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                                    }
+                                } else {
+                                    Button(action: {
+                                        showStep2 = true
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                            showStep2 = false
+                                            navigateToReverseBrainstorming = true
+                                        }
+                                    }) {
+                                        Text("Go To Reverse Brainstorming")
+                                            .font(.system(size: 18))
+                                            .padding()
+                                            .frame(width: 337, height: 39)
+                                            .background(Color.button)
+                                            .foregroundColor(.white)
+                                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                                    }
+                                }
+                            }
                         }
+                   }
+                }
+                .navigationBarBackButtonHidden(true)
+                .background(
+                    NavigationLink(
+                        destination: session_Crazy8(
+                            likedWords: likedWords, items: items,
+                            sessionName: sessionName, sessionType: sessionType,
+                            userInputs: enteredValues,
+                            displayedQuestion: dataManager.questions.first?.text ?? "", selectedWord: selectedWord ?? ""
+                        ),
+                        isActive: $navigateToCrazy8
+                    ) {
+                        EmptyView()
                     }
+                        .hidden()
+                )
+                .fullScreenCover(isPresented: $showStep1) {
+                    Step1(navigateToSession: $navigateToCrazy8)
                 }
-            }
-            .navigationBarBackButtonHidden(true)
-            .background(
-                NavigationLink(
-                    destination: session_Crazy8(
-                        likedWords: likedWords, items: items,
-                        sessionName: sessionName, sessionType: sessionType,
-                        userInputs: enteredValues,
-                        displayedQuestion: dataManager.questions.first?.text ?? "", selectedWord: selectedWord ?? ""
-                    ),
-                    isActive: $navigateToCrazy8
-                ) {
-                    EmptyView()
+                
+                .fullScreenCover(isPresented: $showStep2) {
+                    Step2(navigateToSession: $navigateToReverseBrainstorming)
                 }
-                .hidden()
-            )
-            .fullScreenCover(isPresented: $showStep1) {
-                Step1(navigateToSession: $navigateToCrazy8)
-            }
-
-            .fullScreenCover(isPresented: $showStep2) {
-                Step2(navigateToSession: $navigateToReverseBrainstorming)
-            }
-
-            .background(
-                NavigationLink(
-                    destination: Session_ReverseBrainstorming(
-                        items: items,
-                        sessionName: sessionName, sessionType: sessionType,
-                        userInputs: enteredValues,
-                        displayedQuestion: dataManager.questions.first?.text ?? "", selectedWord: selectedWord ?? "",
-                        likedWords: likedWords
-                    ),
-                    isActive: $navigateToReverseBrainstorming
-                ) {
-                    EmptyView()
-                }
-                .hidden()
-            )
-        }.navigationBarBackButtonHidden(true)
-        .navigationViewStyle(StackNavigationViewStyle())
+                
+                .background(
+                    NavigationLink(
+                        destination: Session_ReverseBrainstorming(
+                            items: items,
+                            sessionName: sessionName, sessionType: sessionType,
+                            userInputs: enteredValues,
+                            displayedQuestion: dataManager.questions.first?.text ?? "", selectedWord: selectedWord ?? "",
+                            likedWords: likedWords
+                        ),
+                        isActive: $navigateToReverseBrainstorming
+                    ) {
+                        EmptyView()
+                    }
+                        .hidden()
+                )
+            }.navigationBarBackButtonHidden(true)
+                .navigationViewStyle(StackNavigationViewStyle())
+        }
     }
 
     var timerString: String {
@@ -466,7 +480,8 @@ struct session_AnsQuestions: View {
     @Environment(\.modelContext) private var context
     @Binding var generaterSelection: Int
     @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-
+    @Environment(\.colorScheme) var colorScheme
+    
     @EnvironmentObject var dataManager: DataManager
 
     init(likedWords: [String], items: [DataItem], sessionName: String, sessionType: String, generaterSelection: Binding<Int>) {
@@ -491,159 +506,185 @@ struct session_AnsQuestions: View {
     @State private var navigateToReverseBrainstorming = false
     
     var body: some View {
-        NavigationView {
-            ZStack {
-                Image("background")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .edgesIgnoringSafeArea(.all)
+        GeometryReader { geometry in
+            NavigationView {
+                ZStack {
+                    
+                    Color.gray1
+                        .ignoresSafeArea()
+                    
+                    Image("backgrund")
+                        .resizable()
+                    // .scaledToFill()
+                        .frame(width: geometry.size.width, height: geometry.size.height * 0.20)
+                        .padding(.bottom, geometry.size.height * 1)
+                    
+                    
+                    Text("Answer the Question")
+                        .font(.title)
+                        .bold()
+                        .foregroundColor(colorScheme == .dark ? .gray1 : .white)
+                        .padding(.trailing , 100)
+                        .padding(.bottom, geometry.size.height * 0.90)
 
-                VStack {
-                    Text(formattedTime(timeRemaining))
-                        .font(.system(size: 60, weight: .bold))
-                        .padding(.bottom, 20)
-
-                    if !shuffledQuestions.isEmpty {
-                        Text(shuffledQuestions[currentIndex].text)
-                            .bold()
-                            .multilineTextAlignment(.center)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .lineLimit(nil) // Allow multiple lines
-                            .padding(.leading,20)
-                            .fixedSize(horizontal: false, vertical: true) // Expand vertically
-
-                        Button("New Question >>") {
-                            currentIndex = getNextIndex()
-                            userInputs = ["", "", ""]
-                            checkedIndex = nil
-                        }
-                        .padding(.bottom, 10)
-                        .foregroundColor(.orange)
-
-                        VStack {
-                            ForEach(0..<3, id: \.self) { index in
-                                HStack {
-                                    if !userInputs[index].isEmpty {
-                                        Image(systemName: checkedIndex == index ? "checkmark.circle.fill" : "circle")
-                                            .resizable()
-                                            .frame(width: 20, height: 20)
-                                            .foregroundColor(.button)
-                                            .onTapGesture {
-                                                if checkedIndex == index {
-                                                    checkedIndex = nil  // Uncheck if already checked
-                                                } else {
-                                                    checkedIndex = index  // Check new index
+                    
+                    VStack {
+                        Text(formattedTime(timeRemaining))
+                            .font(.system(size: 60, weight: .bold))
+                            .padding(.bottom, 20)
+                        
+                        if !shuffledQuestions.isEmpty {
+                            Text(shuffledQuestions[currentIndex].text)
+                                .bold()
+                                .multilineTextAlignment(.center)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .lineLimit(nil) // Allow multiple lines
+                                .padding(.leading,20)
+                                .fixedSize(horizontal: false, vertical: true) // Expand vertically
+                            
+                            Button("New Question >>") {
+                                currentIndex = getNextIndex()
+                                userInputs = ["", "", ""]
+                                checkedIndex = nil
+                            }
+                            .padding(.bottom, 10)
+                            .foregroundColor(.orange1)
+                            
+                            VStack {
+                                ForEach(0..<3, id: \.self) { index in
+                                    HStack {
+                                        if !userInputs[index].isEmpty {
+                                            Image(systemName: checkedIndex == index ? "checkmark.circle.fill" : "circle")
+                                                .resizable()
+                                                .foregroundColor(.button)
+                                                .frame(width: 22, height: 22)
+                                                .padding(.trailing , 15)
+                                                .onTapGesture {
+                                                    if checkedIndex == index {
+                                                        checkedIndex = nil  // Uncheck if already checked
+                                                    } else {
+                                                        checkedIndex = index  // Check new index
+                                                    }
                                                 }
-                                            }
-                                    }
-
-                                    TextField("Type something...", text: $userInputs[index], onEditingChanged: { editing in
-                                        if editing && !isTimerRunning {
-                                            startTimer()
                                         }
-                                    })
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                        
+                                        TextField("Type something...", text: $userInputs[index], onEditingChanged: { editing in
+                                            if editing && !isTimerRunning {
+                                                startTimer()
+                                            }
+                                        }) .frame(maxWidth: .infinity)
+                                            .frame(width: 332 , height: 40)
+                                            .background(colorScheme == .dark ? Color.gray1 : Color.white)
+                                            .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                                            .clipShape(RoundedRectangle(cornerRadius: 6))
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 5)
+                                                    .stroke(Color.gray2, lineWidth: 2))
+                                    }
+                                    .padding(.leading , 20)
+                                    .padding(.trailing , 15)
+                                    .padding(.bottom , 30)
+                                }
+                            }.padding(.bottom, 80)
+                            
+                            VStack {
+                                Text("* check mark the one that resonates with you the most.")
+                                    .foregroundColor(.gray)
+                                    .frame(alignment: .center)
+                                    .font(.system(size: 12))
+                                
+                                if generaterSelection == 1 {
+                                    Button("Next to Crazy 8") {
+                                        navigateToStep3 = true
+                                    }
+                                    .font(.system(size: 18))
                                     .padding()
+                                    .frame(width: 337, height: 39)
+                                    .background((isNextStepButtonEnabled && checkedIndex != nil) ? Color.laitOrange : Color.gray)
+                                    .foregroundColor(.white)
+                                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                                    .disabled(!isNextStepButtonEnabled || checkedIndex == nil)
+                                } else {
+                                    Button("Next to Reverse Brainstorming") {
+                                        navigateToStep4 = true
+                                    }
+                                    .font(.system(size: 18))
+                                    .padding()
+                                    .frame(width: 337, height: 39)
+                                    .background((isNextStepButtonEnabled && checkedIndex != nil) ? Color.laitOrange : Color.gray)
+                                    .foregroundColor(.white)
+                                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                                    .disabled(!isNextStepButtonEnabled || checkedIndex == nil)
                                 }
                             }
-                        }.padding(.bottom, 80)
-
-                        VStack {
-                            Text("* check mark the one that resonates with you the most.")
-                                .foregroundColor(.gray)
-                                .frame(alignment: .center)
-
-                            if generaterSelection == 1 {
-                                Button("Next to Crazy 8") {
-                                    navigateToStep3 = true
-                                }
-                                .font(.system(size: 18))
+                        } else {
+                            Text("No questions available")
                                 .padding()
-                                .frame(width: 337, height: 39)
-                                .background(Color.button)
-                                .foregroundColor(.white)
-                                .clipShape(RoundedRectangle(cornerRadius: 5))
-                                .disabled(!isNextStepButtonEnabled || checkedIndex == nil)
-                            } else {
-                                Button("Next to Reverse Brainstorming") {
-                                    navigateToStep4 = true
-                                }
-                                .font(.system(size: 18))
-                                .padding()
-                                .frame(width: 337, height: 39)
-                                .background(Color.button)
-                                .foregroundColor(.white)
-                                .clipShape(RoundedRectangle(cornerRadius: 5))
-                                .disabled(!isNextStepButtonEnabled || checkedIndex == nil)
-                            }
                         }
-                    } else {
-                        Text("No questions available")
-                            .padding()
+                    }
+//                    .navigationTitle("Questions")
+                    .navigationBarItems(trailing: Button(action: {
+                        showPopup.toggle()
+                    }, label: {
+                        Image(systemName: "plus")
+                    }))
+                    .sheet(isPresented: $showPopup) {
+                        NewQuestionView()
                     }
                 }
-                .navigationTitle("Questions")
-                .navigationBarItems(trailing: Button(action: {
-                    showPopup.toggle()
-                }, label: {
-                    Image(systemName: "plus")
-                }))
-                .sheet(isPresented: $showPopup) {
-                    NewQuestionView()
+            }
+            .navigationBarBackButtonHidden(true)
+            .onAppear {
+                shuffledQuestions = dataManager.questions.shuffled()
+                currentIndex = 0
+            }
+            .onReceive(timer) { _ in
+                if isTimerRunning {
+                    if timeRemaining > 0 {
+                        timeRemaining -= 1
+                    } else {
+                        // Timer finished, reset
+                        navigateTonext = true
+                        isTimerRunning = false
+                        timeRemaining = 20  // Reset timer for the next question
+                    }
                 }
             }
-        }
-        .navigationBarBackButtonHidden(true)
-        .onAppear {
-            shuffledQuestions = dataManager.questions.shuffled()
-            currentIndex = 0
-        }
-        .onReceive(timer) { _ in
-            if isTimerRunning {
-                if timeRemaining > 0 {
-                    timeRemaining -= 1
-                } else {
-                    // Timer finished, reset
-                    navigateTonext = true
-                    isTimerRunning = false
-                    timeRemaining = 20  // Reset timer for the next question
+            .background(
+                NavigationLink(
+                    destination: Step3(
+                        likedWords: likedWords,
+                        items: items,
+                        sessionName: sessionName,
+                        sessionType: sessionType,
+                        userInputs: enteredValues,
+                        displayedQuestion: currentIndex < shuffledQuestions.count ? shuffledQuestions[currentIndex].text : "", // Guard for shuffledQuestions
+                        selectedWord: (checkedIndex != nil && checkedIndex! < userInputs.count) ? userInputs[checkedIndex!] : "" // Guard for userInputs
+                    ),
+                    isActive: $navigateToStep3
+                ) {
+                    EmptyView()
                 }
-            }
+                    .hidden()
+            )
+            .background(
+                NavigationLink(
+                    destination: Step4(
+                        likedWords: likedWords,
+                        items: items,
+                        sessionName: sessionName,
+                        sessionType: sessionType,
+                        userInputs: enteredValues,
+                        displayedQuestion: currentIndex < shuffledQuestions.count ? shuffledQuestions[currentIndex].text : "", // Guard for shuffledQuestions
+                        selectedWord: (checkedIndex != nil && checkedIndex! < userInputs.count) ? userInputs[checkedIndex!] : "" // Guard for userInputs
+                    ),
+                    isActive: $navigateToStep4
+                ) {
+                    EmptyView()
+                }
+                    .hidden()
+            )
         }
-        .background(
-            NavigationLink(
-                destination: Step3(
-                    likedWords: likedWords,
-                    items: items,
-                    sessionName: sessionName,
-                    sessionType: sessionType,
-                    userInputs: enteredValues,
-                    displayedQuestion: currentIndex < shuffledQuestions.count ? shuffledQuestions[currentIndex].text : "", // Guard for shuffledQuestions
-                    selectedWord: (checkedIndex != nil && checkedIndex! < userInputs.count) ? userInputs[checkedIndex!] : "" // Guard for userInputs
-                ),
-                isActive: $navigateToStep3
-            ) {
-                EmptyView()
-            }
-            .hidden()
-        )
-        .background(
-            NavigationLink(
-                destination: Step4(
-                    likedWords: likedWords,
-                    items: items,
-                    sessionName: sessionName,
-                    sessionType: sessionType,
-                    userInputs: enteredValues,
-                    displayedQuestion: currentIndex < shuffledQuestions.count ? shuffledQuestions[currentIndex].text : "", // Guard for shuffledQuestions
-                    selectedWord: (checkedIndex != nil && checkedIndex! < userInputs.count) ? userInputs[checkedIndex!] : "" // Guard for userInputs
-                ),
-                isActive: $navigateToStep4
-            ) {
-                EmptyView()
-            }
-            .hidden()
-        )
     }
 
     func getNextIndex() -> Int {
@@ -679,7 +720,7 @@ struct session_Crazy8: View
 @State private var hasStartedTimer = false // Tracks if the timer has started
 @State private var vibrationTimer: Timer? // Timer for continuous vibration
 //
-
+    @Environment(\.colorScheme) var colorScheme
 let totalDuration = 20 //1 * 6 Total duration in seconds for progress calculation
 let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
@@ -853,8 +894,16 @@ var body: some View {
                  
                 
                 TextField("Enter problem statement", text: $problemStatement)
-                    .padding()
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .frame(maxWidth: .infinity)
+                    .frame(width: 332 , height: 40)
+                    .background(colorScheme == .dark ? Color.gray1 : Color.white)
+                    .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                    .overlay(
+                        
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.gray2, lineWidth: 1)
+                    )
                     .onSubmit {
                         HapticsManager1.shared.triggerHapticFeedback(style: .heavy)
                         saveSession()
@@ -964,7 +1013,7 @@ struct Session_ReverseBrainstorming: View {
         }
     }
     
-    
+    @Environment(\.colorScheme) var colorScheme
     var items: [DataItem]
     var sessionName: String  // This should hold the value across this view's lifecycle
     var sessionType: String
@@ -996,9 +1045,9 @@ struct Session_ReverseBrainstorming: View {
                                 .overlay(
                                     
                                     Text("Revers Brainstorming")
-                                        .font(.title2)
-                                        .bold()
-                                        .foregroundColor(.white)
+                                        .font(.title)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(colorScheme == .dark ? .gray1 : .white)
                                         .padding(.trailing , 120)
                                         .padding(.top ,70)
                                 )
@@ -1050,18 +1099,18 @@ struct Session_ReverseBrainstorming: View {
                         
                         ZStack{
                             Rectangle()
-                                .frame(width: 343 , height: 70)
+                                .frame(width: 343, height: 82)
                                 .cornerRadius(10)
-                                .foregroundColor(.orange2)
+                                .foregroundColor(colorScheme == .dark ? .orange3 : .orange2)
                             ZStack(alignment: .topLeading) {
                                 TextField("Worse", text: $answer1)
                                 
-                                    .frame(width: 330 , height: 50)
-                                    .background(Color.white)
+                                    .font(.caption)
+                                    .frame(width: 322, height: 63)
+                                    .background(colorScheme == .dark ? .black : .white)
                                     .overlay(
-                                        
                                         RoundedRectangle(cornerRadius: 5)
-                                            .stroke(Color.white, lineWidth: 2)
+                                            .stroke(colorScheme == .dark ? .black : .white, lineWidth: 2)
                                         
                                     )
                                     .textFieldStyle(TopLeadingTextFieldStyle())
@@ -1074,19 +1123,18 @@ struct Session_ReverseBrainstorming: View {
                         
                         ZStack{
                             Rectangle()
-                                .frame(width: 343 , height: 70)
+                                .frame(width: 343, height: 82)
                                 .cornerRadius(10)
-                                .foregroundColor(.orange3)
+                                .foregroundColor(colorScheme == .dark ? .orange4 : .orange3)
                             ZStack(alignment: .topLeading) {
                                 TextField("much worse", text: $Answer2)
                                 
-                                    .frame(width: 330 , height: 50)
-                                    .background(Color.white)
+                                    .font(.caption)
+                                    .frame(width: 322, height: 63)
+                                    .background(colorScheme == .dark ? .black : .white)
                                     .overlay(
-                                        
                                         RoundedRectangle(cornerRadius: 5)
-                                            .stroke(Color.white, lineWidth: 2)
-                                        
+                                            .stroke(colorScheme == .dark ? .black : .white, lineWidth: 2)
                                     )
                                     .textFieldStyle(TopLeadingTextFieldStyle())
                                     .padding()
@@ -1099,21 +1147,20 @@ struct Session_ReverseBrainstorming: View {
                         
                         ZStack{
                             Rectangle()
-                                .frame(width: 343 , height: 70)
+                                .frame(width: 343, height: 82)
                                 .cornerRadius(10)
-                                .foregroundColor(.orange4)
+                                .foregroundColor(colorScheme == .dark ? .orange2 : .orange4)
                             ZStack(alignment: .center) {
                                 TextField("Worst", text: $Answer3)
-                                    .frame(width: 330 , height: 50)
-                                    .background(Color.white)
-                                    .overlay(
-                                        
-                                        RoundedRectangle(cornerRadius: 5)
-                                            .stroke(Color.white, lineWidth: 2)
-                                        
-                                    )
-                                    .textFieldStyle(TopLeadingTextFieldStyle())
-                                    .padding()
+                                .font(.caption)
+                                .frame(width: 322, height: 63)
+                                .background(colorScheme == .dark ? .black : .white)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .stroke(colorScheme == .dark ? .black : .white, lineWidth: 2)
+                                )
+                                .textFieldStyle(TopLeadingTextFieldStyle())
+                                .padding()
                                     .onSubmit {
                                         
                                     }
@@ -1163,7 +1210,7 @@ struct Session_ReverseBrainstorming: View {
         var sessionName: String  // This should hold the value across this view's lifecycle
         var sessionType: String
         @Environment(\.modelContext) private var context
-        
+        @Environment(\.colorScheme) var colorScheme
         var body: some View {
             NavigationStack {
                 ZStack {
@@ -1181,7 +1228,7 @@ struct Session_ReverseBrainstorming: View {
                                         Text("Revers Brainstorming")
                                             .font(.title2)
                                             .bold()
-                                            .foregroundColor(.white)
+                                            .foregroundColor(colorScheme == .dark ? .gray1 : .white)
                                             .padding(.trailing , 120)
                                             .padding(.top ,70)
                                     )
@@ -1205,13 +1252,12 @@ struct Session_ReverseBrainstorming: View {
                             ZStack(alignment: .topLeading) {
                                 TextField("Better", text: $Answer4)
                                 
-                                    .frame(width: 331,height: 58)
-                                    .background(Color.white)
+                                    .font(.caption)
+                                    .frame(width: 331, height: 58)
+                                    .background(colorScheme == .dark ? .black : .white)
                                     .overlay(
-                                        
                                         RoundedRectangle(cornerRadius: 5)
-                                            .stroke(Color.white, lineWidth: 2)
-                                        
+                                            .stroke(colorScheme == .dark ? .black : .white, lineWidth: 2)
                                     )
                                     .textFieldStyle(TopLeadingTextFieldStyle())
                                     .padding()
@@ -1230,13 +1276,12 @@ struct Session_ReverseBrainstorming: View {
                             ZStack(alignment: .topLeading) {
                                 TextField("Much better", text: $Answer5)
                                 
-                                    .frame(width: 331,height: 58)
-                                    .background(Color.white)
+                                    .font(.caption)
+                                    .frame(width: 331, height: 58)
+                                    .background(colorScheme == .dark ? .black : .white)
                                     .overlay(
-                                        
                                         RoundedRectangle(cornerRadius: 5)
-                                            .stroke(Color.white, lineWidth: 2)
-                                        
+                                            .stroke(colorScheme == .dark ? .black : .white, lineWidth: 2)
                                     )
                                     .textFieldStyle(TopLeadingTextFieldStyle())
                                     .padding()
@@ -1255,13 +1300,12 @@ struct Session_ReverseBrainstorming: View {
                             ZStack(alignment: .topLeading) {
                                 TextField("Best", text: $Answer6)
                                 
-                                    .frame(width: 331,height: 58)
-                                    .background(Color.white)
+                                    .font(.caption)
+                                    .frame(width: 331, height: 58)
+                                    .background(colorScheme == .dark ? .black : .white)
                                     .overlay(
-                                        
                                         RoundedRectangle(cornerRadius: 5)
-                                            .stroke(Color.white, lineWidth: 2)
-                                        
+                                            .stroke(colorScheme == .dark ? .black : .white, lineWidth: 2)
                                     )
                                     .textFieldStyle(TopLeadingTextFieldStyle())
                                     .padding()
@@ -1306,7 +1350,7 @@ struct Session_ReverseBrainstorming: View {
         @Environment(\.modelContext) private var context
         @State private var problemStatement: String = ""
         @State private var navigateSummary: Bool = false // Track if session started
-        
+        @Environment(\.colorScheme) var colorScheme
         var body: some View {
             NavigationStack {
                 ZStack {
@@ -1324,7 +1368,7 @@ struct Session_ReverseBrainstorming: View {
                                         Text("Revers Brainstorming")
                                             .font(.title2)
                                             .bold()
-                                            .foregroundColor(.white)
+                                            .foregroundColor(colorScheme == .dark ? .gray1 : .white)
                                             .padding(.trailing , 120)
                                             .padding(.top ,70)
                                     )
@@ -1334,19 +1378,21 @@ struct Session_ReverseBrainstorming: View {
                             }.padding(.bottom)
                             ZStack(alignment: .topLeading) {
                             Text("The Reversed Answers: \(answer4) \(answer5) \(answer6)")
-                                    .padding(.trailing , 90)
-                                    .padding(.bottom , 100)
-                                    .multilineTextAlignment(.leading) // Align text to the left
-                                    .frame(width: 336, height: 156)
-                                        .background(Color.white)
-                                        .overlay(
+                                    .padding(.trailing, 90)
+                                    .padding(.bottom, 100)
+                                    .multilineTextAlignment(.leading)
+                                    .frame(width: 336)
+                                    .background(colorScheme == .dark ? .black : .white)
+                                    .overlay(
                                         RoundedRectangle(cornerRadius: 5)
-                                        .stroke(Color.white, lineWidth: 2)
-                                                    )
-                            }.padding(.bottom , 50)
+                                            .stroke(colorScheme == .dark ? .black : .white, lineWidth: 2)
+                                    )
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                            .padding(.bottom, 30)
                             
                             VStack{
-            Text("How can we combine all the the answers into solution ?")
+            Text("How can we combine all the answers into a solution?")
                     .multilineTextAlignment(.leading)
                     .font(.callout)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -1369,14 +1415,13 @@ struct Session_ReverseBrainstorming: View {
                             
                             ZStack(alignment: .topLeading) {
                                 TextField("Enter problem statement", text: $problemStatement)
-                                
-                                    .frame(width: 331,height: 58)
-                                    .background(Color.white)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .font(.system(size: 13))
+                                    .frame(width: 336)
+                                    .background(colorScheme == .dark ? .black : .white)
                                     .overlay(
-                                        
                                         RoundedRectangle(cornerRadius: 5)
-                                            .stroke(Color.white, lineWidth: 2)
-                                        
+                                            .stroke(colorScheme == .dark ? .black : .white, lineWidth: 2)
                                     )
                                     .textFieldStyle(TopLeadingTextFieldStyle())
                                     .padding()
@@ -1402,7 +1447,7 @@ struct Session_ReverseBrainstorming: View {
                                                Rectangle()
                                                    .frame(width: 337 , height: 39)
                                                    .cornerRadius(5)
-                                                   .foregroundColor(.laitOrange)
+                                                .foregroundColor(problemStatement.isEmpty ? .gray : .laitOrange)
                                                Text("Next")
                                                    .foregroundColor(.white)
                                            }
@@ -1450,7 +1495,7 @@ struct BrainstormingSummary: View {
   //  var texts: [String]
     @State private var showAllTexts = false
     @State private var additionalTexts: [String] = []
-
+    @Environment(\.colorScheme) var colorScheme
 var problemStatement: String
     @State private var move1: Bool = false
 var body: some View {
@@ -1468,7 +1513,7 @@ var body: some View {
                                     Text("Activity Summery")
                                         .font(.title2)
                                         .bold()
-                                        .foregroundColor(.white)
+                                        .foregroundColor(colorScheme == .dark ? .gray1 : .white)
                                         .padding(.trailing, 120)
                                         .padding(.top, 70)
                                 )
@@ -1478,7 +1523,7 @@ var body: some View {
                         
                         ZStack{
                             RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(.white)
+                                 .foregroundColor(colorScheme == .dark ? .black : .white)
                                 .shadow(radius: 3)
                                 .frame(width: 351,height: 132)
                             HStack{
@@ -1502,7 +1547,7 @@ var body: some View {
                         }
                         ZStack{
                             RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(.white)
+                                .foregroundColor(colorScheme == .dark ? .black : .white)
                                 .shadow(radius: 3)
                                 .frame(width: 361,height: 132)
                                 .padding()
@@ -1519,7 +1564,7 @@ var body: some View {
                                         .bold()
                                         .padding()
                                     Text("\(problemStatement) ")
-                                
+                                        .foregroundColor(.orange1)
                                 }
                              
                                 
@@ -1532,7 +1577,7 @@ var body: some View {
                
                         ZStack{
                             RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(.white)
+                                .foregroundColor(colorScheme == .dark ? .black : .white)
                                 .shadow(radius: 3)
                                 .frame(width: 361,height: 200)
                                 .padding()
@@ -1582,7 +1627,7 @@ struct crazy8Summary: View {
     var problemStatement: [String]
     @State private var showAllTexts = false
     @State private var additionalTexts: [String] = []
-
+    @Environment(\.colorScheme) var colorScheme
     var body: some View {
         NavigationStack {
             ZStack {
@@ -1597,7 +1642,7 @@ struct crazy8Summary: View {
                     Text("Activity Summary")
                         .font(.title)
                         .bold()
-                        .foregroundColor(.white)
+                        .foregroundColor(colorScheme == .dark ? .gray1 : .white)
                         .padding(.trailing, 100)
                 }
                 .padding(.bottom, 700)
@@ -1619,7 +1664,7 @@ struct crazy8Summary: View {
     private var researchTimeView: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
-                .foregroundColor(.white)
+                .foregroundColor(colorScheme == .dark ? .black : .white)
                 .shadow(radius: 3)
                 .frame(width: 361, height: 132)
                 .overlay(
@@ -1646,7 +1691,7 @@ struct crazy8Summary: View {
     private var problemStatementView: some View {
         ZStack(alignment: .topTrailing) {
             RoundedRectangle(cornerRadius: 10)
-                .foregroundColor(.white)
+                .foregroundColor(colorScheme == .dark ? .black : .white)
                 .shadow(radius: 3)
                 .frame(width: 361, height: showAllTexts ? 300 : 132)
                 .overlay(
@@ -1705,7 +1750,7 @@ struct crazy8Summary: View {
     private var finalMessageView: some View {
         ZStack{
                                RoundedRectangle(cornerRadius: 10)
-                                   .foregroundColor(.white)
+                .foregroundColor(colorScheme == .dark ? .black : .white)
                                    .shadow(radius: 3)
                                    .frame(width: 361,height: 200)
                                    .padding()
